@@ -37,7 +37,9 @@ before_save :strip_HTML
   end
   
   #
-  def self.find_planned
+  def self.find_planned(start_month, end_month, order_by=nil, limit_by=nil)
+    find :all, 
+        :conditions => [ "status = 12000 AND create_at > ? AND create_at < ?" , start_month, end_month ]
   end
   
   #

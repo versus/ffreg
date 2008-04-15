@@ -963,6 +963,19 @@ class PaymentsController < ApplicationController
   end
   
   def list_planned
+    set_variables
+    
+    if @persone.has_role? 'view.payments.all'
+      #@payments = Payment.find_planned
+      @payments = @firm.payments.find_planned
+    elsif @persone.has_role? 'view.payments.firm'
+      @payments = @persone.firm.payments.find_planned
+    elsif @persone.has_role? 'view.payments.own'
+      @payments = @persone.payments.find_planned
+    else
+      logger.warn "Hacking_attempt by user " + @persone
+      @payments = []
+    end
   end
 
   def list_drafts
@@ -994,20 +1007,26 @@ class PaymentsController < ApplicationController
   def set_variables
     set_months
     set_user
-    set_firms
+    set_firm
     set_categories
   end
   
   def set_months
-    
+    #TODO spellcheck variable name =)
+    @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
   end
   
   def set_user
-    
+    #TODO spellcheck variable name =)
+    @persone=User.find(session[:user])    
   end
 
-  def set_firms
-    
+  def set_firm
+    if @persone.has_role?('view.firms')
+      @firm = Firm.find(params[:firm]) #TODO use :firm_id
+    else
+      @firm = @persone.firm
+    end
   end
   
   def set_categories
