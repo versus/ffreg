@@ -35,5 +35,41 @@ before_save :strip_HTML
 
     end
   end
+  
+  #
+  def self.find_planned
+  end
+  
+  #
+  def self.find_drafts
+  end
+  
+  #
+  def self.find_shared
+  end
+
+  #
+  def self.find_unsigned
+  end
+
+  #
+  def self.find_signed
+  end
+
+  #
+  def self.find_closed
+  end
+  
+  #
+  def self.find_rejected
+  end
+
+  #
+  def self.find_planned_rejected
+  end
+  
+  #
+  def self.find_deleted
+  end
 
 end

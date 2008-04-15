@@ -961,5 +961,56 @@ class PaymentsController < ApplicationController
     redirect_to :action => 'list'
 
   end
+  
+  def list_planned
+  end
 
+  def list_drafts
+  end
+
+  def list_shared
+  end
+
+  def list_unsigned
+  end
+
+  def list_signed
+  end
+
+  def list_closed
+  end
+
+  def list_rejected
+  end
+
+  def list_planned_rejected
+  end
+
+  def list_deleted
+  end
+  
+  protected
+  
+  def set_variables
+    set_months
+    set_user
+    set_firms
+    set_categories
+  end
+  
+  def set_months
+    
+  end
+  
+  def set_user
+    
+  end
+
+  def set_firms
+    
+  end
+  
+  def set_categories
+    
+  end
 end
