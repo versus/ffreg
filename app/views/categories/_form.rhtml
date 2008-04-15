@@ -1,0 +1,17 @@
+<%= error_messages_for 'category' %>
+<!--[form:category]-->
+<p><label for="category_name">Название</label><br/>
+<%= text_field 'category', 'name'  %></p>
+
+<p><label for="parent_id">Раздел</label><br> <%= select  "category", "parent_id", Category.find(:all, :conditions => ["typo=?", "1"]).collect {|p| [p.name, p.id]}, {:include_blank => true} %>
+</p>
+
+
+<p><label for="category_name">Тип категории</label><br> <select id="category_typo" name="category[typo]">
+<option value="0">Вводимое пользователем</option>
+<option value="1">Расчитываеться программой</option>
+</select>
+</p>
+
+<!--[eoform:category]-->
+

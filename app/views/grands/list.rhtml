@@ -1,0 +1,45 @@
+<h1>Просмотр бюджета</h1>
+<div align="left">
+  <table>
+<% form_for :grand, @grands, :url => {:action => "add_grands"}  do |f|%>
+  <%@categories.each { |cc| %>
+  <% if cc.typo == "1"%>
+    <tr><td colspan="2"><b><%= cc.name%></b></td></tr>
+    <%cc.children.each { |ff|%>
+    <% if ff.typo == "0" %>
+      <tr><td>&nbsp; <%= ff.name%></td><td> <%= ff.grand_count%></td> <td></td></tr>
+    <% end %>
+    <% } %>
+  <% end %>
+  <% } %>
+<% end %>
+</table>
+</div>
+
+
+
+<h1>Listing grands</h1>
+
+<table>
+  <tr>
+  <% for column in Grand.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for grand in @grands %>
+  <tr>
+  <% for column in Grand.content_columns %>
+    <td><%=h grand.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => grand %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => grand %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => grand }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+
+<br />
+
+<%= link_to 'New grand', :action => 'new' %>

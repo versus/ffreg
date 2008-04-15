@@ -1,0 +1,35 @@
+8
+
+dir
+8
+http://fin.fregat.net/repos/fin/lib/tasks
+http://fin.fregat.net/repos
+
+
+
+2008-04-09T11:22:53.984729Z
+1
+root
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+21d782cd-de14-4066-afcf-94db6b32c784
+
+extract_fixtures.rake
+file
+0
+
+
+add
+

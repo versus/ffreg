@@ -1,0 +1,1515 @@
+/*--------------------------------------*/
+/* CSS CREATED BY ERIKA GRECO - 2007 ---*/
+/* WWW.ERIKAGRECO.COM ------------------*/
+/*--------------------------------------*/
+
+/*-------------------------------------------------*/
+/* GENERAL STYLES ---------------------------------*/
+/*-------------------------------------------------*/
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 18px;
+	color: #7e8083;
+}
+p {
+	line-height: 1.2em;
+}
+.para {
+    margin-top: 10px;
+}   
+a:link, a:visited {
+	color: #333; 
+	text-decoration: none;
+}                  
+a:hover, a:active {
+	text-decoration: underline;
+}
+.highlight {
+  background: #ffffff;
+}
+.black {
+  color: #000;
+}
+span.amp {
+  font-family: "Palatino", serif;
+  font-size: 110%;
+  font-style: italic;
+}
+
+/*---------------------*/
+/* Flash Messages -----*/
+/*---------------------*/
+.flashError {            
+	background: white;
+	position: relative;
+	width: 794px;
+	padding: 10px 20px 0 20px;
+	margin: 10px auto;
+	color: #fff;
+}
+
+.flashErrorTop {
+	background: url(/images/gui_red_alert_top.gif) no-repeat;
+	background-color: white;
+	padding: 0px;
+	margin: 0px;
+	height: 20px;
+	font-size: 1px;
+}
+.flashErrorBody {
+  background-color: #D45353;
+  padding: 0 20px 0 20px;
+}
+.flashErrorBtm {
+	background: url(/images/gui_red_alert_btm.gif) no-repeat;
+	height: 20px;
+	font-size: 1px;
+}
+.flashMessage {            
+	background: white;
+	position: relative;
+	width: 794px;
+	padding: 10px 20px 0 20px;
+	margin: 10px auto;
+	color: #fff;
+}
+
+.flashMessageTop {
+	background: url(/images/gui_green_alert_top.gif) no-repeat;
+	background-color: white;
+	padding: 0px;
+	margin: 0px;
+	height: 20px;
+	font-size: 1px;
+}
+.flashMessageBody {
+  background-color: #B3DF78;
+  padding: 0 20px 0 20px;
+}
+.flashMessageBtm {
+	background: url(/images/gui_green_alert_btm.gif) no-repeat;
+	height: 20px;
+	font-size: 1px;
+}
+
+/*-------------------------------------------------*/
+/* CLASSES ----------------------------------------*/
+/*-------------------------------------------------*/
+.content {
+	position: relative;
+	width: 925px;
+	margin: 0 auto;
+}
+.content .words p {
+  margin-top: 20px;
+}
+.clear {
+	clear: both;
+}
+/*---------------------*/
+/* Register -----------*/
+/*---------------------*/
+.form {
+	width: 924px;
+	margin-top: 20px;
+	position: relative;
+	margin: 20px auto 0 auto;
+}
+.form.grey {
+	background: #eaeaea;	
+}                       
+.form.green {
+  clear: both;
+	background: #e6efbb;
+}
+.form.red {
+	background: #f0b7b7;
+	color: #444;
+}                       
+.form .fieldWithErrors input {
+	background: #f1b5b5;
+}
+.form .fieldWithErrors select {
+	background: #f1b5b5;
+}
+.form h3 {
+	/* Myriad Pro Bold */
+	color: #333;
+	font-size: 20px;
+	margin-bottom: 15px;
+}
+.form .info {
+	padding: 0 20px;
+}
+.form .left .cards {
+  margin-left: 120px;
+  margin-bottom: 5px;
+}
+.form .left label {
+	float: left;
+	display: block;
+	width: 77px;
+}
+.form .left label.med {
+	width: 120px;
+}
+.form .left label.logo {
+	width: 160px;
+}
+.form .left input.indentFileBrowser {
+  margin-left: 160px;
+  margin-top: 10px;
+}
+.form .right label {
+	float: left;
+	display: block;
+	width: 107px; 
+} 
+.form .left input.txt {
+	width: 320px;
+	margin-bottom: 10px;
+	font-size: 18px;
+}
+.form .left input.med,
+.form select {
+  font-size: 16px;
+  width: 275px;
+  margin-bottom: 10px;
+}
+.form .left select.med {
+	width: 275px;
+	margin-bottom: 10px;
+}
+.form .left select.small,
+.form select.small {
+	width: 115px;
+	margin-bottom: 10px;
+}
+.form select.small {
+	margin-bottom: 0px;
+	margin-top: 10px;
+}
+.form .left select.smaller,
+.form .date_select select {
+	width: 75px;
+	margin-bottom: 0px;
+}
+.form .left select.tiny {
+	width: 45px;
+	margin-bottom: 0px;
+}
+.form .right input.txt {
+	width: 310px;
+	margin-bottom: 10px;
+	font-size: 18px;
+}
+#basecamp_url {
+  float:left;
+}
+#basecamp_url select {
+  width: 160px;
+}
+#basecamp_source_box .buttons {
+  float: right;
+  margin-right:40px;
+}
+#basecamp_source_box .spinner {
+  vertical-align: top;
+}
+#basecamp_source_box small.float_right{
+  font-size: 10px;
+  float: right;
+}
+#anonymous_url_help2 {
+  margin-left: -500px;
+}
+.form input.small {
+	width: 142px;
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+.form .left textarea {
+	font-size: 18px;
+	width: 310px;
+	height: 60px;
+}
+.form .right label.default_note {
+  width: 128px;
+}
+.form .right textarea.default_note {
+  width: 270px;
+  height: 60px;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+.form .right label.currency {
+  margin-top: 5px;
+  width: 128px;
+}
+.form .right select.currency {
+  margin-top: 5px;
+}
+.form .right label.language {
+  width: 128px;
+}
+.form .left textarea.email{
+	font-size: 18px;
+	width: 312px;
+	height: 120px;
+}
+.form .left {
+	width: 430px; 
+	margin: 5px 0 5px 20px;
+	border-right: 2px solid #fff;
+	float: left;
+	display: inline;
+}
+.form .right {
+	width: 440px; 
+	margin: 45px 0 0 30px;
+	float: left;
+	display: inline;
+}
+.form .right_high {
+	width: 440px; 
+	margin: 10px 0 0 30px;
+	float: left;
+	display: inline;
+}
+.adjustUp {
+  margin-top: -25px;
+}
+.greyTop {
+	background: url(/images/h_grey_top.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}
+.greyBtm {
+	background: url(/images/h_grey_btm.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}
+.greenTop {
+	background: url(/images/gui_green_top.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}
+.greenBtm {
+	background: url(/images/gui_green_btm.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}
+.redTop {
+	background: url(/images/gui_red_top.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}
+.redBtm {
+	background: url(/images/gui_red_btm.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}      
+.rightBtn {
+	float: right;
+	display: block;
+	height: 42px;
+	text-indent: -999px;
+	overflow: hidden;
+	margin: 20px 30px 20px 0;
+	border: none;
+}
+#send_spinner {
+  float: right;
+  height: auto;
+  margin-top: 30px;
+  margin-right: 60px;
+}
+#send_complete {
+  float: right;
+  height: auto;
+  margin-top: 30px;
+  margin-right: 60px;
+}
+.leftBtn {
+	float: left;
+	display: block;
+	height: 42px;
+	text-indent: -999px;
+	overflow: hidden;
+	margin: 20px 0 0 30px;
+	border: none;
+}
+#coupon .border {
+  margin: 20px;
+  margin-left: 120px;
+  margin-right: 120px;
+  text-align: center;
+  color: black;
+  border-top: 1px dashed black;
+  width: auto;
+}
+.status {
+  font-size: 14px;
+  margin-left: 80px;
+}
+.right .status {
+  margin-left: 110px;
+}
+.status.valid {
+  color: green;
+}
+.status.invalid {
+  color: red;
+}
+#updateInfoBtn {
+	background: url(/images/gui_update_info_btn.gif);
+	width: 160px;
+}
+#upgradeBtn {
+	background: url(/images/gui_upgrade_btn.gif);
+	width: 135px;
+}                          
+/*----------------------*/
+/* New Invoice Template */
+/*----------------------*/
+.form label.rate {
+  margin-top: 10px;
+	width: 130px;
+}            
+.form input.rate {
+	width: 110px;
+	margin-right: 10px;
+	margin-top: 10px;
+	font-size: 18px;
+}
+.form label.long {
+  width: 170px;
+  margin-bottom: 5px;
+}
+.form label.short {
+  width: 70px;
+}
+.form #due {
+  margin-top:20px;
+}
+.form #due label {
+	width: 185px;
+}            
+.form #due input {
+	width: 60px;
+	margin-right: 10px;
+	font-size: 18px;
+}
+.form label.project {
+  width: 300px;
+}
+.form label.who {
+  margin-top: 10px;
+  width: 300px;
+}
+.form select.big {
+	font-size: 18px;
+	width:160px;
+}
+.form input.numFmt {
+	font-size: 18px;
+	width: 135px;
+}
+.form select.lrg {
+	width: 285px;
+}
+.form #anonymous_urls {
+  margin-top: 10px;
+}
+/*----------------------*/
+/* Dashboard -----------*/
+/*----------------------*/
+.dashboard {
+	margin: 5px 20px 5px 20px;
+}                                 
+.dashboard table {
+	width: 750px;
+}
+.dashboard td {
+	border-bottom: 2px solid #fff;
+	padding: 7px 0;
+}
+.dashboard td.name {
+	width: 380px;
+	text-align: left;
+}
+.dashboard td a {
+	display: block;
+	overflow: hidden;
+	text-indent: -999em;
+	height: 32px;  
+	float: right;
+	margin-left: 7px;
+}
+.dashboard tr.recent {
+	font-size: 14px;
+	background-color: #fff;
+	font-weight: normal;
+	color: #333;
+}
+.dashboard tr.recent.paid {
+  background-color: #B3DF78;
+  color: #fff;
+  font-weight: bold;
+}
+.dashboard tr.recent td {
+	padding-left: 10px;
+	border-bottom: 2px solid #eaeaea;
+	background-color: #fff;
+}
+.dashboard tr.recent.paid td {
+  background-color: #B3DF78;
+}
+.dashboard tr.recent td.price {
+	text-align: right;
+}
+.dashboard.invoice td a,
+.dashboard td a.show {
+  height: auto;
+  width: 100%;
+  text-indent: 0em;
+  color: #333;/*#7e8083;*/
+}
+.dashboard td a.show.white {
+  color: #fff;
+}
+.dashboard tr.link td {
+	text-align: right;
+	background-color: #fff;
+	font-size: 14px;
+	float: none;
+	padding-right: 25px;
+}
+.dashboard td.invoiceNumber {
+    width: 320px;
+}
+.dashboard td.time {
+    width: 70px;
+}
+.dashboard td.btns {
+    width: 200px;
+}
+.newInvoiceBtn {
+	background: url(/images/gui_new_invoice_btn.gif) no-repeat;
+	width: 113px;    
+	border: none;
+	font-size: 10px;
+	overflow: hidden;
+}
+.editBtn {
+	background: url(/images/gui_edit_btn.gif) no-repeat;
+	width: 64px;
+	border: none;
+	float: left;
+}       
+.newBtn {
+  clear:both;
+  float:right;
+  padding-right:64px;
+  border: 0;
+  width: 32px;
+  height: 32px;
+}    
+.deleteBtn {
+	background: url(/images/gui_delete_btn.gif) no-repeat;
+	width: 79px;
+	border: none;
+}
+.downloadBtnBig, .downloadBtnBigSpinner {
+	background: url(/images/gui_download_btn.gif) no-repeat;
+	width: 103px;
+	display: block;
+	text-indent: -999em;
+	overflow: hidden;
+	height: 32px; 
+	border: none;
+	float: right;
+	margin-top: 22px;
+}
+.downloadBtnBigSpinner {
+  background: url(/images/spinner.gif) no-repeat bottom;
+	text-align: center;
+	text-indent: 0em;
+	vertical-align: middle;
+	font-size: 14px;
+}
+.downloadBtn {
+	background: url(/images/gui_pdf_btn_sml.gif) no-repeat;
+	width: 32px;
+}
+.downloadBtnSpinner {
+	background: url(/images/spinner.gif) no-repeat center;
+	width: 32px;
+	text-indent: -999em;
+	float: right;
+}
+.emailBtn {
+	background: url(/images/gui_email_btn.gif) no-repeat;
+	width: 76px;
+	display: block;
+	text-indent: -999em;
+	overflow: hidden;
+	height: 32px; 
+	border: none;
+	float: right;
+	margin-top: 22px;
+}
+.editInvoiceBtn {
+	background: url(/images/gui_edit_btn_sml.gif) no-repeat;
+	width: 32px;
+}
+.deleteInvoiceBtn {
+	background: url(/images/gui_delete_btn_sml.gif) no-repeat;
+	width: 32px;
+}
+.paidBtn {
+	background: url(/images/gui_paid_btn_sml.gif) no-repeat;
+	width: 32px;
+	margin-right: 10px;
+}
+.rightBtnSml {
+	float: right;
+	display: block;
+	height: 42px;
+	text-indent: -999px;
+	overflow: hidden;
+	margin: 20px 90px 20px 0;
+	border: none;
+}
+.leftBtnSml {
+	float: left;
+	display: block;
+	height: 42px;
+	text-indent: -999px;
+	overflow: hidden;
+	margin: 20px 0 0 90px;
+	border: none;
+}
+.form.greySml {
+	background: #eaeaea;	
+	width: 794px;
+}                       
+.form.greenSml {
+	background: #e6efbb;
+	width: 794px;
+}
+.greyTopSml {
+	background: url(/images/gui_grey_top_sml.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}
+.greyBtmSml {
+	background: url(/images/gui_grey_btm_sml.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}
+.greenTopSml {
+	background: url(/images/gui_green_top_sml.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}
+.greenBtmSml {
+	background: url(/images/gui_green_btm_sml.gif) no-repeat;
+	height: 13px;
+	font-size: 1px;
+}    
+/*-------------------------------------------------*/
+/* IDS --------------------------------------------*/
+/*-------------------------------------------------*/
+/*---------------------*/
+/* Sign In ------------*/
+/*---------------------*/
+#signIn {
+	background: #eaeaea;
+	overflow: hidden;	
+}
+#signIn h4 {
+	color: #333;
+	font-size: 19px;                
+	font-style: italic;
+	float: left;
+	display: inline; 
+	margin: 10px 0 0 30px;
+}
+#signIn form {
+	float: right;
+	display: inline;
+	width: 330px;
+	/width: 345px;      
+	padding: 20px 0;   
+}
+#signIn label {
+	float: left;
+	display: block;
+	width: 100px; 
+	text-align: right;
+	margin-right: 10px;
+}               
+#signIn input.txt {
+	width: 215px;
+	margin-bottom: 10px;
+	font-size: 18px;
+}
+#signIn #signInBtn {
+	background: url(/images/h_sign_in_btn.gif) no-repeat;
+	display: block;
+	float: right;  
+	text-indent: -999em;
+	overflow: hidden;
+	width: 120px;
+	height: 42px; 
+	margin-right: 6px;
+	border: none;
+}
+/*---------------------*/
+/* Nav ----------------*/
+/*---------------------*/
+#nav {
+	overflow: hidden;    
+	border-top: 6px solid #eaeaea;
+}
+#nav li {
+	background: url(/images/h_nav_btn.gif) no-repeat;
+	list-style: none;
+	float: right; 
+	margin-right: 1px;   
+}
+#nav li a {
+	padding-top: 2px;	
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+	display: block;
+	color: #333;
+	width: 121px;
+	height: 21px;
+}
+#nav li #signInBtn {
+	background: url(/images/h_sign_in_tab_btn.gif) no-repeat;
+	width: 120px;
+	height: 30px;
+	overflow: hidden;
+	text-indent: -999em;
+	border: none;
+}
+#nav #logOutBtn {
+/*  background: url(/images/gui_log_out_tab.gif) no-repeat;*/
+	width: 120px;
+	height: 40px;
+	overflow: hidden;
+	text-indent: -999em;
+	border: none;
+}
+/*---------------------*/
+/* Header -------------*/
+/*---------------------*/
+#header {
+	overflow: hidden;
+	margin-top: -12px;
+	padding-bottom: 20px;
+}         
+#header h1 {
+	display: none;
+}
+#header img {        
+	float: left;
+	display: inline;
+	border: none;  
+}
+#header h2 {             
+	/* Myriad Pro Semibold Italic */
+	font-size: 16px;
+	font-weight: normal;
+	font-style: italic;
+	color: #7e8083;
+	float: left;  
+	display: inline;
+	border-left: 2px solid #ebebeb;
+	padding: 5px 0 5px 20px;
+	margin: 0px 0 0 325px;
+	width: 240px;
+}
+/*---------------------*/
+/* Top ----------------*/
+/*---------------------*/
+#top {
+	background: #bfe095 url(/images/gui_green_stripe_tile.png) 0 0 repeat-x;
+	border-top: 6px solid #eaeaea;
+	border-bottom: 6px solid #eaeaea;
+	color: #fff;
+	font-size: 20px;
+	/height: 99px;
+}
+#topBtm {
+	background: url(/images/gui_green_stripe_btm.gif) repeat-x;
+	height: 3px;
+	font-size: 1px;     
+}
+#top p {
+	padding: 25px 0 0 85px;
+}
+#top p.green {
+	background: transparent;
+	color: #566c10;
+	font-weight: bold;
+	font-style: italic;	
+	padding: 5px 0 20px 85px;
+}
+.words #top {
+	background: #bfe095 url(/images/gui_green_stripe_tile.gif) 0 0 repeat-x;
+	border-top: 6px solid #eaeaea;
+	border-bottom: 6px solid #eaeaea;
+	color: #fff;
+	font-size: 20px;
+	/height: 99px;
+}
+.words #top p {
+  margin-top:10px;
+  margin-bottom:5px;
+	padding: 0 0 0 85px;
+}
+#editUserInfoBtn {
+	background: url(/images/gui_edit_info_btn.gif) bottom no-repeat;
+	display: block;
+	width: 184px;
+	height: 96px;
+	float: left;
+	overflow: hidden;
+	text-indent: -999em;
+}               
+#newTemplateBtn {
+	background: url(/images/gui_new_template_btn.gif) bottom no-repeat;
+	display: block;
+	width: 207px;
+	height: 96px;
+	float: left;        
+	overflow: hidden;
+	text-indent: -999em; 
+}
+#dashboardBtn {
+	background: url(/images/gui_dashboard_btn.gif) bottom no-repeat;
+	display: block;
+	width: 207px;
+	height: 96px;
+	float: left;        
+	overflow: hidden;
+	text-indent: -999em; 
+	margin-left: 170px !important; 
+	/margin-left: 85px;
+}                                      
+a#editUserInfoBtn:hover,
+a#newTemplateBtn:hover,
+a#dashboardBtn:hover,
+#editUserInfoBtn.active,
+#newTemplateBtn.active,
+#dashboardBtn.active {
+    background-position: top;
+}
+/*---------------------*/
+/* Register -----------*/
+/*---------------------*/
+#signMeUpBtn {
+	background: url(/images/gui_sign_me_up_btn.gif);
+	width: 160px;
+	border: none;
+}
+.openid_link {
+  margin-bottom: 10px;
+  margin-top: 6px;
+  padding-top: 0px;
+  padding-right: 0px;
+  clear: both;
+  font-size: 10px;
+  text-align: right;
+}
+/*---------------------*/
+/* Billing  -----------*/
+/*---------------------*/
+#billingLink {
+  float: right;
+}
+/*---------------------*/
+/* Pricing ------------*/
+/*---------------------*/
+#price {
+	width: 735px;
+	margin: 25px 0 15px 50px;
+}
+#price ul {
+	text-align: center;
+	list-style: none;
+	float: left;
+}
+#price ul#titles {
+	text-align: right;
+	color: #fff;
+	font-size: 18px;
+	font-weight: bold;
+	width: 140px; 
+	margin: 50px 10px 0 0;
+}
+#price ul#titles li {
+	margin-bottom: 5px;
+}
+#price ul#titles li.green {
+	color: #566c10;
+	margin-top: 20px;
+}
+#price ul.plans li {
+	width: 115px;
+	height: 37px; 
+	padding-top: 10px;
+}    
+#price ul.plans {
+	background: #eaeaeb;
+}
+#price ul.plans .signUp {
+	background: #e6efbb;
+}
+#price #borderRight li {
+	border-right: 2px solid #fff;
+	width: 113px;
+}
+#price ul.plans .signUp a {
+	background: url(/images/p_sign_up_btn.gif) no-repeat;
+	display: block;
+	overflow: hidden;
+	text-indent: -999em;
+	width: 90px;
+	height: 34px;
+	margin: 0 0 0 13px;	
+	/margin-left: 0;
+}
+#price ul.plans li {
+	border-left: 2px solid #fff;
+	border-top: 2px solid #fff;
+}        
+#price ul li#leftTitle {
+	background: url(/images/p_price_top.gif) 0 0 no-repeat;
+	width: 117px;
+	border: none;
+	height: 40px;
+	/margin-bottom: -6px;
+}
+#price ul li#midTitle01 {
+	background: url(/images/p_price_top.gif) 25% 0 no-repeat;
+	border: none;
+	width: 115px;   
+	border-left: 2px solid #fff;
+	height: 40px;
+	/margin-bottom: -6px;
+}
+#price ul li#midTitle02 {
+	background: url(/images/p_price_top.gif) 50% 0 no-repeat;
+	border: none;
+	width: 115px;   
+	border-left: 2px solid #fff;
+	height: 40px;        
+	/margin-bottom: -6px;
+}   
+#price ul li#midTitle03 {
+	background: url(/images/p_price_top.gif) 75% 0 no-repeat;
+	border: none;               
+	width: 115px;   
+	border-left: 2px solid #fff;	
+	height: 40px;            
+	/margin-bottom: -6px;
+}      
+#price ul li#rightTitle {
+	background: url(/images/p_price_top.gif) 100% 0 no-repeat;
+	border: none;               
+	width: 115px;   
+	border-left: 2px solid #fff;	
+	height: 40px;   
+	/margin-bottom: -6px;
+}                                                           
+#price ul.plans h3 {
+	color: #fff;
+	font-size: 22px;
+	padding-top: 3px;
+}
+#priceBtm {
+	background: url(/images/p_price_btm_4.gif) top right no-repeat;
+	height: 16px;
+	font-size: 1px;
+}
+#price h3#cancel {
+	width: 585px;
+	float: right;
+	text-align: center;
+	font-style: italic;
+	font-size: 20px;
+	margin: 15px 0 0 0;	
+}
+#intro_pricing {
+  background: #eaeaea;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+#intro_pricing h3 {
+  /* Myriad Pro Bold */
+	color: #333;
+	font-size: 22px;
+}
+#intro_pricing p {
+	margin-top: 15px;
+	padding-bottom: 10px;
+}
+
+/*---------------------*/
+/* Edit User Info -----*/
+/*---------------------*/
+h2#edit {
+	background: url(/images/gui_edit_info_heading.gif) no-repeat;
+	width: 228px;
+	height: 43px;
+	margin-top: 20px;
+	text-indent: -999em;
+	overflow: hidden;
+}
+#accountUpgradeBtn {
+	background: url(/images/gui_acnt_upgrade_btn.gif) no-repeat;
+	display: block;
+	overflow: hidden;
+	text-indent: -999em;
+	height: 32px;  	
+	width: 203px;
+	float: right;     
+	margin: 35px 20px 0 0;
+}
+#changeCardBtn {
+	background: url(/images/gui_change_card_btn.gif) no-repeat;
+	display: block;
+	overflow: hidden;
+	text-indent: -999em;
+	height: 32px;  	
+	width: 119px;
+	float: left;
+	margin: 10px 0 0 0;
+}
+#errorExplanation {
+	margin-top: 15px;  
+	color: #333;
+	clear: both;
+}
+#errorExplanation ul {
+  margin-top: 10px;
+}
+#errorExplanation li {                                                 
+	list-style: none;
+	background: url(/images/gui_error_icon.gif) no-repeat left 5px;
+	font-weight: bold;
+	font-size: 16px;
+	color: #c10000;                                     
+	padding-left: 20px;                                 
+	margin-bottom: 2px;    
+	float: left;
+	clear: both;
+	display: block;
+}
+#updateInfoBtn {
+	background: url(/images/gui_update_info_btn.gif);
+	width: 160px;
+	border: none;
+}             
+#cancelBtn {
+	background: url(/images/gui_cancel_btn.gif);
+	width: 121px;
+	border: none;
+}
+/*----------------------*/
+/* New Invoice Template */
+/*----------------------*/
+h2#new {
+	background: url(/images/gui_new_template_heading.gif) no-repeat;
+	width: 341px;
+	height: 43px;
+	margin-top: 20px;
+	text-indent: -999em;
+	overflow: hidden;
+}
+#saveBtn {
+	background: url(/images/gui_save_btn.gif);
+	width: 101px;
+	border: none;
+}             
+#sendBtn {
+	background: url(/images/gui_send_btn.gif);
+	width: 101px;
+	border: none;
+}             
+#createBtn {
+	background: url(/images/gui_create_btn.gif) no-repeat;
+	width: 121px;
+	border: none;
+}
+#invoice {
+	background: #fff;
+	width: 755px;
+}
+#invoice .editBtn {
+	display: block;
+	overflow: hidden;
+	text-indent: -999em;
+	height: 32px;  
+	background: url(/images/gui_edit_btn_sml.gif) no-repeat;
+	width: 32px;
+	float: left;
+	margin-top: 5px;
+	clear: none;
+}
+#invoice .deleteBtn {
+	display: block;
+	overflow: hidden;
+	text-indent: -999em;
+	height: 32px;  
+	background: url(/images/gui_delete_btn_sml.gif) no-repeat;
+	width: 32px;
+	float: left;     
+	margin-top: 5px;
+}
+#userImage img {
+  float: left;
+  border: 6px solid #777;
+}
+#userImage .deleteBtn {
+	display: block;
+	overflow: hidden;
+	text-indent: -999em;
+	height: 32px;  
+	background: url(/images/gui_delete_btn_sml.gif) no-repeat;
+	width: 32px;
+	float: left;
+}
+#invoice div.btns {
+  clear: none;
+  float: left;
+}
+#invoice span.links {
+  float: right;
+}
+#invoice #payment_due,
+#invoice #payment_due_links,
+#invoice #paymentDueData {
+  float: left;
+}
+#invoice #payment_due_links {
+  margin-left: -32px;
+}
+#invoice #paymentDueData {
+  padding-right: 10px;
+  width: 150px;
+}
+#invoiceMeta {
+    margin-left: 20px;
+  	margin-right: 20px;
+}
+#invoiceMeta .anonymousURL {
+    float: left;
+    margin-bottom: 5px
+}
+
+#invoiceMeta .anonymousURL input {
+    width: 550px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+#invoice td.edit {
+  vertical-align: top;
+}
+
+#invoice form input,
+#invoice form textarea {
+  font-size: 16px;
+	float: left;
+	margin: 2px;
+}
+#invoice form input.date {
+	width: 110px;
+}
+#invoice form input.hours {
+	width: 60px;
+}
+#invoice form textarea {
+  width: 320px;
+}
+#invoice .address form textarea {
+    width: 165px;
+}
+#invoice form input.btn {
+    height: 32px;
+    width: 82px;
+}
+#invoice table td {
+  height: 37px;
+  vertical-align: center;
+}
+textarea#invoice_note {
+  width: 640px;
+}
+#invoice #note {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#invoice #note_links {
+  margin-left: -32px;
+  height: 64px;
+}
+#invoice #note p {
+  margin-top: 10px;
+}
+#invoice .address_links {
+  float: left;
+  margin-left: -32px;
+}
+/*----------------------*/
+/* Plan selection */
+/*----------------------*/
+.plans .plan {
+  border: 1px solid black;
+  width: 200px;
+}
+
+/*----------------------*/
+/* Billing */
+/*----------------------*/
+#card_month select {
+  width: 150px;
+}
+#card_year select {
+  width: 75px;
+}
+
+
+/*----------------------*/
+/* Spinner cover */
+/*----------------------*/
+#overlay {
+	position: absolute;
+	float: left;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+	z-index: 9999;
+	background: #000;
+	opacity: 0.5;
+}
+#overlay #message {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 200px;
+	width: 400px;
+	padding: 20px;
+	text-align: center;
+}
+.pagination {
+  padding-top: 20px;
+  text-align: center;
+}
+#footer {
+  padding: 20px;
+  padding-top: 50px;
+  clear: both;
+  text-align: center;
+  font-size: 10px;
+  background-color: #fff;
+}
+
+
+/*---------------------*/
+/* Upgrade ------------*/
+/*---------------------*/
+#plans {
+	width: 638px;
+	margin: 25px 0 15px 50px;
+}
+#plans ul {
+	text-align: center;
+	list-style: none;
+	float: left;
+}
+#plans ul#titles {
+	text-align: right;
+	color: #333;
+	font-size: 18px;
+	font-weight: bold;
+	width: 160px; 
+	margin: 50px 10px 0 0;
+}
+#plans ul#titles li {
+	margin-bottom: 5px;
+}
+#plans ul#titles li.green {
+	color: #566c10;
+	margin-top: 20px;
+	background-color: #fff;
+}
+#plans ul.plans li {
+	width: 115px;
+	height: 37px; 
+	padding-top: 10px;
+}    
+#plans ul.plans {
+	background: #eaeaeb;
+}
+#plans ul.plans .upgradePlanBtn,
+#plans ul.plans .downgradePlanBtn {
+	background: #e6efbb;
+	height: 50px;
+}
+#plans #borderRight li {
+	border-right: 2px solid #fff;
+	width: 113px;
+}
+#plans ul.plans .downgradePlanBtn a {
+	background: url(/images/gui_downgrade_btn.gif) no-repeat;
+	display: block;
+	overflow: hidden;
+	text-indent: -999em;
+	width: 90px;
+	height: 34px;
+	margin: 0 0 0 13px;	
+	/margin-left: 0;
+}
+#plans ul.plans .upgradePlanBtn a {
+	background: url(/images/gui_upgrade_plan_btn.gif) no-repeat;
+	display: block;
+	overflow: hidden;
+	text-indent: -999em;
+	width: 90px;
+	height: 34px;
+	margin: 0 0 0 13px;	
+	/margin-left: 0;
+}
+#plans ul.plans li {
+	border-left: 2px solid #fff;
+	border-top: 2px solid #fff;
+}        
+#plans ul li#leftTitle {
+	background: url(/images/gui_price_top.gif) 0 0 no-repeat;
+	width: 117px;
+	border: none;
+	height: 40px;
+	/margin-bottom: -6px;
+}
+#plans ul li#midTitle01 {
+	background: url(/images/gui_price_top.gif) 25% 0 no-repeat;
+	border: none;
+	width: 115px;   
+	border-left: 2px solid #fff;
+	height: 40px;
+	/margin-bottom: -6px;
+}
+#plans ul li#midTitle02 {
+	background: url(/images/gui_price_top.gif) 50% 0 no-repeat;
+	border: none;
+	width: 115px;   
+	border-left: 2px solid #fff;
+	height: 40px;        
+	/margin-bottom: -6px;
+}   
+#plans ul li#midTitle03 {
+	background: url(/images/gui_price_top.gif) 75% 0 no-repeat;
+	border: none;               
+	width: 115px;   
+	border-left: 2px solid #fff;	
+	height: 40px;            
+	/margin-bottom: -6px;
+}      
+#plans ul li#rightTitle {
+	background: url(/images/gui_price_top.gif) 100% 0 no-repeat;
+	border: none;               
+	width: 115px;   
+	border-left: 2px solid #fff;	
+	height: 40px;   
+	/margin-bottom: -6px;
+}                                                           
+#plans ul.plans h3 {
+	color: #fff;
+	font-size: 22px;
+	padding-top: 3px;
+}
+#plansBtm {
+	background: url(/images/gui_price_btm_4.gif) top right no-repeat;
+	height: 16px;
+	font-size: 1px;
+}
+#plans h3#cancel {
+	width: 585px;
+	float: right;
+	text-align: center;
+	font-style: italic;
+	font-size: 20px;
+	margin: 15px 0 0 0;	
+}
+
+/*----------------------*/
+/* HELP ----------------*/
+/*----------------------*/
+.help_box_wrapper {
+  clear: both;
+  position: absolute;
+}
+
+.help_box {
+  position: relative;
+  left: 0px;
+  top: -80px;
+  padding: 10px;
+  background-color: lightyellow;
+  border: 4px solid #B2D97D;
+  z-index: 1000;
+  font-size: 14px;
+  width: 600px;
+  text-align: left;
+  color: #566c10;
+}
+
+.help_box small {
+  font-size: 10px;
+}
+
+/*---------------------*/
+/* ADMIN & PAGING -----*/
+/*---------------------*/
+#admin tr.alternate td {
+  background-color: #eaeaea;
+}
+#admin tr.cancelled td {
+  background-color: darkgrey;
+}
+div.pagination {
+	padding: 3px;
+	margin: 3px;
+}
+
+div.pagination a {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #566c10;
+	
+	text-decoration: none; /* no underline */
+	color: #566c10;
+}
+div.pagination a:hover, div.pagination a:active {
+	border: 1px solid #566c10;
+
+	color: #000;
+}
+div.pagination span.current {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #566c10;
+	
+	font-weight: bold;
+	background-color: #566c10;
+	color: #FFF;
+}
+div.pagination span.disabled {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #EEE;
+
+	color: #bfe095;
+}
+
+
+
+
+.highslide-html {
+    background-color: white;
+}
+.highslide-html-blur {
+}
+.highslide-html-content {
+	position: absolute;
+    display: none;
+}
+.highslide-display-block {
+    display: block;
+}
+.highslide-display-none {
+    display: none;
+}
+
+.control {
+	float: right;
+    display: block;
+    /*position: relative;*/
+	margin: 0 5px;
+	font-size: 9pt;
+    font-weight: bold;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #999;
+}
+.control:hover {
+	color: black !important;
+}
+.highslide-move {
+    cursor: move;
+}
+
+.highslide {
+	cursor: url(highslide/graphics/zoomin.cur), pointer;
+    outline: none;
+}
+.highslide img {
+	border: 2px solid gray;margin:10px;
+}
+.highslide:hover img {
+	border: 2px solid silver;
+}
+
+.highslide-image {
+    border-bottom: 1px solid white;
+}
+.highslide-image-blur {
+}
+.highslide-caption {
+    display: none;
+    
+    border-bottom: 1px solid white;
+    font-family: Verdana, Helvetica;
+    font-size: 10pt;
+    padding: 5px;
+    background-color: silver;
+}
+.highslide-loading {
+    display: block;
+	color: white;
+	font-size: 9px;
+	font-weight: bold;
+	text-transform: uppercase;
+    text-decoration: none;
+	padding: 3px;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+    background-color: black;
+}
+
+a.highslide-credits,
+a.highslide-credits i {
+    padding: 2px;
+    color: silver;
+    text-decoration: none;
+	font-size: 10px;
+}
+a.highslide-credits:hover,
+a.highslide-credits:hover i {
+    color: white;
+    background-color: gray;
+}
+
+

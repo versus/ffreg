@@ -1,0 +1,6 @@
+<% for firm in @firms%>
+  <%=link_to firm.name, :action => :showbudget, :firm => firm.id%> |
+<% end %>
+
+
+

@@ -1,0 +1,17 @@
+<%= error_messages_for 'currencies_value' %>
+
+<!--[form:currencies_value]-->
+<p><label for="currency_value[currency_id]">Валюта</label><br/>
+<%= select  "currencies_value", "currency_id", Currency.find(:all, :order => 'name DESC').collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+</p>
+<p><small><%= link_to 'Новая валюта', :action => 'new', :controller => :currencies %></small></p>
+
+<p><label for="currencies_value_crossrate">Курс валюты</label><br/>
+<%= text_field 'currencies_value', 'crossrate'  %></p>
+
+<p><label for="currencies_value_loss">Коэффициент потери</label><br/>
+<%= text_field 'currencies_value', 'loss'  %></p>
+
+
+<!--[eoform:currencies_value]-->
+

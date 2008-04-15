@@ -1,0 +1,149 @@
+         <script>
+               </script>
+
+     
+               <h4>Заявки из раздела 
+      <%if session[:razdel].to_i==10000%>
+       &nbsp;"Черновики"
+      <%elsif session[:razdel].to_i==15000%>    
+        &nbsp;"Общие документы"
+      <%elsif session[:razdel].to_i==0%>    
+        &nbsp;"Не подписанные"
+      <%elsif session[:razdel].to_i==1%>    
+        &nbsp;"Подписанные"
+      <%elsif session[:razdel].to_i==2%>    
+        &nbsp;"Закрытые"
+      <%elsif session[:razdel].to_i==3%>    
+        &nbsp;"Отклоненные"
+      <%elsif session[:razdel].to_i==666%>    
+        &nbsp;"Удаленные"
+    <%end%>
+
+                 &nbsp;за <%= @mow%> <%=@year%> для фирмы <%= @firm.name%> </h4>
+
+<style>
+  #payments_table th{ padding: 5px; color:red; border: 1px solid black }
+  #payments_table td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="payments_table" border=0 style="padding:5px; border: 1px solid black">
+  <tr><th>№</th>
+    <th>Назначение платежа</th>
+    <th>Категория платежа</th>
+    <th>Контрагент</th>
+   <th>Дата</th>
+   <th>Сумма</th>
+   <th>Валюта</th>
+  </tr>
+
+<% for payment in @payments %>
+  
+  <tr>
+    <td><%= payment.id%></td>
+      <td width="400">
+      <%= payment.title%> 
+    </td>   
+    <td><%unless payment.category.nil? %>
+           <%=payment.category.parent.name%>
+           -<%=payment.category.name%>
+         <%else%>
+           <b>не определена</b>
+         <%end%>
+         </td>
+
+    <td><%=payment.contragent%></td>
+    <td>
+      <%unless session[:razdel].to_i > 1 and session[:razdel].to_i < 10000 %>
+        <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%>
+
+      <%else
+      if payment.close_at.nil?%>
+      <b>не определена</b>
+      <%else%>
+        <%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%>
+      <%end
+      end%>
+    </td>
+    
+    <td><span id="abbrr2_<%=payment.id%>"><%=payment.summ%> <%=payment.currency.small%></span></td><td><%=payment.currency.abbr%>
+        <%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+
+  </td></tr>
+<%end%>
+
+<!-- --Начало дополнения-- -->
+
+<%
+  if @payadd.nil? == false
+  for payment in @payadd %>
+  
+  <tr>
+    <td><%= payment.id%></td>
+    <td width="400">
+      <span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>')"><%= payment.title%> </span>
+    </td>
+    <td><%=payment.contragent%></td>
+    <td>
+      <%unless session[:razdel].to_i > 1 and session[:razdel].to_i < 10000 %>
+        <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%>
+
+      <%else
+      if payment.close_at.nil?%>
+      <b>не определена</b>
+      <%else%>
+        <%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%>
+      <%end
+      end%>
+    </td>
+    
+    <td><span id="abbrr2_<%=payment.id%>"><%=payment.summ%> <%=payment.currency.small%></span></td><td><%=payment.currency.abbr%>
+        <%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+
+  </td></tr>
+  <%end end%>
+
+<!-- --Конец дополнения-- -->
+<!-- --Начало дополнения-- -->
+
+<%  if @payuser.nil? == false
+  for payment in @payuser %>
+
+  
+  <tr>
+    <td><%= payment.id%></td>
+    <td width="400">
+      <span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>')"><%= payment.title%> </span>
+    </td>
+    <td><%=payment.contragent%></td>
+    <td>
+      <%unless session[:razdel].to_i > 1 and session[:razdel].to_i < 10000 %>
+        <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%>
+
+      <%else
+      if payment.close_at.nil?%>
+      <b>не определена</b>
+      <%else%>
+        <%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%>
+      <%end
+      end%>
+    </td>
+    
+    <td><span id="abbrr2_<%=payment.id%>"><%=payment.summ%> <%=payment.currency.small%></span></td><td><%=payment.currency.abbr%>
+        <%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+
+  </td></tr>
+  <%end end%>
+
+<!-- --Конец дополнения-- -->
+
+</table><br>
+<br/><br/><br/>
+<div style="clear"></div>
+
+

@@ -1,0 +1,8 @@
+<center>
+
+<% if session[:user] == nil %>
+  <%= link_to 'Вход в систему', :action => 'login' %>
+<%else%>
+
+<%end%>
+</center>

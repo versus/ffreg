@@ -1,0 +1,16 @@
+<%= error_messages_for 'bugzilla' %><br>
+
+<!--[form:bugzilla]-->
+
+<p><label for="bugzilla_user">Введите ваш e-mail для обратной связи</label><br/>
+<%= text_field 'bugzilla', 'user'  %></p>
+
+<p><label for="bugzilla_problem">Подробнее опишите вашу проблему</label><br/>
+<%= text_area 'bugzilla', 'problem', :rows => 10, :cols => 30  %></p>
+
+<p><label for="bugzilla_prio">Насколько критична данная ошибка?</label><br/>
+<select id="bugzilla_prio" name="bugzilla[prio]"><option value="1">Не критичная</option>
+<option value="2">Критичная</option>
+<option value="3">Опасная</option></select><br/>
+<!--[eoform:bugzilla]-->
+

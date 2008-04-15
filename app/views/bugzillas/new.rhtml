@@ -1,0 +1,9 @@
+<h3 align="center">Новый отзыв</h3>
+<center>
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %><br/>
+  <%= submit_tag "Добавить" %>
+<% end %>
+<br/>
+<%= link_to 'на главную', :action => 'index', :controller => :welcome %>
+</center>

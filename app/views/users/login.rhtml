@@ -1,0 +1,18 @@
+<%= flash[:notice] -%>
+
+<% form_tag :controller => :users, :action => :login do %>
+<fieldset>
+
+                <label for=”user_username”>Имя пользователя</label>
+                <%= text_field 'user', 'login' -%>
+        
+
+
+                <label for=”user_password”>Пароль</label>
+                <%= password_field 'user', 'password' -%>
+        
+
+
+</fieldset>
+<%= submit_tag 'Login' -%>
+<% end %>

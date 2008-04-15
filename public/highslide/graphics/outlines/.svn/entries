@@ -1,0 +1,53 @@
+8
+
+dir
+8
+http://fin.fregat.net/repos/fin/public/highslide/graphics/outlines
+http://fin.fregat.net/repos
+
+
+
+2008-04-09T11:22:53.984729Z
+1
+root
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+21d782cd-de14-4066-afcf-94db6b32c784
+
+outer-glow
+dir
+
+beveled
+dir
+
+drop-shadow
+dir
+
+Outlines.psd
+file
+
+
+
+
+2008-04-10T11:45:39.000000Z
+4793514a71b06d432abd7e5a19f660dc
+2008-04-09T11:22:53.984729Z
+1
+root
+has-props
+
+rounded-white
+dir
+

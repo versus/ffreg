@@ -1,0 +1,545 @@
+1:
+  id: 1
+  parent_id: 0
+  name: Расходы
+  typo: 1
+2:
+  id: 2
+  parent_id: 0
+  name: Доходы
+  typo: 1
+3:
+  id: 3
+  parent_id: 1
+  name: Эксплуатационные расходы
+  typo: 1
+4:
+  id: 4
+  parent_id: 3
+  name: Аренда
+  typo: 1
+5:
+  id: 5
+  parent_id: 4
+  name: Автомобиль
+  typo: 0
+6:
+  id: 6
+  parent_id: 3
+  name: Зарплата
+  typo: 1
+7:
+  id: 7
+  parent_id: 6
+  name: Финансовый директор
+  typo: 0
+8:
+  id: 8
+  parent_id: 3
+  name: Налоги
+  typo: 1
+9:
+  id: 9
+  parent_id: 4
+  name: Каналов в ТК
+  typo: 0
+10:
+  id: 10
+  parent_id: 4
+  name: Офис
+  typo: 0
+11:
+  id: 11
+  parent_id: 4
+  name: Площадки
+  typo: 0
+12:
+  id: 12
+  parent_id: 6
+  name: Бухгалтер
+  typo: 0
+13:
+  id: 13
+  parent_id: 6
+  name: Инженер
+  typo: 0
+14:
+  id: 14
+  parent_id: 6
+  name: Системный администратор
+  typo: 0
+15:
+  id: 15
+  parent_id: 6
+  name: Менеджер АО
+  typo: 0
+16:
+  id: 16
+  parent_id: 6
+  name: Диспетчер
+  typo: 0
+17:
+  id: 17
+  parent_id: 6
+  name: Дизайнер
+  typo: 0
+18:
+  id: 18
+  parent_id: 6
+  name: Начальник отдела маркетинга
+  typo: 0
+19:
+  id: 19
+  parent_id: 6
+  name: Начальник участка
+  typo: 0
+20:
+  id: 20
+  parent_id: 6
+  name: Монтажники
+  typo: 0
+21:
+  id: 21
+  parent_id: 6
+  name: Уборщица
+  typo: 0
+22:
+  id: 22
+  parent_id: 6
+  name: Премиальные
+  typo: 0
+23:
+  id: 23
+  parent_id: 6
+  name: Техподдержка
+  typo: 0
+24:
+  id: 24
+  parent_id: 8
+  name: Налог на ЗП
+  typo: 0
+25:
+  id: 25
+  parent_id: 8
+  name: Единый налог
+  typo: 0
+26:
+  id: 26
+  parent_id: 8
+  name: Налог на прибыль
+  typo: 0
+27:
+  id: 27
+  parent_id: 8
+  name: НДС
+  typo: 0
+28:
+  id: 28
+  parent_id: 3
+  name: Прочие расходы
+  typo: 1
+29:
+  id: 29
+  parent_id: 3
+  name: Дистрибуция карточек
+  typo: 1
+30:
+  id: 30
+  parent_id: 3
+  name: Торговля
+  typo: 1
+31:
+  id: 31
+  parent_id: 3
+  name: Услуги связи
+  typo: 1
+32:
+  id: 32
+  parent_id: 3
+  name: Эксплуатация сети
+  typo: 1
+33:
+  id: 33
+  parent_id: 1
+  name: Расходы на развитие
+  typo: 1
+34:
+  id: 34
+  parent_id: 28
+  name: Канцтовары
+  typo: 0
+35:
+  id: 35
+  parent_id: 28
+  name: Доставка и погрузка
+  typo: 0
+36:
+  id: 36
+  parent_id: 28
+  name: Книги, подписка
+  typo: 0
+37:
+  id: 37
+  parent_id: 28
+  name: Техобслуживание и ремонт автомобиля
+  typo: 0
+38:
+  id: 38
+  parent_id: 28
+  name: Бензин
+  typo: 0
+39:
+  id: 39
+  parent_id: 28
+  name: Прочее
+  typo: 0
+40:
+  id: 40
+  parent_id: 28
+  name: Проезд
+  typo: 0
+41:
+  id: 41
+  parent_id: 28
+  name: Орг.расходы
+  typo: 0
+42:
+  id: 42
+  parent_id: 28
+  name: Услуги банка
+  typo: 0
+43:
+  id: 43
+  parent_id: 29
+  name: Коммисионный процент
+  typo: 0
+44:
+  id: 44
+  parent_id: 29
+  name: Изготовление карточек
+  typo: 0
+45:
+  id: 45
+  parent_id: 30
+  name: Оборудование
+  typo: 0
+46:
+  id: 46
+  parent_id: 31
+  name: Интернет
+  typo: 0
+47:
+  id: 47
+  parent_id: 31
+  name: Почтовые расходы
+  typo: 0
+48:
+  id: 48
+  parent_id: 31
+  name: Транзит
+  typo: 0
+49:
+  id: 49
+  parent_id: 31
+  name: Телефония
+  typo: 0
+50:
+  id: 50
+  parent_id: 32
+  name: Материалы
+  typo: 0
+51:
+  id: 51
+  parent_id: 32
+  name: Оборудование
+  typo: 0
+52:
+  id: 52
+  parent_id: 32
+  name: Распайка волокон
+  typo: 0
+53:
+  id: 53
+  parent_id: 32
+  name: Ремонт кабеля
+  typo: 0
+54:
+  id: 54
+  parent_id: 33
+  name: Развитие предприятия
+  typo: 1
+55:
+  id: 55
+  parent_id: 54
+  name: Инструмент и приборы
+  typo: 0
+56:
+  id: 56
+  parent_id: 54
+  name: ПО
+  typo: 0
+57:
+  id: 57
+  parent_id: 54
+  name: Мебель
+  typo: 0
+58:
+  id: 58
+  parent_id: 54
+  name: Оргтехника
+  typo: 0
+59:
+  id: 59
+  parent_id: 54
+  name: Правовые
+  typo: 0
+60:
+  id: 60
+  parent_id: 33
+  name: Реклама
+  typo: 1
+61:
+  id: 66
+  parent_id: 33
+  name: Развитие сети
+  typo: 1
+62:
+  id: 67
+  parent_id: 66
+  name: Активное оборудование
+  typo: 0
+63:
+  id: 68
+  parent_id: 66
+  name: ВОЛС
+  typo: 0
+64:
+  id: 69
+  parent_id: 66
+  name: Материалы
+  typo: 0
+65:
+  id: 70
+  parent_id: 66
+  name: Пасивное оборудование
+  typo: 0
+66:
+  id: 71
+  parent_id: 33
+  name: Строительство и монтаж
+  typo: 1
+67:
+  id: 72
+  parent_id: 71
+  name: Материалы
+  typo: 0
+68:
+  id: 73
+  parent_id: 71
+  name: Оптическое оборудование
+  typo: 0
+69:
+  id: 74
+  parent_id: 71
+  name: Надзор, доступ и ТУ
+  typo: 0
+70:
+  id: 75
+  parent_id: 71
+  name: Проектирование
+  typo: 0
+71:
+  id: 76
+  parent_id: 71
+  name: Прокладка кабеля
+  typo: 0
+72:
+  id: 77
+  parent_id: 71
+  name: Разрешения
+  typo: 0
+73:
+  id: 78
+  parent_id: 71
+  name: Строительные работы
+  typo: 0
+74:
+  id: 79
+  parent_id: 2
+  name: Валовый доход
+  typo: 1
+75:
+  id: 80
+  parent_id: 79
+  name: Прочие поступления
+  typo: 0
+76:
+  id: 81
+  parent_id: 79
+  name: Подключение
+  typo: 0
+77:
+  id: 82
+  parent_id: 79
+  name: Услуги
+  typo: 0
+78:
+  id: 83
+  parent_id: 0
+  name: Дебиторская задолженность
+  typo: 1
+79:
+  id: 84
+  parent_id: 0
+  name: Кредиторская задолженность
+  typo: 1
+80:
+  id: 85
+  parent_id: 0
+  name: Привлеченные средства
+  typo: 1
+81:
+  id: 86
+  parent_id: 85
+  name: Кредит
+  typo: 0
+82:
+  id: 87
+  parent_id: 0
+  name: Баланс периода
+  typo: 1
+83:
+  id: 88
+  parent_id: 0
+  name: Дивиденды
+  typo: 1
+84:
+  id: 89
+  parent_id: 0
+  name: Выплаченные дивиденды
+  typo: 1
+85:
+  id: 90
+  parent_id: 28
+  name: Хозяйственные нужды
+  typo: 0
+86:
+  id: 91
+  parent_id: 28
+  name: Расходы на HR
+  typo: 0
+87:
+  id: 92
+  parent_id: 28
+  name: Охрана
+  typo: 0
+88:
+  id: 93
+  parent_id: 94
+  name: Централизованная закупка
+  typo: 0
+89:
+  id: 94
+  parent_id: 0
+  name: Закупки
+  typo: 1
+90:
+  id: 95
+  parent_id: 6
+  name: Общий фонд заработной платы
+  typo: 0
+91:
+  id: 96
+  parent_id: 0
+  name: Возмещенные затраты
+  typo: 1
+92:
+  id: 97
+  parent_id: 96
+  name: Благотворительность
+  typo: 0
+93:
+  id: 98
+  parent_id: 96
+  name: Интернет
+  typo: 0
+94:
+  id: 99
+  parent_id: 4
+  name: Склад
+  typo: 0
+95:
+  id: 100
+  parent_id: 31
+  name: RIPE
+  typo: 0
+96:
+  id: 101
+  parent_id: 6
+  name: Оплата праздников и выходных
+  typo: 0
+97:
+  id: 102
+  parent_id: 60
+  name: Общие расходы
+  typo: 0
+98:
+  id: 103
+  parent_id: 107
+  name: Трансфер
+  typo: 1
+99:
+  id: 106
+  parent_id: 111
+  name: Расходы на слияния
+  typo: 0
+100:
+  id: 107
+  parent_id: 0
+  name: Денежные потоки
+  typo: 1
+101:
+  id: 108
+  parent_id: 60
+  name: Документы/дизайн/креатив
+  typo: 0
+102:
+  id: 109
+  parent_id: 60
+  name: Производство/распространение
+  typo: 0
+103:
+  id: 110
+  parent_id: 60
+  name: Аренда рекламоносителей
+  typo: 0
+104:
+  id: 111
+  parent_id: 33
+  name: Слияния и поглощения
+  typo: 1
+105:
+  id: 112
+  parent_id: 88
+  name: Дивиденды
+  typo: 0
+106:
+  id: 113
+  parent_id: 85
+  name: Инвестиции
+  typo: 0
+107:
+  id: 114
+  parent_id: 96
+  name: Социальные платежи
+  typo: 0
+108:
+  id: 115
+  parent_id: 32
+  name: Инструменты
+  typo: 0
+109:
+  id: 116
+  parent_id: 107
+  name: Транзит
+  typo: 0

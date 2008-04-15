@@ -1,0 +1,89 @@
+<%  @mounths = ["","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]%>
+
+
+
+<h3>Бюджет фирмы <%= @firmw.name %> на  <%= @year%> год</h3>
+<center>
+  <br>
+<%for i in @year.to_i-3..@year.to_i+3%>
+  <span style="color:red"><%= link_to i.to_s, :action => 'fullyear', :year => i%> |</span>
+<%end%>
+<br><br>
+
+</center>
+
+<br>
+
+
+      <table id="budget_table" border="1" style="background-color: #fff;margin:10px; padding:20px; width:1600px;font-size:14px; border: 2px solid #000; color:#000">
+        <tr>
+          <td>Категория</td>
+<%for i in 1..12%>
+  <td colspan="2" align="center"> <%= link_to @mounths[i], :action => 'showbudget', :month => i%> </td>
+<%end%>
+
+        </tr>
+        <tr><td colspan="1" style="width:200px;"></td>
+
+        <%for i in 1..12%>
+          <td><h4 style="color:red">План</h4></td>
+        <td><h4 style="color:red">Факт</h4></td>
+      <%end%>
+
+        </tr>
+              <%for ii in @categories%>
+                <tr><td colspan="1"><h4><%= ii.name%></h4></td></tr>
+                <%child1 = Category.find(:all, :conditions => ["parent_id=?", ii.id])%>
+                 <% for ff in child1%>
+                   <tr>
+                     <td><span style="color:green;  padding-left:10px;"><%= ff.name%></span>
+                     
+                   
+                     </td>
+                     <%for i in 1..12%>
+                     <td align="center" id="plan_<%=ff.id%>" style="color:green;"><%= print_plan(ff.id, @firmw.id, @mounths[i], @year)%></td> 
+                     <td align="center" id="fact_<%=ff.id%>"><%= print_fact(ff.id, @firmw.id, @mounths[i], @year)%></td>
+                   <%end%>
+                </tr>
+                <%child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id])%>
+                 <% for ff2 in child2%>
+                   <tr>
+                     <td><span style="color:red; padding-left:20px;"><%= ff2.name%></span></td>
+                     <%for i in 1..12%>
+                     <td align="center" id="plan_<%=ff2.id%>" style="color:red;"><%= print_plan(ff2.id, @firmw.id, @mounths[i], @year)%></td> 
+                     <td align="center" id="fact_<%=ff2.id%>"><%= print_fact(ff2.id, @firmw.id, @mounths[i], @year)%></td>
+                   <%end%>
+                </tr>
+                <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
+                 <% for ff3 in child3%>
+                   <tr>
+                     <td><span style="color:blue; padding-left:30px;"><%= ff3.name%></span>
+                     </td>  
+                     
+                     <%for i in 1..12%>
+                     <td align="center" id="plan_<%=ff3.id%>"><%= print_plan(ff3.id, @firmw.id, @mounths[i], @year)%></td> 
+                     <td align="center" id="fact_<%=ff3.id%>"><%= print_fact(ff3.id, @firmw.id, @mounths[i], @year)%></td>
+                   <%end%>
+
+               </tr>
+             <%end%>
+
+
+
+<%end%>
+
+                  <%end%>
+                  
+<%end%>
+
+
+            </table>
+      
+
+
+<center>
+
+          </div></div><br/></div>
+
+
+

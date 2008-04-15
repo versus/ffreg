@@ -1,0 +1,62 @@
+<%= error_messages_for 'user' %>
+
+<!--[form:user]-->
+<p><label for="user_login">Имя пользователя</label><br/>
+<%= text_field 'user', 'login'  %></p>
+
+<p><label for="user_password_salt">Пароль</label><br/>
+<%= password_field 'user', 'password'  %></p>
+
+<p><label for="user_password_confirmation">Повторите пароль </label><br/>
+<%= password_field 'user', 'password_confirmation'  %></p>
+
+<p><label for="user_fio">ФИО</label><br/>
+<%= text_field 'user', 'fio'  %></p>
+
+<p><label for="user[firm_id]">Место работы</label><br/>
+<%= select  "user", "firm_id", Firm.find(:all, :order => 'parent_id ASC').collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+</p>
+
+<p><label for="user[firm_id]">Вышестоящий начальник в этой фирме</label><br/>
+  <%if session[:status]==2 || session[:status]==3 || session[:status]==4%>
+
+<%= select  "user", "parent_id", User.find(:all, :conditions => ["parent_id=?", 0],:order => 'parent_id ASC').collect {|p| [p.fio, p.id]}, {:include_blank => true} %>
+  <%elsif session[:status]==5 %>
+<%= select  "user", "parent_id", User.find(:all, :conditions => ["parent_id=? AND firm_id=?", 0, session[:firm]],:order => 'parent_id ASC').collect {|p| [p.fio, p.id]}, {:include_blank => true} %>
+<%end%>
+</p>
+
+<p><label for="user_position">Должность</label><br/>
+<%= text_field 'user', 'position'  %></p>
+
+<p><label for="user_phone">Телефон</label><br/>
+<%= text_field 'user', 'phone'  %></p>
+
+<p><label for="user_email">Email</label><br/>
+<%= text_field 'user', 'email'  %></p>
+
+<p><label for="user_status">Статус в системе</label><br/>
+<% if session[:status] == 3 %>
+<select id="user_status" name="user[status]">
+<option value="1">Пользователь</option>
+<option value="2">Руководитель</option>
+<option value="5">Руководитель отдела</option>
+<option value="3">Администратор</option>
+<option value="4">Бухгалтер</option>
+<option value="12">Маркетолог</option>
+<option value="111">Финансовый отдел</option>
+</select>
+<% elsif session[:status] == 2  %>
+<select id="user_status" name="user[status]">
+<option value="1">Пользователь</option>
+<option value="5">Руководитель отдела</option>
+<option value="4">Бухгалтер</option>
+<option value="6">Кассир отдела</option>
+</select>
+
+<%else%>
+  Пользователь
+<% end %>
+</p>
+<!--[eoform:user]-->
+

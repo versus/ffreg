@@ -1,0 +1,22 @@
+<%= error_messages_for 'event' %>
+
+<!--[form:event]-->
+<p><label for="event_create_at">Create at</label><br/>
+<%= datetime_select 'event', 'create_at'  %></p>
+
+<p><label for="event_subject">Subject</label><br/>
+<%= text_field 'event', 'subject'  %></p>
+
+<p><label for="event_status">Status</label><br/>
+<%= text_field 'event', 'status'  %></p>
+
+<p><label for="event_user_from">User from</label><br/>
+<%= text_field 'event', 'user_from'  %></p>
+
+<p><label for="event_user_to">Uset to</label><br/>
+<%= text_field 'event', 'user_to'  %></p>
+
+<p><label for="event_body">Body</label><br/>
+<%= text_area 'event', 'body'  %></p>
+<!--[eoform:event]-->
+

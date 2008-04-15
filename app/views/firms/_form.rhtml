@@ -1,0 +1,21 @@
+<%= error_messages_for 'firm' %>
+
+<!--[form:firm]-->
+<p><label for="firm_name">Название организации</label><br/>
+<%= text_field 'firm', 'name'  %></p>
+
+<p><label for="firm_phone">Офисный телефонный номер</label><br/>
+<%= text_field 'firm', 'phone'  %></p>
+
+<p><label for="firm[parent_id]">Вышестоящая организация</label><br/>
+<%= select  "firm", "parent_id", Firm.find(:all, :order => 'parent_id ASC').collect {|p| [p.name, p.id]}, {:include_blank => true} %>
+</p>
+<p><label for="firm[hidden]">Исключить организацию из рабочего списка?</label><br/>
+<select id="firm_hidden" name="firm[hidden]">
+  <option value="true">Да</option>
+  <option selected value="false">Нет</option>
+</select>
+</p>
+
+<!--[eoform:firm]-->
+

@@ -1,0 +1,336 @@
+/*-------------------------------------------------
+baseline
+-------------------------------------------------*/
+
+body {
+	background: #fff url(../images/topbluefade.gif) repeat-x;
+	margin: 0;
+	padding: 0;
+}
+
+p, li {
+	font-size: 12px;
+	line-height: 1.4em;
+	font-family: verdana;
+	margin: 0 0 20px 0;
+	font-weight: normal;
+}
+
+ul {
+	margin: 10px 0;
+	padding: 0 0 0 25px;
+}
+
+li {
+	margin: 0;
+}
+
+h1 {
+	font-size: 16px;
+	margin: 0 0 4px 0;
+	font-family: verdana;
+}
+
+h2 {
+	font-family: verdana;
+	line-height: 1.2em;
+	font-size: 14px;
+	margin: 0 0 3px 0;
+}
+
+h3 {
+	margin: 0 0 2px 0;
+	font-family: verdana;
+	font-size: 12px;
+}
+
+a {
+	color: #3252b2;
+}
+
+a img {
+	border: 0;
+}
+
+blockquote {
+	line-height: 1.4em;
+	font-family: georgia;
+}
+
+cite {
+	font-family: verdana;
+	font-size: 10px;
+}
+
+div.container {
+	width: 840px;
+	margin: 0 auto;
+}
+
+span.highlight {
+	background-color: #ffc;
+}
+
+td, th {
+	vertical-align: top;
+	font-family: verdana;
+}
+
+div.colorless {
+	background-color: transparent;
+}
+
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
+
+.clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+.clearfix {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+/*-------------------------------------------------
+header
+-------------------------------------------------*/
+
+div#header {
+	height: 20px;
+	margin: 15px auto;
+	width: 750px;
+	text-align: left;
+}
+
+div#header p {
+	padding-top: 2px;
+	font-size: 11px;
+	font-family: verdana;
+}
+
+div#header img.logo {
+	float: right;
+}
+
+div#header a img {
+	border: 0;
+}
+
+/*-------------------------------------------------
+footer
+-------------------------------------------------*/
+
+div.footer {
+	text-align: center;
+	background-color: #000;
+	font-family: verdana;
+	color: #999;
+	padding: 15px 0;
+	font-size: 10px;
+	line-height: 1.4em;
+	margin-top: 25px;
+	clear: both;
+}
+
+div.footer a {
+	color: #fff;
+}
+
+/*-------------------------------------------------
+top
+-------------------------------------------------*/
+
+div.band {
+	padding: 30px 0;
+	text-align: center;
+	background-color: #fff9d8;
+	border-top: 1px solid #ffe8cd;
+	border-bottom: 1px solid #ffe8cd;
+}
+
+div.pitch p {
+	text-align: center;
+	margin-bottom: 0;
+}
+
+div.pitch {
+	float: left;
+	width: 400px;
+	text-align: center;
+}
+
+div.product {
+	float: right;
+	width: 400px;
+	text-align: left;
+	margin-bottom: 20px;
+}
+
+div.product p {
+	margin-bottom: 0;
+}
+
+div.product img {
+	float: left;
+	margin: 0 15px 10px 0;
+}
+
+div.product img.none {
+	margin-bottom: 0;
+}
+
+div.product h1 sup {
+	font-size: 10px;
+	color: #999;
+	font-weight: normal;
+}
+
+div.product h1 {
+	font-size: 18px;
+	margin-bottom: 2px;
+}
+
+div.product h1 span {
+	font-size: 10px;
+	color: green;
+	font-weight: normal;
+	text-transform: uppercase;
+}
+
+div.product h2 {
+	font-size: 12px;
+	margin-bottom: 1px;
+}
+
+/*-------------------------------------------------
+belt
+-------------------------------------------------*/
+
+div.belt {
+	padding: 10px 0;
+	margin-top: 10px;
+	border-bottom: 1px solid #ccc;
+	clear: both;
+}
+
+div.belt h2 {
+	text-align: center;
+}
+
+div.belt a {
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+div.belt p {
+	font-size: 11px;
+	text-align: center;
+	margin-bottom: 0;
+}
+
+div.belt table {
+	width: 100%;
+}
+
+div.belt table td {
+	text-align: center;
+	width: 33%;
+	padding: 0 5px;
+}
+
+div.belt table td a {
+	color: #900;
+	text-align: center;
+}
+
+div.belt table h1 {
+	font-size: 18px;
+	text-align: center;
+}
+
+div.belt table h2 {
+	font-size: 12px;
+	text-align: center;
+}
+
+/*-------------------------------------------------
+content
+-------------------------------------------------*/
+
+div.content {
+	margin: 40px auto;
+	width: 700px;
+}
+
+div.wide {
+	width: 750px;
+}
+
+div.wide div.left, div.wide div.right {
+	width: 350px;
+}
+
+body.home div.content h1 {
+	text-transform: uppercase;
+}
+
+body.home div.content p, div.letter p {
+	font-family: georgia;
+	font-size: 16px;
+}
+
+div.left, div.right, div.center {
+	width: 325px;
+	margin-bottom: 25px;	
+}
+
+div.left {
+	float: left;
+}
+
+div.right {
+	float: right;
+}
+
+div.center {
+	border-top: 1px solid #dbc0ae;
+	border-bottom: 1px solid #dbc0ae;
+	padding: 20px 20px 0 20px;
+	clear: both;
+	margin: 0 auto;
+	width: 425px;
+}
+
+/*-------------------------------------------------
+letter
+-------------------------------------------------*/
+
+div.letter {
+	width: 530px;
+}
+
+div.letter h1 {
+	margin-bottom: 15px;
+}
+
+/*-------------------------------------------------
+legal
+-------------------------------------------------*/
+
+body.legal {
+	padding: 25px;
+	width: 600px;
+}

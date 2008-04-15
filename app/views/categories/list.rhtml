@@ -1,0 +1,22 @@
+   <div class='form greenSml'>
+        <div class='greenTopSml'>
+        </div>
+        <div class='dashboard'><h3>Список категорий</h3>
+            <div id='invoice'>
+            <div id='invoiceTemplate'>
+              <div id='invoiceTop'><p>Действующий список категорий расходов и доходов</p>
+              </div>
+              <div id='invoiceMid'>
+
+                 <%= display_categories(@categories, 0) %>
+           </div>
+</div>
+<center>
+  <%if session[:status] == 3 ||  session[:status] == 2  %>
+    <%= link_to 'Добавить', :action => 'new' %></br>
+  <% end%>
+                <div class='clear2'>
+                </div>
+
+          </div></div><br/></div>
+

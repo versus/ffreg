@@ -1,0 +1,34 @@
+        
+ <div class='clear'>
+
+   <div class='content'>
+     <div class='form grey'>
+          <div class='greyTop'>
+          </div>
+          <div class='left'>
+            <h3>Совет</h3>
+            <p>Всегда выходите из системы, как только вы закончили работу с ней.</p>
+          </div>
+          <div class='right'>
+            <div id='standard_login_in_page' style='display: block;'>
+ <% form_tag :controller => :welcome, :action => :login  do %>
+            <label>
+              Логин:
+            </label>
+            <input class='signInField txt' id='login' name='user[login]' type='text' />
+            <label>
+              Пароль:
+            </label>
+            <input class='signInField txt' id='password' name='user[password]' type='password' />
+            <input id="signInBtn" src="/images/h_sign_in_btn.gif" type="image" onclick = "submit();"/>
+       <%end%>
+     </div>
+   </div>
+            <div class='clear'>
+          </div>
+          <div class='greyBtm'>
+          </div>
+ </div>
+ </div>
+
+

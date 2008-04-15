@@ -1,0 +1,337 @@
+   <div class='form greenSml'>
+        <div class='greenTopSml'>
+        </div>
+        <div class='dashboard'><h3>Создание новой заявки для <%= @firmw.name %> </h3>
+            <div id='invoice'>
+            <div id='invoiceTemplate'>
+              <div id='invoiceTop'><p>Рассматриваемый период  <%= @mow%> <%= @year%> год</h1> </p>
+              </div>
+              <div id='invoiceMid'>
+
+
+<br>
+<hr>
+
+<style>
+  a.tags {color:red}
+  </style>
+  <%if @error == true%>
+    <br><br>
+    <h2 align="center" style="color: red;">Данных про бюджет нет!</h2>
+  <% else%>
+    <br>
+    <% cat= Category.find(:all, :conditions =>["parent_id=0"]) %>
+   
+    <%for cc in cat%>
+     <% if cc.typo == "1"%>
+     <a href="#<%=cc.id%>" class="tags" style="font-size: 22px;"><%= cc.name%></a> 
+   <%end%>
+
+      <% for aa in cc.children%>
+        <% if aa.typo == "1"%> 
+                <a href="#<%=aa.id%>" class="tags"><%= aa.name%></a> 
+      <%end%>
+
+        <%for c in aa.children  %>
+          <% if c.typo == "1"%>
+                    <a href="#<%=c.id%>" class="tags"><%= c.name%></a> 
+        <%end%>
+
+      <% end%>
+      <%end end%>
+      <br><br>
+      <hr/>
+    <table border="0" cellspacing="2" cellpadding="2" width="90%">
+      <tr><th>Название</th><th>План</th><th>Факт</th></tr>
+
+<%for cc in @categories%>
+  <%if cc.typo == "1"%>
+    <tr><td><a name="<%=cc.id%>">-</a><b><%= cc.name%></b></td><td></td><td></td></tr>
+    <!-- начало 1 чилда-->
+    <%child1 = Category.find(:all, :conditions => ["parent_id=?", cc.id])%>
+        <% for ff in child1%>
+            <% if ff.typo == "1"%>
+              <tr><td><a name="<%=ff.id%>">-</a><b><%= ff.name%></b></td><td></td><td></td></tr>
+              <!-- начало 2 чилда-->
+
+        <%child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id])%>
+        <% for ff2 in child2%>
+            <% if ff2.typo == "1"%>
+              <tr><td><a name="<%=ff2.id%>">--</a><b><%= ff2.name%></b></td><td></td><td></td></tr>
+              <!--начало 3 чилда -->
+
+        <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
+        <% for ff3 in child3%>
+            <% if ff3.typo == "1"%>
+              <tr><td><a name="<%=ff3.id%>">---</a><b><%= ff3.name%></b></td><td></td><td></td></tr>
+              <!--начало 3 чилда -->
+
+
+            <% else %>
+              <tr><td>+++<span style="cursor:pointer; cursor:hand"  onclick="new Effect.Appear('<%=ff3.id%>')"><%= ff3.name%></span>
+                  <div style="display:none;width:400px;  margin:20px;padding:5px;border: 1px solid red;  background-color: white;" id="<%=ff3.id%>" >
+                    <b><span onclick="Effect.Fade('<%=ff3.id%>')" style="float:right; cursor:pointer; cursor:hand;">закрыть</span></b><br>
+                    <% 
+                   aaa=print_plan(ff3.id, @firmw.id, @mow, @year)
+                   bbb=print_fact(ff3.id, @firmw.id, @mow, @year)
+                  %>
+                      <script>
+                        function check<%=ff3.id%>() {
+                          flag=0;str="";
+                          title= $('title-<%=ff3.id%>').value;
+                          summ = $('summ-<%=ff3.id%>').value;
+                          if(title.length==0){str=str + "Введите назначение платежа\n"; flag=1;}
+                          if(summ.length==0){str=str + ("Введите сумму платежа"); flag=1;}
+
+                          if(flag==1){Effect.Shake('<%=ff3.id%>');alert(str); return false;}
+                          else {return true}
+                        }
+                      </script>
+
+                      <form id="form<%=ff3.id%>" action="/payments/create" method="post" onsubmit="return(check<%=ff3.id%>())" >
+                        <%= hidden_field 'payment', 'category_id', 'value' => ff3.id%>
+<label for="payment_title">Назначение платежа</label><br/>
+<%= text_field 'payment', 'title' , :id => "title-#{ff3.id}" %><br/><br/>
+
+<label for="currency_title">Валюта</label><br/>
+<%= select  "payment", "currency_id" , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+<br/><br/>
+
+<label for="payment_contragent">Контрагент</label><br/>
+<%= text_field_with_auto_complete :payment, :contragent %>
+<br/><br/>
+<br/><br/>
+
+<label for="payment_summ">Сумма</label><br/>
+
+<%= text_field 'payment', 'summ' , :id => "summ-#{ff3.id}"   %> (max: <%=aaa.to_i-bbb.to_i%>$)<br/><br/>
+
+<label for="payment_prio">Приоритет</label><br/>
+<select id="payment_prio" name="payment[prio]"><option value="1">обычная</option>
+<option value="2">срочная</option>
+<option value="3">неотложная</option></select>
+<br/><br/>
++<span style="cursor:pointer; cursor:hand"  onclick="new Effect.Appear('comment-<%=ff3.id%>')">добавить описание</span>
+
+<span id="comment-<%=ff3.id%>" style="display:none; padding:5px; margin:5px; "> 
+<p><label for="payment_comment">Комментарий</label><br/>
+<%= text_field 'payment', 'comment' %></p><br>
+</span>
+
+<br><center>
+  <input type="submit" value="Добавить"  >
+  </center><br/><br/></form>
+
+                  </div>
+                </td>
+              <td> <%= aaa%></td> 
+              <td> <%= bbb%></td></tr>
+          <% end %>
+        <% end %>
+ 
+
+              <!--конец 3 чилда -->
+            <% else %>
+              <tr><td>++<span style="cursor:pointer; cursor:hand"  onclick="new Effect.Appear('<%=ff2.id%>')"><%= ff2.name%></span>
+                  <div style="display:none;width:400px;  margin:20px;padding:5px;border: 1px solid red;  background-color: white;" id="<%=ff2.id%>" >
+                    <b><span onclick="Effect.Fade('<%=ff2.id%>')" style="float:right; cursor:pointer; cursor:hand;">закрыть</span></b><br>
+                    <% 
+                   aaa=print_plan(ff2.id, @firmw.id, @mow, @year)
+                   bbb=print_fact(ff2.id, @firmw.id, @mow, @year)
+                  %>
+
+                      <script>
+                        function check<%=ff2.id%>() {
+                          flag=0;str="";
+                          title= $('title-<%=ff2.id%>').value;
+                          summ = $('summ-<%=ff2.id%>').value;
+                          if(title.length==0){str=str + "Введите назначение платежа\n"; flag=1;}
+                          if(summ.length==0){str=str + ("Введите сумму платежа"); flag=1;}
+
+                          if(flag==1){Effect.Shake('<%=ff2.id%>');alert(str); return false;}
+                          else {return true}
+                        }
+                      </script>
+
+                      <form id="form<%=ff2.id%>" action="/payments/create" method="post" onsubmit="return(check(<%=ff2.id%>)" >
+                        <%= hidden_field 'payment', 'category_id', 'value' => ff2.id%>
+<label for="payment_title">Назначение платежа</label><br/>
+<%= text_field 'payment', 'title' , :id => "title-#{ff2.id}" %><br/><br/>
+
+<label for="currency_title">Валюта</label><br/>
+<%= select  "payment", "currency_id" , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+
+<br/><br/>
+<label for="payment_contragent">Контрагент</label><br/>
+<%= text_field_with_auto_complete :payment, :contragent %>
+
+<br/><br/>
+
+<label for="payment_summ">Сумма</label><br/>
+
+<%= text_field 'payment', 'summ' , :id => "summ-#{ff2.id}"   %> (max: <%=aaa.to_i-bbb.to_i%>$)<br/><br/>
+
+<label for="payment_prio">Приоритет</label><br/>
+<select id="payment_prio" name="payment[prio]"><option value="1">обычная</option>
+<option value="2">срочная</option>
+<option value="3">неотложная</option></select>
+<br/><br/>
++<span style="cursor:pointer; cursor:hand"  onclick="new Effect.Appear('comment-<%=ff2.id%>')">добавить описание</span>
+
+<span id="comment-<%=ff2.id%>" style="display:none; padding:5px; margin:5px; "> 
+<p><label for="payment_comment">Комментарий</label><br/>
+<%= text_field 'payment', 'comment' %></p><br>
+</span>
+
+<br><center>
+  <input type="submit" value="Добавить"  >
+  </center><br/><br/></form>
+                  </div>
+</td>
+              <td> <%= print_plan(ff2.id, @firmw.id, @mow, @year)%></td> 
+              <td> <%= print_fact(ff2.id, @firmw.id, @mow, @year)%></td></tr>
+          <% end %>
+        <% end %>
+
+              <!-- конец 2 чилда-->
+
+            <% else %>
+              <tr><td>+<span style="cursor:pointer; cursor:hand"  onclick="new Effect.Appear('<%=ff.id%>')"><%= ff.name%></span>
+                  <div style="display:none;width:400px;  margin:20px;padding:5px;border: 1px solid red;  background-color: white;" id="<%=ff.id%>" >
+                    <b><span onclick="Effect.Fade('<%=ff.id%>')" style="float:right; cursor:pointer; cursor:hand;">закрыть</span></b><br>
+                    <% 
+                   aaa=print_plan(ff.id, @firmw.id, @mow, @year)
+                   bbb=print_fact(ff.id, @firmw.id, @mow, @year)
+                  %>
+
+                      <script>
+                        function check<%=ff.id%>() {
+                          flag=0;str="";
+                          title= $('title-<%=ff.id%>').value;
+                          summ = $('summ-<%=ff.id%>').value;
+                          if(title.length==0){str=str + "Введите назначение платежа\n"; flag=1;}
+                          if(summ.length==0){str=str + ("Введите сумму платежа"); flag=1;}
+
+                          if(flag==1){Effect.Shake('<%=ff.id%>');alert(str); return false;}
+                          else {return true}
+                        }
+                      </script>
+
+                      <form id="form<%=ff.id%>" action="/payments/create" method="post" onsubmit="return(check(<%=ff.id%>)" >
+                        <%= hidden_field 'payment', 'category_id', 'value' => ff.id%>
+<label for="payment_title">Назначение платежа</label><br/>
+<%= text_field 'payment', 'title' , :id => "title-#{ff.id}" %><br/><br/>
+
+<label for="currency_title">Валюта</label><br/>
+<%= select  "payment", "currency_id" , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+
+<br/><br/>
+<label for="payment_contragent">Контрагент</label><br/>
+<%= text_field_with_auto_complete :payment, :contragent %>
+
+<br/><br/>
+
+<label for="payment_summ">Сумма</label><br/>
+
+<%= text_field 'payment', 'summ' , :id => "summ-#{ff.id}"   %> (max: <%=aaa.to_i-bbb.to_i%>$)<br/><br/>
+
+<label for="payment_prio">Приоритет</label><br/>
+<select id="payment_prio" name="payment[prio]"><option value="1">обычная</option>
+<option value="2">срочная</option>
+<option value="3">неотложная</option></select>
+<br/><br/>
++<span style="cursor:pointer; cursor:hand"  onclick="new Effect.Appear('comment-<%=ff.id%>')">добавить описание</span>
+
+<span id="comment-<%=ff.id%>" style="display:none; padding:5px; margin:5px; "> 
+<p><label for="payment_comment">Комментарий</label><br/>
+<%= text_field 'payment', 'comment' %></p><br>
+</span>
+
+<br><center>
+  <input type="submit" value="Добавить"  >
+  </center><br/><br/></form>
+                  </div>
+</td>
+              <td> <%= print_plan(ff.id, @firmw.id, @mow, @year)%></td> 
+              <td> <%= print_fact(ff.id, @firmw.id, @mow, @year)%></td></tr>
+          <% end %>
+        <%end%>
+    <!--конец 1 чилда-->
+ 
+    <% else %>
+      <tr><td><a name="<%=cc.id%>">+</a>&nbsp; <%= cc.name%></td>
+        <td> <%= print_plan(cc.id, @firmw.id, @mow, @year)%></td> 
+        <td> <%= print_fact(cc.id, @firmw.id, @mow, @year)%></td></tr>
+    <% end %>
+<% end %>
+
+
+<%end%>
+</table>
+<br><br>
+<%
+   @persone=User.find(session[:user])
+  if @persone.has_role?('view.transfer')%>
+
+<h2>Трансфер денежных средств</h2>
+<script>
+                        function checktransfer() {
+                          flag=1;
+                          str="";
+                          title= $('title-transfer').value;
+                          summ = $('summ-transfer').value;
+                          if(title.length==0){str=str + "Введите назначение платежа\n"; flag=1;}
+                          if(summ.length==0){str=str + ("Введите сумму платежа"); flag=1;} 
+                          else { flag=0; }
+                          if(flag==1){alert(str); return false;}
+                          else {return true}
+                        }
+                      </script>
+<div style="width:600px;  margin:20px;padding:5px;border: 1px solid red;  background-color: white;" id="transfert" >
+
+<form  action="/payments/transfer" method="post" onsubmit="return(checktransfer())" >
+<label for="payment_title">Назначение платежа</label><br/>
+<%= text_field 'payment', 'title' , :id => "title-transfer" %><br/><br/></br>
+<label for="currency_title">C валюты</label><br/>
+<%= select  "payment", "currency_id" , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %><br>
+<label for="currency_title">на валюту</label><br/>
+<%= select  "payment", "currency_out" , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+
+<br/><br/>
+
+<label for="payment_summ">Сумма</label><br/>
+
+<%= text_field 'payment', 'summ' , :id => "summ-transfer"   %> <br/><br/>
+
+<label for="payment_prio">Приоритет</label><br/>
+<select id="payment_prio" name="payment[prio]"><option value="1">обычная</option>
+<option value="2">срочная</option>
+<option value="3">неотложная</option></select>
+<br/>
+
+<span id="comment-tranfer" style="padding:5px; margin:5px; "> 
+<p><label for="payment_comment">Комментарий</label><br/>
+<%= text_field 'payment', 'comment' %></p><br>
+</span>
+
+<br><center>
+  <input type="submit" value="Добавить"  >
+  </center><br/><br/></form>
+<%end%>
+
+
+<br><br>
+          </div>
+</div>
+<center>
+                <div class='clear2'>
+                </div>
+
+          </div></div><br/></div>
+
+
+
+
+<br />
+
+

@@ -1,0 +1,125 @@
+      <div id="category_changer" style="display:none;background-color: #fff; z-index:10;position:absolute; width:500px;; padding:10px;  z-index:2; top:50px; left:100px; border: 2px solid #000;">
+<b><span onclick="Effect.Fade('category_changer')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+            <div id="category_ch_content">
+              <%for ii in @categories%>
+                <h5><%= ii.name%></h5>
+                 <%child1 = Category.find(:all, :conditions => ["parent_id=?", ii.id])%>
+                 <% for ff in child1%>
+                   <h6>
+                     <% if ff.typo == "1"%>
+                       --<%= ff.name%>
+                   <% else%>
+                     ++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff.id %>,'<%= ff.name%>', '<%= ii.name%>' )"><%= ff.name%></span>
+                   <%end%>
+                   </h6>
+                <%child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id])%>
+                 <% for ff2 in child2%>
+                   <h6>
+                     <% if ff2.typo == "1"%>
+                       ------<%= ff2.name%>
+                   <% else%>
+                     ++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff2.id%>,'<%= ff2.name%>', '<%= ff.name%>')"><%= ff2.name%></span>
+                   <%end%>
+                 </h6>
+                <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
+                 <% for ff3 in child3%>
+                   <h6>
+                     <% if ff3.typo == "1"%>
+                       ---------<%= ff3.name%>
+                   <% else%>
+                     ++++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff3.id %>,'<%= ff3.name%>', '<%= ff2.name%>' )"><%= ff3.name%></span>
+                   <%end%>
+               </h6>
+             <%end%>
+
+
+
+<%end%>
+
+                  <%end%>
+                
+
+              <%end%>
+            </div>
+      </div>
+                      <script>
+                        function check() {
+                          flag=0;str="";
+                          title= $('title').value;
+                          summ = $('summ').value;
+                          if(title.length==0){str=str + "Введите назначение платежа\n"; flag=1;}
+                          if(summ.length==0){str=str + ("Введите сумму платежа"); flag=1;}
+
+                          if(flag==1){Effect.Shake('formid');alert(str); return false;}
+                          else {return true}
+                        }
+                        global_payment_id=0;
+                        function cat_ch_tru(ff_id, ff_name, ff_parent){
+                          Effect.Fade('category_changer');
+                          payment_id=global_payment_id;
+                          cat_id= ff_id;
+                         var url = '/payments/cat_change';
+		                     var pars = 'payment_id='+payment_id+'&cat_id='+cat_id;
+		                     var myAjax = new Ajax.Updater(
+			                    'greenid', 
+		                      	url, 
+		                      	{
+				                      method: 'post', 
+				                      parameters: pars
+                            });
+
+                            $('pcat').innerHTML=" "+ff_parent+" - "+ff_name
+                            $('cat_ad').value=ff_id
+                          
+                        }
+
+                        function change_cat(payment_id){
+                        global_payment_id=payment_id;
+                        Effect.Appear('category_changer');
+                        
+                        }
+
+                      </script>
+                      <form id="formid" action="/payments/update/<%=@payment.id%>" method="post" onsubmit="return(check(<%=@payment.id%>)" >
+          <input type="hidden" name="payment[category_id]" value="<%=@payment.category_id%>" id="cat_ad">
+
+                        <label for="payment_title">Назначение платежа</label><br/>
+<%= text_field 'payment', 'title' , :id => "title" %><br/><br/>
+
+<label for="currency_title">Валюта</label><br/>
+<%= select  "payment", "currency_id" , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+
+<br/><br/>
+<label for="payment_contragent">Контрагент</label><br/>
+<%= text_field_with_auto_complete :payment, :contragent %>
+
+<br/><br/>
+<p>Бюджет: <b>
+        <span id="pcat"
+             onclick="change_cat(<%=@payment.id%>)"  style="cursor:pointer; cursor:hand;font-size:14px;color:blue"
+             ><%=@payment.category.parent.name%>-<%=@payment.category.name%></span></b> <%gg = Grand.find(:first, :conditions =>["category_id=? AND firm_id=?", @payment.category.id, @payment.firm_id], :order => "id DESC")%> 
+
+                <%unless gg.nil?%>
+                (<%= gg.plan %>| <%=gg.fact%>)
+
+              <%else%>
+                <br><span style="color:red">Внимание завка не предусмотренна текущим бюджетом!</span>
+              <%end%>
+              </p>
+
+<label for="payment_summ">Сумма</label><br/>
+
+<%= text_field 'payment', 'summ' , :id => "summ"   %> <br/><br/>
+
+<label for="payment_prio">Приоритет</label><br/>
+<select id="payment_prio" name="payment[prio]"><option value="1">обычная</option>
+<option value="2">срочная</option>
+<option value="3">неотложная</option></select>
+<br/><br/>
+<p><label for="payment_comment">Комментарий</label><br/>
+<%= text_area 'payment', 'comment'  %></p>
+
+<br><center>
+  <input type="submit" value="Обновить"  >
+  </center><br/><br/></form>
+

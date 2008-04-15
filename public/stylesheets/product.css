@@ -1,0 +1,858 @@
+/*-------------------------------------------------
+header
+-------------------------------------------------*/
+
+body.product div#header a.current {
+	text-decoration: none;
+	color: #000;
+	font-weight: bold;
+}
+
+body.product div#header {
+	height: 32px;
+}
+
+body.product div#header img.logo {
+	padding-top: 5px;
+}
+
+body.product div#header p {
+	padding-top: 11px;
+}
+
+body.product div#header img.product_logo {
+	float: left;
+	margin-right: 20px;
+}
+
+body.product div.product img, body.product div.product {
+	margin: 0;
+	padding: 0;
+}
+
+/*-------------------------------------------------
+pitch
+-------------------------------------------------*/
+
+body.product div.product img {
+	border: 1px solid #ccc;
+}
+
+div.pitch div.quote {
+	margin: 13px 0;
+	text-align: center;
+}
+
+div.pitch div.none {
+	margin-bottom: 0;
+}
+
+div.pitch blockquote {
+	color: #393;
+	font-size: 14px;
+	margin-bottom: 2px;
+	text-align: center;
+}
+
+div.pitch cite {
+	font-weight: bold;
+}
+
+/*-------------------------------------------------
+logogrid
+-------------------------------------------------*/
+
+body.product table.logogrid {
+	width: 1%;
+	margin: 0 auto;
+}
+
+body.product table.logogrid td {
+	width: 1%;
+	text-align: center;
+	padding: 7px 10px;
+}
+
+/*-------------------------------------------------
+tour
+-------------------------------------------------*/
+
+body.tour {
+	text-align: center;
+}
+
+body.tour div.tourshot {
+	margin: 35px auto;
+	width: 724px;
+	border-bottom: 2px solid #666;
+}
+
+body.tour div.tourshot p {
+	width: 650px;
+	margin: 0 auto 5px auto;
+}
+
+body.tour div.tourshot h1 {
+	text-transform: uppercase;
+	font-size: 20px;
+}
+
+body.tour div.tourshot img {
+	padding: 1px;
+	border: 1px solid #ccc;
+	margin: 0 0 10px 0;
+}
+
+body.tour div.tourshot strong {
+	color: green;
+}
+
+body.product div.tourshots {
+	margin: 30px;
+}
+
+body.product div.tourshots h1 {
+	margin: 20px 0;
+	text-align: center;
+}
+
+body.highrise div.tourshot {
+	width: 900px;
+}
+
+body.highrise div.tourshot img {
+	border: none;
+	margin-bottom: 35px;
+}
+
+/*-------------------------------------------------
+action
+-------------------------------------------------*/
+
+div.action {
+	padding: 8px 0;
+	background-color: #ffe640;
+	margin: 17px 0;
+}
+
+div.action h2 {
+	font-size: 20px;
+	text-align: center;
+	line-height: 1em;
+}
+
+div.action h2.smaller {
+	font-size: 16px;
+}
+
+div.action p {
+	font-size: 11px;
+	margin: 0;
+	text-align: center;
+}
+
+div.action h2 a {
+	color: #900;
+}
+
+div.action h2 span {
+	color: #333;
+	font-weight: normal;
+	padding: 0 5px;
+	font-size: 18px;
+}
+
+body.tour div.action {
+	margin: 35px 0 0 0;
+}
+
+/*-------------------------------------------------
+spotlight
+-------------------------------------------------*/
+
+div.spotlight {
+	background-color: #e3f1f6;
+	padding: 10px;
+	clear: both;
+	margin: 0;
+}
+
+div.spotlight p {
+	font-size: 11px;
+	font-family: verdana;
+	text-align: center;
+	margin-bottom: 0;
+}
+
+div.spotlight h3 {
+	text-align: center;
+}
+
+div.spotlight img {
+	border: 1px solid #ccc;
+	padding: 1px;
+}
+
+div.spotlight table {
+	margin: 0 auto;
+	width: 100%;
+}
+
+div.spotlight table td {
+	width: 1%;
+	padding: 3px 5px;
+	text-align: center;
+}
+
+/*-------------------------------------------------
+tour
+-------------------------------------------------*/
+
+body.tour div.tour {
+	width: 860px;
+}
+
+/*-------------------------------------------------
+menu
+-------------------------------------------------*/
+
+div.menu h1 {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 3px;
+}
+
+div.menu h2 {
+	font-weight: normal;
+	margin: 0 0 20px 0;
+	padding: 0;
+}
+
+/*-------------------------------------------------
+help faqs
+-------------------------------------------------*/
+
+body.faq div.content {
+	width: 500px;
+}
+
+body.faq div.content h1 {
+	border-bottom: 3px solid green;
+	padding-bottom: 2px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+body.help div.content {
+	width: 650px;
+}
+
+body.help div.content p {
+	font-family: georgia;
+	font-size: 16px;
+}
+
+body.help div.qa h3 {
+	font-size: 12px;
+	font-weight: normal;
+	margin-bottom: 20px;
+}
+
+body.help a.perma {
+	font-size: 10px;
+	color: #999;
+	text-decoration: none;
+}
+
+body.help div.menu li {
+	margin-bottom: 3px;
+	font-family: verdana;
+}
+
+body.help div.qa li {
+	margin-bottom: 3px;
+	font-size: 16px;
+	font-family: georgia;
+}
+
+body.help li.more a {
+	font-weight: bold;
+	list-style: none;
+	margin-left: 0;
+	text-transform: uppercase;
+	font-size: 10px;
+	color: #036;
+}
+
+body.help ul, body.help ol {
+	margin-bottom: 20px;
+}
+
+body.help div.help_entry {
+	margin-bottom: 40px;
+}
+
+body.help div.qa h1 {
+	margin-bottom: 30px;
+	font-size: 20px;
+	font-family: helvetica;
+	color: #900;
+}
+
+body.help div.help_entry h2 {
+	font-size: 18px;
+	font-family: verdana, arial, sans-serif;
+	color: #900;
+	padding-top: 5px;
+}
+
+body.help div.content img {
+	padding: 1px;
+	border: 1px solid #ccc;
+	margin: 10px 0;
+}
+
+body.help div.content img.left {
+	margin: 10px 10px 5px 0;
+}
+
+body.help div.content img.right {
+	margin: 10px 0 5px 10px;
+}
+
+/*-------------------------------------------------
+examples
+-------------------------------------------------*/
+
+body.examples div.belt a {
+	font-weight: normal;
+	white-space: normal;
+}
+
+body.examples div.examples {
+	width: 740px;
+}
+
+body.backpack div.examples {
+	width: 820px;
+	margin-top: 25px;
+}
+
+div.examples div.picture {
+	float: left;
+	width: 340px;
+}
+
+body.backpack div.examples div.picture {
+	width: 420px;
+}
+
+div.examples div.picture img {
+	margin-bottom: 9px;
+}
+
+body.backpack div.examples div.picture img {
+	border: 1px solid #ccc;
+}
+
+div.examples div.description {
+	float: right;
+	width: 375px;
+}
+
+div.clearallrule {
+	clear: both;
+	margin: 25px 0;
+	border-bottom: 2px solid #efefef;
+}
+
+div.examples div.none {
+	border-bottom: 0;
+	margin-bottom: 0;
+}
+
+/*-------------------------------------------------
+highlights
+-------------------------------------------------*/
+
+table.highlights {
+	margin: 0;
+}
+
+table.highlights td img {
+	border: 1px solid #ccc;
+	padding: 1px;
+}
+
+table.highlights td {
+	vertical-align: top;
+	padding: 0 5px 25px 0;
+	width: 3%;
+}
+
+table.highlights td.sliver {
+	width: 150px;
+}
+
+table.highlights td.content {
+	width: 200px;
+	text-align: left;
+}
+
+table.highlights td h2 {
+	font-size: 12px;
+	color: #000;
+	margin: 0;
+	padding: 0;
+}
+
+table.highlights td p {
+	font-size: 11px;
+	margin: 0;
+	padding: 0;
+	font-family: verdana;
+}
+
+/*-------------------------------------------------
+general
+-------------------------------------------------*/
+
+body.product div.narrow {
+	width: 720px;
+}
+
+div.colorless {
+	background-color: transparent;
+}
+
+/*-------------------------------------------------
+buzz
+-------------------------------------------------*/
+
+div.buzz blockquote {
+	margin: 0 0 30px 0;
+	padding: 0;
+	font-size: 16px;
+}
+
+/*-------------------------------------------------
+highlight sidebars
+-------------------------------------------------*/
+
+div.content div.highlight {
+	float: right;
+	padding: 10px;
+	width: 240px;
+	border: 1px solid #ccc;
+	margin: 0 0 10px 35px;
+	text-align: center;
+}
+
+div.content div.highlight h1 {
+	text-align: center;
+	margin-bottom: 15px;
+	font-size: 14px;
+}
+
+div.content div.highlight img {
+	margin-bottom: 10px;
+}
+
+div.content div.highlight div.case {
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin: 0 0 10px 0;
+	text-align: left;
+	background-color: #efefef;
+}
+
+div.content div.highlight div.case img {
+	padding: 1px;
+	border: 1px solid #666;
+	margin: 0 5px 0 0;
+}
+
+div.content div.highlight div.case h1, div.content div.highlight div.case h2, div.content div.highlight div.case h3 {
+	font-family: verdana;
+	line-height: 1.1em;
+	text-align: left;
+}
+
+div.content div.highlight div.case h1 {
+	font-size: 12px;
+	color: #000;
+	margin: 0;
+}
+
+div.content div.highlight div.case h2 {
+	font-size: 11px;
+	font-weight: normal;
+	margin: 0 0 15px 0;
+}
+
+div.content div.highlight div.case p {
+	margin: 10px 0 0 0;
+	font-size: 11px;
+	font-family: verdana;
+}
+
+/*-------------------------------------------------
+api
+-------------------------------------------------*/
+
+div.api {
+	text-align: center;
+}
+
+div.api code, div.api pre {
+	text-align: left;
+}
+
+div.api div.sidecol {
+	float: right;
+	width: 190px;
+	text-align: left;
+	padding: 0;
+	margin: 0;
+}
+
+div.api h1 {
+	margin: 0 0 1px 0;
+}
+
+div.api ul {
+ margin: 0 0 20px 0;
+ padding: 0;
+	font-family: verdana;
+}
+
+div.api li {
+  display: inline;
+  list-style: none;
+  font-size: 11px;
+}
+
+div.api {
+  text-align: left;
+}
+
+div.api h2 {
+  color: #000;
+	font-size: 14px;
+  border-bottom: 3px solid #fc0;
+  padding: 2px 0;
+  margin: 25px 0 0 0;
+}
+
+div.api h3 {
+	font-size: 12px;
+  margin: 15px 0 5px 0;
+  color: #06908B;
+}
+
+div.api h3 span {
+  font-weight: normal;
+  color: #666;
+}
+
+div.api h4 {
+	font-size: 12px;
+	margin: 0 0 10px 0;
+	padding: 0;
+	font-family: verdana;
+}
+
+div.api pre {
+  background: #222 url(/images/marketing/codetexture.gif);
+  padding: 5px;
+  margin: 0 0 30px 10px;
+}  
+
+div.api code, div.api code a {
+  font-size: 10px;
+  color: #6f0;
+  margin: 0;
+}
+
+div.api code a {
+  color: #cf9;
+}
+
+div.api code span {
+  color: #cf9;
+}
+
+div.api div.sidecol h3 span {
+  font-size: 10px;
+	font-weight: normal;
+	color: #999;
+}
+
+div.api div.sidecol h3 {
+	font-weight: bold;
+	font-size: 12px;
+	color: #000;
+}
+
+div.api div.sidecol div.resources {
+  background-color: #ffc;
+  padding: 5px;
+  border: 1px solid #ccc;
+  font-size: 11px;
+}
+
+/*-------------------------------------------------
+case studies
+-------------------------------------------------*/
+
+body.casestudy div.content {
+	width: 650px;
+}
+
+body.casestudy div.highlight {
+	width: 199px;
+}
+
+body.casestudy div.highlight p {
+	font-family: verdana;
+}
+
+body.casestudy div.content img {
+	margin: 0 10px 10px 0;
+	padding: 1px;
+	border: 1px solid #ccc;
+}
+
+body.casestudy div.content div.highlight img {
+	border: 0;
+}
+
+body.casestudy div.content p {
+}
+
+body.casestudy div.content h1 {
+	text-align: left;
+	text-transform: none;
+	color: #393;
+	font-size: 16px;
+}
+
+body.casestudy span.pullquote {
+	width: 175px;
+	font-family: georgia;
+	border-left: 1px solid #ccc;
+	padding: 5px 0 0 12px;
+	float: right;
+	font-size: 13px;
+	line-height: 20px;
+	font-weight: normal;
+	color: #93905B;
+	margin: 12px 0 12px 12px;
+}
+
+body.casestudy div.highlight {
+	text-align: left;
+}
+
+body.casestudy div.highlight p {
+	font-size: 11px;
+	line-height: 14px;
+}
+
+body.casestudy div.highlight h1 {
+	font-size: 12px;
+	margin-bottom: 2px;
+	border-bottom: 1px solid #efefef;
+	padding: 0 0 2px 0;
+}
+
+body.casestudy div.highlight h2 {
+	font-size: 10px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+
+
+/*-------------------------------------------------
+legacy cruft (backpack upgrade page)
+-------------------------------------------------*/
+
+body.exceptions div.content img.border {
+	border: 1px solid #ccc;
+	margin: 0 10px 10px 0;
+}
+
+div.content div.right h3 {
+	font-size: 11px;
+	text-align: left;
+}
+
+body.exceptions div.left {
+	width: 425px;
+}
+
+body.exceptions div.right {
+	width: 230px;
+}
+
+div.howbox {
+	padding: 10px;
+	margin: 10px 0;
+	background-color: #ffc;
+	border: 1px solid #ccc;
+}
+
+body.exceptions div.content div.right div.reviews p {
+	font-size: 10px;
+	font-family: verdana;
+}
+
+/*-------------------------------------------------
+signup chart
+-------------------------------------------------*/
+
+table.signup {
+	border: 10px solid #ccc;
+	margin: 0 auto 30px auto;
+	width: 100%;
+}
+
+table.basecamp {
+	margin-bottom: 0;
+}
+
+table.signup td, table.signup th {
+	font-size: 11px;
+	padding: 5px;
+	text-align: center;
+	font-weight: normal;
+	vertical-align: middle;
+	border-bottom: 1px solid #E3DFDF;
+	border-right: 1px solid #E3DFDF;
+	border-left: 1px solid #E3DFDF;
+	white-space: nowrap;
+}
+
+table.signup td.big {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+table.signup th {
+	vertical-align: bottom;
+	border-bottom: 1px solid #ccc;
+}
+
+table.signup th.side {
+	font-size: 12px;
+	text-align: right;
+}
+
+table.signup tr.plans th.fade {
+	background-image: url(/images/marketing/topbluefade.gif);
+	background-repeat: repeat-x;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+table.signup th span {
+	font-size: 12px;
+	color: #f60;
+}
+
+table.signup tr.category th {
+	padding: 3px;
+	font-size: 11px;
+}
+
+table.signup tr.category th.biz {
+	background-color: green;
+	color: #fff;
+	border-left: 0;
+}
+
+table.signup tr.category th.max {
+	background-color: black;
+	color: #fff;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+table.signup tr.plans th {
+	font-size: 12px;
+}
+
+table.signup td.shaded {
+	background-color: #ffc;
+}
+
+table.signup td.bigend, table.signup th.bigend {
+	border-right: 2px solid #0c0;
+}
+
+/*-------------------------------------------------
+highrise special
+-------------------------------------------------*/
+
+body.highrise div.scenarios {
+	text-align: center;
+	margin: 15px 0 0 0;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #ccc;
+}
+
+body.highrise div.scenarios h1 {
+	font-family: helvetica;
+	font-size: 24px;
+	font-weight: normal;
+	line-height: 1.4em;
+}
+
+/*-------------------------------------------------
+steps
+-------------------------------------------------*/
+
+div.steps {
+	text-align: center;
+	width: 900px;
+}
+
+div.steps h1 {
+	margin-bottom: 5px;
+}
+
+body.scenario h1.bigger {
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+
+div.steps p {
+	margin-bottom: 10px;
+}
+
+/*-------------------------------------------------
+Highlight Bar
+-------------------------------------------------*/
+
+div.highlight_bar {
+	background-color: #dff7e8;
+	border-top: 1px solid green;
+	border-bottom: 1px solid green;
+	padding: 7px;
+	margin: 30px 0;
+	text-align: center;
+}
+
+div.highlight_bar h1 {
+	font-size: 22px;
+}
+
+div.highlight_bar h2 {
+	font-weight: normal;
+	font-size: 12px;
+}
+
+div.highlight_bar h1 a {
+	color: #29877f;
+}

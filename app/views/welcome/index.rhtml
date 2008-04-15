@@ -1,0 +1,21 @@
+<center>
+  <% if session[:user].blank? == false%>
+    <h1>Новости компании</h1>
+    <style>
+  #payments_table th{ padding: 5px; color:red; border: 1px solid black }
+  #payments_table td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="payments_table" border=0 style="padding:5px; border: 1px solid black; width:800px">
+ <% for bulletin in @news%>
+   <tr><td align="center" width="600"><h4><%=bulletin.title%></h4></td>
+     <td align="right"><b><small>Дата:  <%=bulletin.create_at.day%>.<%=bulletin.create_at.mon%>.<%=bulletin.create_at.year%></small></b>
+</td></tr>
+  <tr><td colspan="2" align="left" style="padding:10px; margin:10px;"><%=bulletin.message%></td></tr>
+  <tr><td colspan="2" align="left" bgcolor="#8bb4e6" ></td></tr>
+ <%end%>
+
+
+</table>
+  <% end %>
+</center>

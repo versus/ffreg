@@ -1,0 +1,27 @@
+<h1>Listing bugzillas</h1>
+
+<table>
+  <tr>
+  <% for column in Bugzilla.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for bugzilla in @bugzillas %>
+  <tr>
+  <% for column in Bugzilla.content_columns %>
+    <td><%=h bugzilla.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => bugzilla %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => bugzilla %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => bugzilla }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @bugzilla_pages.current.previous } if @bugzilla_pages.current.previous %>
+<%= link_to 'Next page', { :page => @bugzilla_pages.current.next } if @bugzilla_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New bugzilla', :action => 'new' %>

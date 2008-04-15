@@ -1,0 +1,23 @@
+<%= error_messages_for 'payment' %>
+
+<!--[form:payment]-->
+<p><label for="payment_title">Заголовок</label><br/>
+<%= text_field 'payment', 'title'  %></p>
+
+<p><label for="currency_title">Валюта</label><br/>
+<%= text_field 'payment', 'currency_id'  %></p>
+
+
+<p><label for="payment_summ">Сумма</label><br/>
+<%= text_field 'payment', 'summ'  %></p>
+
+<p><label for="payment_comment">Комментарий</label><br/>
+<%= text_area 'payment', 'comment'  %></p>
+
+<p><label for="payment_status">Статус</label><br/>
+<%= text_field 'payment', 'status'  %></p>
+
+<p><label for="payment_prio">Приоритет</label><br/>
+<%= text_field 'payment', 'prio'  %></p>
+<!--[eoform:payment]-->
+

@@ -1,0 +1,10 @@
+<h1>Новая категория</h1>
+<div align="center">
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Добавить" %>
+<% end %>
+<br/>
+<%= link_to 'Полный список', :action => 'list' %>
+</div>

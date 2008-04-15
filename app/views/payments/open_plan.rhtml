@@ -1,0 +1,208 @@
+
+<script>      
+  global_payment_id=0;
+
+  function cat_ch_tru2(ff_id, ff_name, ff_parent){
+    Effect.Fade('category_changer');
+
+        payment_id=global_payment_id;
+        cat_id= ff_id;
+        var url = '/payments/cat_change';
+		    var pars = 'payment_id='+payment_id+'&cat_id='+cat_id;
+		    var myAjax = new Ajax.Updater(
+			      'greenid', 
+		                      	url, 
+		                      	{
+				                      method: 'post', 
+				                      parameters: pars
+                            });
+
+                            $('pcat_'+payment_id).innerHTML=" "+ff_parent+" - "+ff_name
+                          
+                          }
+      function change_cat(payment_id){
+                        global_payment_id=payment_id;
+                        Effect.Appear('category_changer');
+                        
+                        }
+        function change_summ(payment_id){
+          str =new String($F('ch_summ_'+payment_id));
+          summ=str.replace(/\,/g,'.');
+          summ=parseFloat(summ);
+          if(summ > 0) {}
+          else { summ=0;}
+          currency_id = $F('current_payment_'+payment_id);
+          var url = '/payments/change_summ';
+		      var pars = 'payment_id='+payment_id+'&summ='+summ+'&currency_id='+currency_id;
+		      var myAjax = new Ajax.Updater(
+			                    'greenid', 
+		                      	url, 
+		                      	{
+				                      method: 'post', 
+				                      parameters: pars
+                            });
+                            <% small =Currency.find(:all)%>
+                            switch (currency_id){
+                            <%for s in small%>
+                              case "<%=s.id%>":
+                              abbr = "<%=s.small%>";
+                              dengi =  "<%=s.abbr%>";
+                              break
+
+                            <%end%>
+                          }
+                          $('psumm_'+payment_id).innerHTML="("+dengi+") <b>"+summ+" "+abbr+"</b>";
+                          $('abbrr2_'+payment_id).innerHTML=""+summ+" "+abbr+"";
+
+                         Effect.Fade('inp_'+payment_id);
+                       }
+
+</script>
+          <div id="category_changer" style="display:none;background-color: #fff; z-index:10;position:absolute; width:500px;; padding:10px;  z-index:2; top:50px; left:100px; border: 2px solid #000;">
+<b><span onclick="Effect.Fade('category_changer')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+            <div id="category_ch_content">
+              <%for ii in @categories%>
+                <h5><%= ii.name%></h5>
+                 <%child1 = Category.find(:all, :conditions => ["parent_id=?", ii.id])%>
+                 <% for ff in child1%>
+                   <h6>
+                     <% if ff.typo == "1"%>
+                       --<%= ff.name%>
+                   <% else%>
+                     ++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru2(<%= ff.id %>,'<%= ff.name%>', '<%= ii.name%>' )"><%= ff.name%></span>
+                   <%end%>
+                   </h6>
+                <%child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id])%>
+                 <% for ff2 in child2%>
+                   <h6>
+                     <% if ff2.typo == "1"%>
+                       ------<%= ff2.name%>
+                   <% else%>
+                     ++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru2(<%= ff2.id%>,'<%= ff2.name%>', '<%= ff.name%>')"><%= ff2.name%></span>
+                   <%end%>
+                 </h6>
+                <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
+                 <% for ff3 in child3%>
+                   <h6>
+                     <% if ff3.typo == "1"%>
+                       ---------<%= ff3.name%>
+                   <% else%>
+                     ++++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru2(<%= ff3.id %>,'<%= ff3.name%>', '<%= ff2.name%>' )"><%= ff3.name%></span>
+                   <%end%>
+               </h6>
+             <%end%>
+
+
+
+<%end%>
+
+                  <%end%>
+                
+
+              <%end%>
+            </div>
+          </div>
+
+            <h6>Итого:</h6>
+  <span id="s1_summa" style="margin-left:20px;padding:5px;"><b>NGRN: <span style="color:#043a7c"><%= sprintf( "%.2f",@ngrn_summ).to_f %></span></b></span>
+  <span id="s2_summa" style="margin-left:20px;padding:5px;"><b>BNGRN: <span style="color:#043a7c"><%=sprintf( "%.2f", @bngrn_summ).to_f%></span></b></span>
+  <span id="s3_summa" style="margin-left:20px;padding:5px;"><b>USD: <span style="color:#043a7c"><%=sprintf( "%.2f", @usd_summ).to_f%></span></b></span>
+
+<style>
+  #payments_table th{ padding: 5px; color:blue; border: 1px solid black; }
+  #payments_table td{ padding: 5px; color: #000; border: 1px solid black; }
+</style>
+ <table id="payments_table" border=0 style="padding:5px; border: 1px solid black; background-color: #fff;margin:10px; width:800px;">
+  <tr><th>№</th>
+    <th>Прио</th>
+    <th>Назначение платежа</th>
+    <th>Контрагент</th>
+    <th>Дата</th>
+    <th>Сумма</th>
+    <th>Валюта</th>
+  </tr>
+
+
+  <% unless @payments.empty? 
+  for payment in @payments %>
+
+  <tr>
+    <td style=" padding: 5px; color: #000; border: 1px solid black; "><%= payment.id%></td>
+    <td style=" padding: 5px; color: #000; border: 1px solid black; "><% rating = "color"+payment.prio.to_s+".png" %><%= image_tag rating, :alt => "приоритет"%> </td>
+    <td width="400" style=" padding: 5px; color: #000; border: 1px solid black; "><%= payment.title%></td>
+    <td style=" padding: 5px; color: #000; border: 1px solid black; "><%=payment.contragent%></td>
+    <td style=" padding: 5px; color: #000; border: 1px solid black; "><%=payment.month%> <br/><%=payment.year%></td>  
+    <td style=" padding: 5px; color: #000; border: 1px solid black; "><span id="abbrr2_<%=payment.id%>"><%=payment.summ%> <%=payment.currency.small%></span></td>
+    <td style=" padding: 5px; color: #000; border: 1px solid black; "><%=payment.currency.abbr%></td>
+  </tr>
+
+  <tr><td colspan="7" id="<%=payment.id%>" style="padding:10px;background-color: white;" >
+        <div>              <h4>Детальная информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+              <p>Фирма: <%=payment.firm.name%></p>
+
+              <p>Бюджет: <b>
+                              
+
+                                  <span 
+                                    <%
+                                      if  @can_add_payment != 3 
+                                      if @can_add_payment == 1 or @persone.roles('roles.chiff')%>
+
+                                    id="pcat_<%=payment.id%>" onclick="change_cat(<%=payment.id%>)"  style="cursor:pointer; cursor:hand;font-size:14px;color:blue"
+                                    <%end end%>
+                                    >
+           <%unless payment.category.nil? %>
+           <%=payment.category.parent.name%>
+                 -<%=payment.category.name%>  </span></b></p>
+                  <p>Сумма бюджета: <%gg = Grand.find(:first, :conditions =>["category_id=? AND firm_id=?", payment.category.id, payment.firm_id], :order => "id DESC")%> 
+                <%unless gg.nil?%>
+                  <%= gg.plan %>
+
+                  <!--  разобраться с суммой бюджета и суммой заявки!!!!! 25022008 -->
+
+                  <%if gg.plan < payment.summ%>
+                    <span style="color:red"><br/><b>Сумма завки больше  бюджета по данной категории!</b></span>
+                  <%end%>
+              <%else%>
+                <span style="color:red"><b>Внимание завка не предусмотренна текущим бюджетом!</b></span>
+              <%end%>
+            <%end%>
+
+              </p>
+      
+              <p>Контрагент: <%=payment.contragent%></p>
+
+        <p>Автор: <%=payment.user.fio%></p>
+        <p><b><%=payment.comment unless payment.comment.nil?%></b></p>
+        <p>Cумма платежа: <span                                     
+          <%
+                                      if  @can_add_payment != 3 
+                                      if @can_add_payment == 1 or @persone.roles('roles.chiff')%>
+id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
+
+      <span id="inp_<%=payment.id%>" style="display:none" >
+        <input type="text" name="ch_summ_<%=payment.id%>" id="ch_summ_<%=payment.id%>">&nbsp;
+        <%= select  "current_payment", payment.id , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>&nbsp;
+
+        <span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span></span>
+      <% end 
+                                      else
+                                      %>
+                                    >(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b> </span>
+                                      <%end%>
+      <div id="accept_box_<%=payment.id%>">
+      
+   
+                ------ Комментарий ------<br/>
+
+                <p><%= payment.comment%><br></p>
+              </div>
+              <br>
+              <% if @can_add_payment == 1 || @can_add_payment ==2 %>
+                 <%= link_to 'Удалить', { :action => 'trash_plan', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+               <%end%>
+  <%end%>
+<%end%>
+</table>
+

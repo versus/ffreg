@@ -1,0 +1,31 @@
+<p align="left">
+  <b>Название:</b> <%=h @firm.name %>
+</p>
+<p align="left">
+<% a=@firm.users.find(:all, :conditions => ["parent_id=?", 0]) 
+  
+  if a[0].nil? == false %>
+  <b>Директор:</b> <%=h a[0].fio  %>
+<%else%>
+  <b>Директор:</b> отсутствует
+<%end%>
+</p>
+<p align="left">
+  <b>Офисный телефон:</b> <%=h @firm.phone %>
+  </p>
+
+<p align="left">
+<b>Работники:</b><br/><table border="0"  >
+  <%= link_to 'Добавить пользователя', :action => 'new',:controller => 'users' %>
+<%for user in @firm.users %>
+  <tr><td style="padding:5px;"><%= user.position%></td>
+    <td style="padding:5px;"><%=link_to user.fio, :controller =>'users' ,:action => 'show', :id => user %></td></tr>
+<% end %>
+</table>
+  </p>
+  <br><br>
+
+<%= link_to 'Изменить', :action => 'edit', :id => @firm %> |
+
+<%= link_to 'Вернуться', :action => 'list' %> |
+<%= link_to 'Удалить', { :action => 'destroy', :id => @firm }, :confirm => 'Вы уверены?', :method => :post %>

@@ -1,0 +1,409 @@
+
+
+
+<%= link_to 'новая заявка', :action => 'newpay' %>
+<br/><br/>
+<script>
+  function pay_close(idss) {
+          var url = '/payments/payclose?payment_id='+idss;          
+          window.location.href=url; 
+        }
+        
+        function pay_closeback(idss){
+          var url = '/payments/paycloseback?payment_id='+idss;          
+          window.location.href=url; 
+        }
+        function hold(idss) {
+          name_id="comments-"+idss;
+          comments_value=$F(name_id);
+          var url = '/payments/hold?id='+idss+'&comment='+comments_value;
+          window.location.href=url; 
+        }
+
+        function accept(idss) {
+          name_id="comments-"+idss;
+          comments_value=$F(name_id);
+          var url = '/accepts/add?payment_id='+idss+'&comment='+comments_value;
+          window.location.href=url; 
+        }
+
+        function accept_cancel(idss) {
+          var url = '/payments/payment_cancel?payment_id='+idss;
+          window.location.href=url; 
+        }
+
+        function change_summ(payment_id){
+          summ = parseFloat($F('ch_summ_'+payment_id));
+          if(summ > 0) {}
+          else { summ=0;}
+          currency_id = $F('current_payment_'+payment_id);
+          var url = '/payments/change_summ';
+		      var pars = 'payment_id='+payment_id+'&summ='+summ+'&currency_id='+currency_id;
+		      var myAjax = new Ajax.Updater(
+			                    'greenid', 
+		                      	url, 
+		                      	{
+				                      method: 'post', 
+				                      parameters: pars
+                            });
+                            <% small =Currency.find(:all)%>
+                            switch (currency_id){
+                            <%for s in small%>
+                              case "<%=s.id%>":
+                              abbr = "<%=s.small%>";
+                              dengi =  "<%=s.abbr%>";
+                              break
+
+                            <%end%>
+                          }
+                          $('psumm_'+payment_id).innerHTML="("+dengi+") <b>"+summ+" "+abbr+"</b>";
+                          $('abbrr2_'+payment_id).innerHTML="("+summ+" "+abbr+")";
+
+                          $('abbrr_'+payment_id).innerHTML="("+dengi+")";
+                          Effect.Fade('inp_'+payment_id);
+
+
+                        }
+                        global_payment_id=0;
+                        function cat_ch_tru(ff_id, ff_name, ff_parent){
+                          Effect.Fade('category_changer');
+                          payment_id=global_payment_id;
+                          cat_id= ff_id;
+                         var url = '/payments/cat_change';
+		                     var pars = 'payment_id='+payment_id+'&cat_id='+cat_id;
+		                     var myAjax = new Ajax.Updater(
+			                    'greenid', 
+		                      	url, 
+		                      	{
+				                      method: 'post', 
+				                      parameters: pars
+                            });
+
+                          $('pcat_'+payment_id).innerHTML=" "+ff_parent+" - "+ff_name
+                          
+                        }
+
+                        function change_cat(payment_id){
+                        global_payment_id=payment_id;
+                        Effect.Appear('category_changer');
+                        
+                        }
+      </script>
+<h2 align="center">Рассматриваемый период  <%= @mow%> <%= @year%> год</h2> 
+                <center>
+<%for i in 2007..2010%>
+  <%= link_to i.to_s, :action => 'finotdel', :year => i%> |
+<%end%>
+<br><br>
+
+<%for i in 0..12%>
+  <%= link_to @mounths[i], :action => 'finotdel', :month => i%> |
+<%if i == 6 %><br><%end%>
+<%end%>
+</center>
+
+<br>
+<hr>
+
+      <div id="category_changer" style="display:none;background-color: #fff; z-index:10;position:absolute; width:500px;; padding:10px;  z-index:2; top:50px; left:100px; border: 2px solid #000;">
+<b><span onclick="Effect.Fade('category_changer')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+            <div id="category_ch_content">
+              <%for ii in @categories%>
+                <h5><%= ii.name%></h5>
+                 <%child1 = Category.find(:all, :conditions => ["parent_id=?", ii.id])%>
+                 <% for ff in child1%>
+                   <h6>
+                     <% if ff.typo == "1"%>
+                       --<%= ff.name%>
+                   <% else%>
+                     ++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff.id %>,'<%= ff.name%>', '<%= ii.name%>' )"><%= ff.name%></span>
+                   <%end%>
+                   </h6>
+                <%child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id])%>
+                 <% for ff2 in child2%>
+                   <h6>
+                     <% if ff2.typo == "1"%>
+                       ------<%= ff2.name%>
+                   <% else%>
+                     ++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff2.id%>,'<%= ff2.name%>', '<%= ff.name%>')"><%= ff2.name%></span>
+                   <%end%>
+                 </h6>
+                <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
+                 <% for ff3 in child3%>
+                   <h6>
+                     <% if ff3.typo == "1"%>
+                       ---------<%= ff3.name%>
+                   <% else%>
+                     ++++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff3.id %>,'<%= ff3.name%>', '<%= ff2.name%>' )"><%= ff3.name%></span>
+                   <%end%>
+               </h6>
+             <%end%>
+
+
+
+<%end%>
+
+                  <%end%>
+                
+
+              <%end%>
+            </div>
+      </div>
+
+
+<h1 style="font-size: 18px;">Список заявок</h1>
+    <h4>-----------------------------------</h4>
+    <h4>Не подписанные заявки за <%= @mow%> </h4>
+<style>
+    #payments_table th{ padding: 5px; color:red; border: 1px solid black }
+
+  #payments_table td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="payments_table" border=0 style="padding:5px; border: 1px solid black">
+  <tr>
+    <th>Прио</th>
+    <th>Назначение платежа</th>
+   <th><a href="/payments/finotdel?order=firm_id">Фирма</a></th>
+   <th><a href="/payments/finotdel?order=create_at">Дата</a></th>
+   <th><a href="/payments/finotdel?order=summ">Сумма</a></th>
+   <th><a href="/payments/finotdel?order=currency_id">Валюта</a></a></th>
+  </tr>
+
+<% for payment in @payments_no_accept %>
+  
+  <tr>
+    <td><% rating = "color"+payment.prio.to_s+".png" %><%= image_tag rating, :alt => "приоритет"%> 
+</td>
+    <td width="400">
+      <span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>')"><%= payment.title%> </span>
+    </td>
+    <td><%=payment.firm.name%></td>
+    <td> <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></td><td><%=payment.summ%> <%=payment.currency.small%></td><td><%=payment.currency.abbr%><%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+</td></tr>
+  <tr><td colspan="6" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+        <p id="error_close_<%=payment.id%>" style="color:red"></p>
+        <div>              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+              <b><span onclick="Effect.Fade('<%=payment.id%>')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+                    <p>Бюджет: <b><span id="pcat_<%=payment.id%>" ><%=payment.category.parent.name%>-<%=payment.category.name%></span></b></p>
+        <p>Суммы бюджетов: <%=payment.firm.name%></p>
+        <p>Фирма: <%=payment.firm.name%></p>
+        <p>Контрагент: <%=payment.contragent%></p>
+
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.strftime("%d.%m.%Y")%></p>
+        <p><%=payment.comment unless payment.comment.nil?%></b></p>
+      <p>Cумма платежа: <span id="psumm_<%=payment.id%>" >(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
+    
+
+                  </div>
+    </td>
+  </tr> 
+
+
+
+<%end%>
+</table><br>
+
+<h4>-----------------------------------</h4>
+<h4>Подписанные заявки за <%= @mow%> </h4>
+<style>
+    #accepts th{ padding: 5px; color:red; border: 1px solid black }
+
+  #accepts td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="accepts" border=0 style="padding:5px; border: 1px solid black">
+  <tr> <th>Прио</th>
+
+    <th>Назначение платежа</th>
+   <th><a href="/payments/finotdel?order=firm_id">Фирма</a></th>
+   <th><a href="/payments/finotdel?order=create_at">Дата</a></th>
+   <th><a href="/payments/finotdel?order=summ">Сумма</a></th>
+   <th><a href="/payments/finotdel?order=currency_id">Валюта</a></a></th>
+  </tr>
+<% for payment in @payments_accept %>
+  <tr> <td><% rating = "color"+payment.prio.to_s+".png" %><%= image_tag rating, :alt => "приоритет"%> </td>
+ <td width="400"><span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>')"><%= payment.title%> </span></td>
+        <td><%=payment.firm.name%></td>
+
+    <td> <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></td><td><%=payment.summ%> <%=payment.currency.small%></td><td><%=payment.currency.abbr%><%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+</td></tr>
+  <tr><td colspan="6" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+        <p id="error_close_<%=payment.id%>" style="color:red"></p>
+        <div>              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+              <b><span onclick="Effect.Fade('<%=payment.id%>')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+                    <p>Бюджет: <b><span id="pcat_<%=payment.id%>" onclick="change_cat(<%=payment.id%>)" style="cursor:pointer; cursor:hand;font-size:14px;color:blue"><%=payment.category.parent.name%>-<%=payment.category.name%></span></b></p>
+        <p>Суммы бюджетов: <%=payment.firm.name%></p>
+        <p>Фирма: <%=payment.firm.name%></p>
+        <p>Контрагент: <%=payment.contragent%></p>
+        
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.strftime("%d.%m.%Y")%></p>
+        <p><%=payment.comment unless payment.comment.nil?%></b></p>
+      <p>Cумма платежа:(<%=payment.currency.abbr%>)  <b><%=payment.summ%> <b><%=payment.currency.small%></b></b></p>
+      <div id="accept_box_<%=payment.id%>">
+
+      ------ Комментарии ------<br/><br/>
+      <% for comment in Accept.find(:all,:conditions =>["payment_id=?", payment.id], :order => 'create_at DESC') %>
+          <p><%=comment.create_at.strftime("%d.%m.%Y")%> <%=comment.user.fio%>
+                  <%if comment.comment.to_s.length > 0 %><br><br><%=comment.comment%><br>
+          <hr/>
+        <%end%>
+        <br></p>
+
+    <%end%>
+      
+
+      <br><br><span style="cursor:pointer; cursor:hand;font-size:16px;color:red" onclick="pay_close(<%=payment.id%>)">Оплачено</span>
+        
+
+</div>
+
+                  </div>
+    </td>
+  </tr> 
+
+
+<% end %>
+</table> <br>
+
+<h4>-----------------------------------</h4>
+<h4>Закрытые заявки за <%= @mow%> </h4>
+<style>
+    #accepts_close th{ padding: 5px; color:red; border: 1px solid black }
+
+  #accepts_close td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="accepts_close" border=0 style="padding:5px; border: 1px solid black">
+  <tr> <th>Прио</th>
+
+    <th>Назначение платежа</th>
+   <th><a href="/payments/finotdel?order=firm_id">Фирма</a></th>
+   <th><a href="/payments/chiff?order=close_at">Дата</a></th>
+   <th><a href="/payments/chiff?order=summ">Сумма</a></th>
+   <th><a href="/payments/chiff?order=currency_id">Валюта</a></a></th>
+  </tr>
+<% for payment in @payments_close %>
+  <tr>  <td><% rating = "color"+payment.prio.to_s+".png" %><%= image_tag rating, :alt => "приоритет"%> </td>
+<td width="400"><span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>')"><%= payment.title%> </span></td>
+        <td><%=payment.firm.name%></td>
+
+    <td> <%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%></td><td><%=payment.summ%> <%=payment.currency.small%></td><td><%=payment.currency.abbr%><%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+</td></tr>
+  <tr><td colspan="6" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+      <div >
+              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+      <b><span onclick="Effect.Fade('<%=payment.id%>')" style="float:right;color:red; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+        <p>Категория: <b><%=payment.category.parent.name%>-<%=payment.category.name%></b></p>
+        <p>Фирма: <%=payment.firm.name%></p>
+        <p>Контрагент: <%=payment.contragent%></p>
+        
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></p>
+        <p>Дата закрытия: <%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%></p>
+
+        <p><%=payment.comment%></b></p>
+        <p>Cумма платежа:(<%=payment.currency.abbr%>)  <b><%=payment.summ%> <b><%=payment.currency.small%></b></b></p>
+      
+      ------ Подписи и комментарии ------<br/><br/>
+      <% for comment in Accept.find(:all,:conditions =>["payment_id=?", payment.id], :order => 'create_at DESC') %>
+          <p> Подписал <%=comment.user.fio%> <%=comment.create_at.strftime("%d.%m.%Y")%>
+                  <%if comment.comment.to_s.length > 0 %>
+                    <br><br><%=comment.comment%><br>
+          <hr/>
+        <%end%>
+        <br></p>
+
+    <%end%>
+      
+
+   <br><br><span style="cursor:pointer; cursor:hand;font-size:16px;color:red" onclick="pay_closeback(<%=payment.id%>)">Отменить оплату</span>
+
+
+                  </div>
+    </td>
+  </tr> 
+
+
+<% end %>
+</table> 
+<br>
+<h4>-----------------------------------</h4>
+<h4>Отклоненные заявки за <%= @mow%> </h4>
+<style>
+    #accepts_hold th{ padding: 5px; color:red; border: 1px solid black }
+
+  #accepts_hold td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="accepts_hold" border=0 style="padding:5px; border: 1px solid black">
+ <tr> <th>Прио</th>
+
+   <th>Назначение платежа</th>
+   <th><a href="/payments/chiff?order=firm_id">Фирма</a></th>
+   <th><a href="/payments/chiff?order=close_at">Дата</a></th>
+   <th><a href="/payments/chiff?order=summ">Сумма</a></th>
+   <th><a href="/payments/chiff?order=currency_id">Валюта</a></a></th>
+  </tr>
+
+  <% for payment in @payments_hold %>
+
+    <tr>  <td><% rating = "color"+payment.prio.to_s+".png" %><%= image_tag rating, :alt => "приоритет"%> </td>
+<td width="400"><span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>')"><%= payment.title%> </span></td>
+          <td><%=payment.firm.name%></td>
+
+    <td> <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></td><td><%=payment.summ%> <%=payment.currency.small%></td><td><%=payment.currency.abbr%><%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+</td></tr>
+  <tr><td colspan="6" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+      <div >
+              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+      <b><span onclick="Effect.Fade('<%=payment.id%>')" style="float:right;color:red; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+        <p>Категория: <b><%=payment.category.parent.name%>-<%=payment.category.name%></b></p>
+        <p>Фирма: <%=payment.firm.name%></p>
+        <p>Контрагент: <%=payment.contragent%></p>
+        
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></p>
+        <p>Cумма платежа:(<%=payment.currency.abbr%>)  <b><%=payment.summ%> <b><%=payment.currency.small%></b></b></p>
+      
+        ------ Подписи и комментарии ------<br/><br/>
+         <p><%=payment.comment%></b></p>
+
+      <% for comment in Accept.find(:all,:conditions =>["payment_id=?", payment.id], :order => 'create_at DESC') %>
+          <p> Подписал <%=comment.user.fio%> <%=comment.create_at.strftime("%d.%m.%Y")%>
+                  <%if comment.comment.to_s.length > 0 %>
+                    <br><br><%=comment.comment%><br>
+          <hr/>
+        <%end%>
+        <br></p>
+
+    <%end%>
+
+                  </div>
+    </td>
+  </tr> 
+
+
+<% end %>
+
+
+</table>
+
+<br />
+
+<%= link_to 'новая заявка', :action => 'newpay' %>
+

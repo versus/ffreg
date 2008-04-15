@@ -1,0 +1,151 @@
+body.signupform div.content {
+	width: 790px;
+}
+
+body.signupform div.content div.left {
+	width: 430px;
+	float: left;
+}
+
+body.signupform div.content div.right {
+	width: 325px;
+	float: right;
+}
+
+body.signupform div.content div.right h2, body.signupform div.content div.right p {
+	font-size: 11px;
+}
+
+body.signupform div.error {
+	border: 5px solid red;
+	background-color: #fcecec;
+	padding: 10px;
+	margin: 0 0 25px 0;
+	font-size: 12px;
+}
+
+body.signupform div.error h1 {
+	color: red;
+}
+
+body.signupform div.error p {
+	margin: 0;
+}
+
+fieldset {
+	border: 0;
+	border-top: 1px solid #000;
+	background-color: #f1f5fa;
+	padding: 15px;
+	font-family: verdana;
+	margin: 0 0 25px 0;
+}
+
+fieldset legend {
+	padding: 0 7px;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 0 5px;
+}
+
+fieldset.final {
+	border: 5px solid green;
+	background-color: #e8fcea;
+}
+
+fieldset.final legend {
+	color: green;
+}
+
+fieldset.error {
+	border-top: 5px solid red;
+}
+
+fieldset.error legend, fieldset table th.error {
+	color: red;
+	font-weight: bold;
+}
+
+body.signupform p.error {
+	color: red;
+	font-weight: bold;
+	font-size: 11px;
+	margin: 0;
+}
+
+fieldset img {
+	margin: 0 5px 5px 0;
+}
+
+fieldset p {
+	margin-bottom: 10px;
+}
+
+fieldset input {
+	font-size: 14px;
+	padding: 3px;
+	font-weight: bold;
+	width: 250px;
+	margin-bottom: 3px;
+}
+
+fieldset input.short {
+	width: 125px;
+}
+
+fieldset input.normal {
+	width: auto;
+}
+
+fieldset table th {
+	padding-top: 7px;
+	text-align: right;
+	font-weight: normal;
+	font-size: 11px;
+	white-space: nowrap;
+}
+
+fieldset table td {
+	padding-bottom: 5px;
+	font-size: 11px;
+}
+
+fieldset small {
+	font-size: 10px;
+	color: #454545;
+	line-height: 1.3em;
+}
+
+body.signupform table.pricing {
+	margin-bottom: 20px;
+}
+
+body.signupform table.pricing tr.shaded td {
+	background-color: #ffc;
+}
+
+body.signupform table.pricing th {
+	font-size: 9px;
+	border-bottom: 2px solid #666;
+	border-top: 2px solid #666;
+	padding: 4px;
+}
+
+body.signupform table.pricing td {
+	font-size: 12px;
+	text-align: center;
+	white-space: nowrap;
+	border-right: 1px dotted #ccc;
+	padding: 5px;
+	border-bottom: 1px solid #ccc;
+}
+
+body.signupform table.pricing td.level {
+	border-right: 2px solid #999;
+	text-align: right;
+}
+
+div#processesing_order {
+	font-size: 12px;
+	font-weight: bold;
+}

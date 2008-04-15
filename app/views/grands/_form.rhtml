@@ -1,0 +1,44 @@
+<%= error_messages_for 'grand' %>
+
+<!--[form:grand]-->
+<p><label for="grand[firm_id]">Фирма</label><br/>
+<%= select  "grand", "firm_id", Firm.find(:all, :order => 'parent_id ASC').collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+</p>
+
+<p><label for="grand[category_id]">Категория</label><br/>
+<select id="grand_category" name="grand[category_id]">
+  <%@categories.each { |cats|%>
+  <option value="<%= cats.id%>"><%= cats.parent.name%>---<%= cats.name%></option>
+  <% } %>
+</select>
+</p>
+
+<p><label for="grand_plan">Плановый показатель (в USD)</label><br/>
+<%= text_field 'grand', 'plan'  %></p>
+
+
+<p><label for="grand_mounth">Плановый период</label><br/>
+<select id="grand_mounth" name="grand[mounth]">
+  <% ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"].each { |y|%>
+  <%if y == @session[:month]%>
+    <option value="<%= y%>" selected><%= y %></option>
+
+  <%else%>
+    <option value="<%= y%>"><%= y %></option>
+  <%end%>
+  <% } %>
+</select> --
+<select id="grand_year" name="grand[year]">
+  <% for y in 2007..2015%>
+ <%if y == @session[:year].to_i%>
+    <option value="<%= y%>" selected><%= y %></option>
+  <%else%>
+    <option value="<%= y%>"><%= y %></option>
+  <%end%>
+
+<% end %>
+</select> 
+
+</p>
+<!--[eoform:grand]-->
+

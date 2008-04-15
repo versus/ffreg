@@ -1,0 +1,326 @@
+   <div class='form greenSml'>
+        <div class='greenTopSml'>
+        </div>
+        <div class='dashboard'><h3>Бюджет фирмы <%= @firmw.name %> </h3>
+            <div id='invoice'>
+            <div id='invoiceTemplate'>
+              <div id='invoiceTop'><p>Рассматриваемый период  <%= session[:month]%> <%= @year%> год</h1> </p>
+              </div>
+              <div id='invoiceMid'>
+
+                <center>
+                  <%for i in @year.to_i-3..@year.to_i+3%>
+                    <% if @year.to_i == i%>
+                      <span style="color:red"><b><%= i%></b></span> |
+                    <%else%>  
+                      <%= link_to i.to_s, :action => 'showbudget', :year => i%> |
+                    <%end%>  
+<%end%>
+<br><br>
+
+<%for i in 1..12%>
+                      <% if @mounths.index(session[:month]).to_i == i%>
+                      <span style="color:red"><b><%= session[:month]%></b></span> |
+                    <%else%>  
+                      <%= link_to @mounths[i], :action => 'showbudget', :month => i%> |
+                    <%end%>
+<%if i == 6 %><br><%end%>
+<%end%>
+</center>
+
+<br>
+<hr>
+<script>
+  function open_plan(id)
+  {
+    //new Effect.Appear('form-'+id);
+
+    var url= "/payments/open_plan?cat_id="+id;
+    window.location.href=url; 
+
+  }
+</script>
+<%if @can_add_payment == 1 %>
+<script>                        
+  function cat_ch_tru2(ff_id, ff_name, ff_parent){
+    Effect.Fade('category_changer');
+
+        payment_id=global_payment_id;
+        cat_id= ff_id;
+        var url = '/payments/cat_change';
+		    var pars = 'payment_id='+payment_id+'&cat_id='+cat_id;
+		    var myAjax = new Ajax.Updater(
+			      'greenid', 
+		                      	url, 
+		                      	{
+				                      method: 'post', 
+				                      parameters: pars
+                            });
+
+                            $('pcat').innerHTML=" "+ff_parent+" - "+ff_name
+                            $('cat_ad').value=ff_id
+                          
+                        }
+</script>
+<% end %>
+  <%if @error == true%>
+    <br><br>
+    <h2 align="center" style="color: red;">Данных про бюджет нет!</h2>
+  <% else%>
+    <div style="background-color: #fff;margin:10px; padding:20px; width:600px; border: 2px solid #000;">
+      <%cat=Category.find(:all)%>
+
+    </div>
+          <div id="category_changer" style="display:none;background-color: #fff; z-index:10;position:absolute; width:500px;; padding:10px;  z-index:2; top:50px; left:100px; border: 2px solid #000;">
+<b><span onclick="Effect.Fade('category_changer')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+            <div id="category_ch_content">
+              <%for ii in @categories%>
+                <h5><%= ii.name%></h5>
+                 <%child1 = Category.find(:all, :conditions => ["parent_id=?", ii.id])%>
+                 <% for ff in child1%>
+                   <h6>
+                     <% if ff.typo == "1"%>
+                       --<%= ff.name%>
+                   <% else%>
+                     ++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru2(<%= ff.id %>,'<%= ff.name%>', '<%= ii.name%>' )"><%= ff.name%></span>
+                   <%end%>
+                   </h6>
+                <%child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id])%>
+                 <% for ff2 in child2%>
+                   <h6>
+                     <% if ff2.typo == "1"%>
+                       ------<%= ff2.name%>
+                   <% else%>
+                     ++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru2(<%= ff2.id%>,'<%= ff2.name%>', '<%= ff.name%>')"><%= ff2.name%></span>
+                   <%end%>
+                 </h6>
+                <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
+                 <% for ff3 in child3%>
+                   <h6>
+                     <% if ff3.typo == "1"%>
+                       ---------<%= ff3.name%>
+                   <% else%>
+                     ++++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru2(<%= ff3.id %>,'<%= ff3.name%>', '<%= ff2.name%>' )"><%= ff3.name%></span>
+                   <%end%>
+               </h6>
+             <%end%>
+
+
+
+<%end%>
+
+                  <%end%>
+                
+
+              <%end%>
+            </div>
+          </div>
+          <%if @can_add_payment==1%>
+                      <script>
+                        function check() {
+                          flag=0;str="";
+                          title= $('title').value;
+                          summ = $('summ').value;
+                          cat = $('cat_ad').value
+                          if(title.length==0){str=str + "Введите назначение платежа\n"; flag=1;}
+                          if(summ.length==0){str=str + ("Введите сумму платежа\n"); flag=1;}
+                          summ = summ.replace(/,/,'.')
+                          summ = summ.replace(/ю/,'.')
+                          summ= parseFloat(summ);
+	                        if(isNaN(summ)){str=str + "Сумма платежа должна быть цифровой\n"; flag=1;}
+                          if(cat=="none"){str=str + ("Выберите категорию"); flag=1;}
+
+                          if(flag==1){Effect.Shake('formid');alert(str); return false;}
+                          else {return true}
+                        }
+                        global_payment_id=0;
+
+
+
+                        function change_cat(payment_id){
+                        global_payment_id=payment_id;
+                        Effect.Appear('category_changer');
+                        
+                        }
+  function cat_ch_tru(idss){
+    new Effect.Appear('form-'+idss);
+  }
+
+function change_summ(idss){
+          name_id="summ-"+idss;
+          comments_value=$F(name_id);
+          var url = '/grands/add?id='+idss+'&summ='+comments_value;
+          window.location.href=url; 
+}
+
+                      </script>
+
+    <div style="padding:10px; margin:10px; cursor: hands; cursor: pointer" onclick="Effect.Appear('ne_wb');"><b>Добавить заявку</b></div>
+  <% end %>
+                      <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer"><a href="/grands/fullyear"><b>Годовой бюджет</b></a></div>
+                      <%  if @persone.has_role?('roles.chiff') %>
+  <%  if @can_add_payment==1 %>
+    <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer"><a href="/grands/stoped"><b>На утверждение</b></a></div>
+  <% elsif @can_add_payment==2 %>
+    <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer">
+      <a href="/grands/game_again">На доработку</a> ---------------------
+      <a href="/grands/game_over"><b>Утверждено</b></a></div>
+  <% end end %>
+
+  <%  if @can_add_payment==1 %>
+
+                      <table  style="display:none;background-color: #fff; z-index:10;position:absolute; width:500px;; padding:10px;  z-index:1; top:50px; left:10px; border: 2px solid #000;" id="ne_wb"><tr><td style="background-color: #ccc;margin:10px; padding:20px; width:600px; border: 2px solid #000;">
+
+                      <form id="formid" action="/payments/new_grand" method="post" onsubmit="return(check())" >
+          <input type="hidden" name="payment[category_id]" value="none" id="cat_ad">
+          <table border="0" align="left" style="padding:0px;padding-left:20px; background-color:#fff;">
+            <tr><td colspan="1"><div align="right" style="padding:10px; margin:10px; cursor: hands; cursor: pointer" onclick="Effect.Fade('ne_wb');"><b>Закрыть окно</b></div></td></tr>
+            <tr><td><span style="color:red">*</span> - поля обязательные к заполнению</td></tr>
+            <tr ><td><b>Назначение платежа:</b><br/> <%= text_field 'payment', 'title' , :id => "title" %><span style="color:red">*</span></td></tr>
+            <tr><td><b>Валюта:</b><br/> <%= select  "payment", "currency_id" , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %></td></tr>
+            <tr><td><b>Контрагент:</b><br/> <%= text_field_with_auto_complete :payment, :contragent %></td></tr>
+      <tr><td><b>Категория:</b> <b>
+        <span id="pcat"
+             onclick="change_cat()"  style="cursor:pointer; cursor:hand;font-size:14px;color:blue"
+             >Выбрать</span><span style="color:red">*</span></b>
+     </td></tr>
+
+     <tr><td><b>Сумма:</b> <br/><%= text_field 'payment', 'summ' , :id => "summ"   %> <span style="color:red">*</span><td/></tr>
+         <tr><td><b>Условно постоянная?:</b><br/> <%= check_box 'payment', 'recurring'  %> <td/></tr>
+
+         <tr><td><b>Приоритет:</b><br/> <select id="payment_prio" name="payment[prio]"><option value="1">обычная</option>
+<option value="2">срочная</option>
+<option value="3">неотложная</option></select>
+</td></tr>
+<tr><td><b>Комментарий</b>
+    <%= text_area 'payment', 'comment'  ,:rows => 4, :cols => 10%></td></tr>
+
+<tr><td>
+    <input type="submit" value="Добавить"  ></td></tr>
+</table></form>
+</td></tr>
+</table>
+  <% end %>
+      <table id="budget_table" border="1" style="background-color: #fff;margin:10px; padding:20px; width:600px; border: 2px solid #000;">
+        <tr>
+          <td><h4 style="color:red">Категория</h4></td>
+          <td><h4 style="color:red">План</h4></td>
+          <td><h4 style="color:red">Факт</h4></td>
+          <td><h4 style="color:red">Заявки</h4></td>
+        </tr>
+              <%for ii in @categories%>
+                <tr><td colspan="3"><h4><%= ii.name%></h4></td></tr>
+                <%child1 = Category.find(:all, :conditions => ["parent_id=?", ii.id])%>
+                 <% for ff in child1%>
+                   <tr>
+                     <% if ff.typo == "1"%>
+                       <td><p style="padding-left:10px"><b><%= ff.name%></b></p></td>
+                       <td id="plan_<%=ff.id%>"><%= print_plan(ff.id, @firmw.id, @mow, @year)%></td> 
+                        <td id="fact_<%=ff.id%>"><%= print_fact(ff.id, @firmw.id, @mow, @year)%></td>
+
+                       <td id="planned_<%=ff.id%>"><%= print_plan_payments(ff.id, @firmw.id, @mow, @year)%></td>
+
+                     <% else%>
+                       <% if @persone.has_role?('roles.finotdel')%>
+                     <td><span style="color:blue;  cursor:pointer; padding-left:10px; cursor:hand;" onclick="cat_ch_tru(<%= ff.id %>,'<%= ff.name%>', '<%= ii.name%>' )"><%= ff.name%></span>                     
+                      <div id="form-<%=ff.id%>" style="display:none;padding:10px;background-color: white;" >
+                        <input type="text" name="summ-<%=ff.id%>" id="summ-<%=ff.id%>">&nbsp;
+<span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ(<%=ff.id%>)">обновить</span>
+                       </div>
+                     </td>
+                   <%else%>
+                     <td><span style="color:blue; padding-left:30px; cursor:pointer; cursor:hand;"  onclick="open_plan(<%= ff.id %>)"><%= ff.name%></span><div id="form-<%=ff.id%>" style="display:none;padding:10px;background-color: white;" ></div>
+</td>
+                   <%end%>
+
+
+                   <td id="plan_<%=ff.id%>"><%= print_plan(ff.id, @firmw.id, @mow, @year)%></td> 
+                    <td id="fact_<%=ff.id%>"><%= print_fact(ff.id, @firmw.id, @mow, @year)%></td>
+
+                     <td id="planned_<%=ff.id%>"><%= print_plan_payments(ff.id, @firmw.id, @mow, @year)%></td>
+                     
+                   <%end%>
+                </tr>
+                <%child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id])%>
+                 <% for ff2 in child2%>
+                   <tr>
+                     <% if ff2.typo == "1"%>
+                       <td><p style="padding-left:20px;"><b><%= ff2.name%></b></p></td>
+                       <td id="plan_<%=ff2.id%>"><%= print_plan(ff2.id, @firmw.id, @mow, @year)%></td> 
+                        <td id="fact_<%=ff2.id%>"><%= print_fact(ff2.id, @firmw.id, @mow, @year)%></td>
+
+                         <td id="planned_<%=ff2.id%>"><%= print_plan_payments(ff2.id, @firmw.id, @mow, @year)%></td>
+
+                   <% else%>
+                       <% if @persone.has_role?('roles.finotdel')%>
+
+                     <td><span style="color:blue; padding-left:20px; cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff2.id%>,'<%= ff2.name%>', '<%= ff.name%>')"><%= ff2.name%></span>
+                      <div id="form-<%=ff2.id%>" style="display:none;padding:10px;background-color: white;" >
+                        <input type="text" name="summ-<%=ff2.id%>" id="summ-<%=ff2.id%>">&nbsp;
+<span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ(<%=ff2.id%>)">обновить</span>
+                       </div>
+
+                     </td>
+                   <%else%>
+                       <td><span style="color:blue; padding-left:30px; cursor:pointer; cursor:hand;"  onclick="open_plan(<%= ff2.id %>)"><%= ff2.name%></span><div id="form-<%=ff2.id%>" style="display:none;padding:10px;background-color: white;" ></div>
+</td>
+
+                   <%end%>
+
+                   <td id="plan_<%=ff2.id%>"><%= print_plan(ff2.id, @firmw.id, @mow, @year)%></td> 
+                     <td id="planned_<%=ff2.id%>"><%= print_plan_payments(ff2.id, @firmw.id, @mow, @year)%></td>
+                     
+                   <%end%>
+                </tr>
+                <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
+                 <% for ff3 in child3%>
+                   <tr>
+                     <% if ff3.typo == "1"%>
+                       <td><p style="padding-left:30px;"><b><%= ff3.name%></b></p></td>
+                       <td id="plan_<%=ff3.id%>"><%= print_plan(ff3.id, @firmw.id, @mow, @year)%></td>
+                        <td id="fact_<%=ff3.id%>"><%= print_fact(ff3.id, @firmw.id, @mow, @year)%></td>
+
+                         <td id="planned_<%=ff3.id%>"><%= print_plan_payments(ff3.id, @firmw.id, @mow, @year)%></td>
+
+
+                    <% else%>
+  <% if @persone.has_role?('roles.finotdel')%>
+
+                     <td><span style="color:blue; padding-left:30px; cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff3.id %>, '<%= ff3.name%>', '<%= ff2.name%>')"><%= ff3.name%></span>
+                       <div id="form-<%=ff3.id%>" style="display:none;padding:10px;background-color: white;" >
+                        <input type="text" name="summ-<%=ff3.id%>" id="summ-<%=ff3.id%>">&nbsp;
+<span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ(<%=ff3.id%>)">обновить</span>
+                       </div>
+                     </td>  
+                       <%else%>
+                       <td><span style="color:blue; padding-left:30px; cursor:pointer; cursor:hand;"  onclick="open_plan(<%= ff3.id %>)"><%= ff3.name%></span><div id="form-<%=ff3.id%>" style="display:none;padding:10px;background-color: white;" ></div>
+</td>
+                     <%end%>
+                     <td id="plan_<%=ff3.id%>"><%= print_plan(ff3.id, @firmw.id, @mow, @year)%></td>
+                     <td id="fact_<%=ff3.id%>"><%= print_fact(ff3.id, @firmw.id, @mow, @year)%></td>
+                     <td id="planned_<%=ff3.id%>"><%= print_plan_payments(ff3.id, @firmw.id, @mow, @year)%></td>
+                   <%end%>
+               </tr>
+             <%end%>
+
+
+
+<%end%>
+
+                  <%end%>
+                  
+<%end%>
+
+
+
+              <%end%>
+            </table>
+      
+
+
+<center>
+
+          </div></div><br/></div>
+
+
+

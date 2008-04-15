@@ -1,0 +1,13 @@
+<h1>Редактирование фирмы</h1>
+
+<% form_tag :action => 'update', :id => @firm do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Сохранить' %>
+<% end %>
+
+<br>       
+      
+
+
+<%= link_to 'Показать детально', :action => 'show', :id => @firm %> |
+<%= link_to 'К общему списку', :action => 'list' %>

@@ -1,0 +1,27 @@
+<h1>Listing accepts</h1>
+
+<table>
+  <tr>
+  <% for column in Accept.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for accept in @accepts %>
+  <tr>
+  <% for column in Accept.content_columns %>
+    <td><%=h accept.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => accept %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => accept %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => accept }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @accept_pages.current.previous } if @accept_pages.current.previous %>
+<%= link_to 'Next page', { :page => @accept_pages.current.next } if @accept_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New accept', :action => 'new' %>

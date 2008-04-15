@@ -1,0 +1,8 @@
+<% for column in CurrenciesValue.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @currencies_value.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @currencies_value %> |
+<%= link_to 'Back', :action => 'list' %>

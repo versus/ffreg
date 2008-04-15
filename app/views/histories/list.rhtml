@@ -1,0 +1,27 @@
+<h1>Listing histories</h1>
+
+<table>
+  <tr>
+  <% for column in History.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for history in @histories %>
+  <tr>
+  <% for column in History.content_columns %>
+    <td><%=h history.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => history %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => history %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => history }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @history_pages.current.previous } if @history_pages.current.previous %>
+<%= link_to 'Next page', { :page => @history_pages.current.next } if @history_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New history', :action => 'new' %>

@@ -1,0 +1,9 @@
+<h1>Editing currency</h1>
+
+<% form_tag :action => 'update', :id => @currency do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @currency %> |
+<%= link_to 'Back', :action => 'list' %>

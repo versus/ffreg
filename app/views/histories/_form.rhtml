@@ -1,0 +1,13 @@
+<%= error_messages_for 'history' %>
+
+<!--[form:history]-->
+<p><label for="history_create_at">Create at</label><br/>
+<%= datetime_select 'history', 'create_at'  %></p>
+
+<p><label for="history_user">User</label><br/>
+<%= text_field 'history', 'user'  %></p>
+
+<p><label for="history_logstring">Logstring</label><br/>
+<%= text_field 'history', 'logstring'  %></p>
+<!--[eoform:history]-->
+

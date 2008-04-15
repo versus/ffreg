@@ -1,0 +1,277 @@
+<div class='flashMessage'>
+      <div class='flashMessageTop'>
+      </div>
+      <div class='flashMessageBody'>
+        <p id="greenid"><%= flash[:notice] %> </p>
+      </div>
+      <div class='flashMessageBtm'>
+      </div>
+    </div>
+
+
+
+<%= link_to 'новая заявка', :action => 'newpay' %>
+<br/><br/>
+<script>
+   function pay_closeback(idss){
+          var url = '/payments/paycloseback?payment_id='+idss;          
+          window.location.href=url; 
+        }
+  function pay_close(idss) {
+          var url = '/payments/payclose?payment_id='+idss;          
+          window.location.href=url; 
+        }
+
+function stopCount()
+{
+clearTimeout(t)
+}
+          function hold(idss) {
+          name_id="comments-"+idss;
+          comments_value=$F(name_id);
+          var url = '/payments/hold?id='+idss+'&comment='+comments_value;
+          window.location.href=url; 
+        }
+
+
+      </script>
+<h2 align="center">Рассматриваемый период  <%= @mow%> <%= @year%> год</h2> 
+                <center>
+<%for i in 2007..2010%>
+  <%= link_to i.to_s, :action => 'beznal', :year => i%> |
+<%end%>
+<br><br>
+
+<%for i in 0..12%>
+  <%= link_to @mounths[i], :action => 'beznal', :month => i%> |
+<%if i == 6 %><br><%end%>
+<%end%>
+</center>
+
+<br>
+<hr>
+
+<h1 style="font-size: 18px;">Список заявок</h1>
+<h4>-----------------------------------</h4>
+<h4>Не подписанные заявки за <%= @mow%> </h4>
+<style>
+    #payments_table th{ padding: 5px; color:red; border: 1px solid black }
+
+  #payments_table td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="payments_table" border=0 style="padding:5px; border: 1px solid black">
+  <tr>
+    <th>Назначение платежа</th>
+       <th>Фирма</th>
+
+   <th>Дата закрытия</th>
+   <th>Сумма </th>
+   <th>Валюта</th>
+  </tr>
+<% for payment in @payments_no_accept %>
+  <tr> <td width="400"><span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>');clearTimeout(t);"><%= payment.title%> </span></td> <td><%=payment.firm.name%></td>
+
+    <td> <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></td><td><%=payment.summ%> <%=payment.currency.small%></td><td><%=payment.currency.abbr%><%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+</td></tr>
+  <tr><td colspan="5" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+      <div >
+              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+      <b><span onclick="Effect.Fade('<%=payment.id%>');t=window.setTimeout('getSecs()',30000);" style="float:right;color:red; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+        <p>Категория: <b><%=payment.category.parent.name%>-<%=payment.category.name%></b></p>
+        <p>Фирма: <%=payment.firm.name%></p>
+        <p>Контрагент: <%=payment.contragent%></p>
+        
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></p>
+
+        <p><%=payment.comment%></b></p>
+        <p>Cумма платежа:(<%=payment.currency.abbr%>)  <b><%=payment.summ%> <b><%=payment.currency.small%></b></b></p>
+      
+
+
+
+                  </div>
+    </td>
+  </tr> 
+
+
+<% end %>
+</table> 
+<br>
+
+
+<h4>-----------------------------------</h4>
+<h4>Подписанные заявки за <%= @mow%> </h4>
+<style>
+    #accepts th{ padding: 5px; color:red; border: 1px solid black }
+
+  #accepts td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="accepts" border=0 style="padding:5px; border: 1px solid black">
+  <tr>
+    <th>Назначение платежа</th>
+       <th>Фирма</th>
+
+   <th>Дата закрытия</th>
+   <th>Сумма </th>
+   <th>Валюта</th>
+  </tr>
+<% for payment in @payments_accept %>
+  <tr> <td width="400"><span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>');clearTimeout(t);"><%= payment.title%> </span></td> <td><%=payment.firm.name%></td>
+
+    <td> <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></td><td><%=payment.summ%> <%=payment.currency.small%></td><td><%=payment.currency.abbr%><%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+</td></tr>
+  <tr><td colspan="5" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+      <div >
+              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+      <b><span onclick="Effect.Fade('<%=payment.id%>');t=window.setTimeout('getSecs()',30000);" style="float:right;color:red; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+        <p>Категория: <b><%=payment.category.parent.name%>-<%=payment.category.name%></b></p>
+        <p>Фирма: <%=payment.firm.name%></p>
+        <p>Контрагент: <%=payment.contragent%></p>
+
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></p>
+
+        <p><%=payment.comment%></b></p>
+        <p>Cумма платежа:(<%=payment.currency.abbr%>)  <b><%=payment.summ%> <b><%=payment.currency.small%></b></b></p>
+<br><br><span style="cursor:pointer; cursor:hand;font-size:16px;color:red" onclick="pay_close(<%=payment.id%>)">Оплачено</span>
+        
+
+
+
+
+                  </div>
+    </td>
+  </tr> 
+
+
+<% end %>
+</table> 
+<br>
+
+<h4>-----------------------------------</h4>
+<h4>Закрытые заявки за <%= @mow%> </h4>
+<style>
+    #accepts_close th{ padding: 5px; color:red; border: 1px solid black }
+
+  #accepts_close td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="accepts_close" border=0 style="padding:5px; border: 1px solid black">
+  <tr>
+    <th>Назначение платежа</th>
+           <th>Фирма</th>
+
+   <th>Дата закрытия</th>
+   <th>Сумма </th>
+   <th>Валюта</th>
+  </tr>
+<% for payment in @payments_close %>
+  <tr> <td width="400"><span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>');clearTimeout(t); "><%= payment.title%> </span></td> <td><%=payment.firm.name%></td>
+
+    <td> <%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%></td><td><%=payment.summ%> <%=payment.currency.small%></td><td><%=payment.currency.abbr%><%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+</td></tr>
+  <tr><td colspan="5" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+      <div >
+              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+      <b><span onclick="Effect.Fade('<%=payment.id%>');t=window.setTimeout('getSecs()',30000);" style="float:right;color:red; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+        <p>Категория: <b><%=payment.category.parent.name%>-<%=payment.category.name%></b></p>
+        <p>Фирма: <%=payment.firm.name%></p>
+        <p>Контрагент: <%=payment.contragent%></p>
+
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></p>
+        <p>Дата закрытия: <%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%></p>
+        <p>Cумма платежа:(<%=payment.currency.abbr%>)  <b><%=payment.summ%> <b><%=payment.currency.small%></b></b></p>
+      
+        <p><%=payment.comment%></b></p>
+
+           ------ Подписи и комментарии ------<br/><br/>
+      <% for comment in Accept.find(:all,:conditions =>["payment_id=?", payment.id], :order => 'create_at DESC') %>
+          <p><%=comment.create_at.strftime("%d.%m.%Y %H:%M")%> <%=comment.user.fio%>
+                  <%if comment.comment.to_s.length > 0 %>
+сказал:<br><br><%=comment.comment%><br>
+          <hr/>
+        <%end%>
+
+
+        <br></p>
+      <%end%>
+
+
+ <br><br><span style="cursor:pointer; cursor:hand;font-size:16px;color:red" onclick="pay_closeback(<%=payment.id%>)">Отменить оплату</span>
+
+                  </div>
+    </td>
+  </tr> 
+
+
+<% end %>
+</table> 
+<br>
+<h4>-----------------------------------</h4>
+<h4>Отклоненные заявки за <%= @mow%> </h4>
+<style>
+    #payments_hold th{ padding: 5px; color:red; border: 1px solid black }
+
+  #payments_hold td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+<table id="payments_hold" border=0 style="padding:5px; border: 1px solid black">
+  <tr>
+    <th>Назначение платежа</th>
+           <th>Фирма</th>
+
+   <th>Дата закрытия</th>
+   <th>Сумма </th>
+   <th>Валюта</th>
+  </tr>
+<% for payment in @payments_hold %>
+  <tr> <td width="400"><span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>');clearTimeout(t);"><%= payment.title%> </span></td>
+     <td><%=payment.firm.name%></td>
+
+    <td> <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></td><td><%=payment.summ%> <%=payment.currency.small%></td><td><%=payment.currency.abbr%><%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+</td></tr>
+  <tr><td colspan="5" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+      <div >
+              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+      <b><span onclick="Effect.Fade('<%=payment.id%>');t=window.setTimeout('getSecs()',30000);" style="float:right;color:red; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+        <p>Категория: <b><%=payment.category.parent.name%>-<%=payment.category.name%></b></p>
+        <p>Фирма: <%=payment.firm.name%></p>
+        <p>Контрагент: <%=payment.contragent%></p>
+
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%></p>
+
+        <p><%=payment.comment%></b></p>
+        <p>Cумма платежа:(<%=payment.currency.abbr%>)  <b><%=payment.summ%> <b><%=payment.currency.small%></b></b></p>
+      
+
+
+
+                  </div>
+    </td>
+  </tr> 
+
+
+<% end %>
+</table> 
+<br>
+<br />
+
+<%= link_to 'новая заявка', :action => 'newpay' %>
+

@@ -1,0 +1,8 @@
+<h1>Новый курс для валюты</h1>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Добавить" %>
+<% end %>
+
+<%= link_to 'Вернуться', :action => 'list' %>

@@ -1,0 +1,27 @@
+<div>
+        
+
+        <fieldset id="administrator">
+          <legend>Общий список пользователей</legend>
+          <!-- p><span class="highlight">This is the master log-in for your account.</span> Once your account is set up you can add accounts for other people as well. Each person will have their own username and password.</p>
+
+
+<h1>Общий список пользователей</h1 -->
+
+<table>
+  
+<% for user in @users %>
+  <tr>
+    <td><%=h user.login %></td>
+    <td><%= link_to 'Show', :action => 'show', :id => user %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => user %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => user }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Добавить пользователя', :action => 'new' %>
+</fieldset>
+</div>

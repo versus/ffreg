@@ -1,0 +1,13 @@
+<%= error_messages_for 'news' %>
+
+<!--[form:news]-->
+<p><label for="news_title">Title</label><br/>
+<%= text_field 'news', 'title'  %></p>
+
+<p><label for="news_create_at">Create at</label><br/>
+<%= datetime_select 'news', 'create_at'  %></p>
+
+<p><label for="news_message">Message</label><br/>
+<%= text_area 'news', 'message'  %></p>
+<!--[eoform:news]-->
+

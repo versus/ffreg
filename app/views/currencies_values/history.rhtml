@@ -1,0 +1,26 @@
+<h1>История котировок валют</h1>
+
+<table border="1">
+  <tr>
+    <th>Валюта</th>
+    <th>Котировка</th>
+    <th>Дата</th>
+
+  </tr>
+<% for currencies_value in @currencies_values %>
+  <tr>
+    <td><%=h currencies_value.currency.abbr %></td>
+    <td><%=h currencies_value.crossrate %></td>
+    <td><%=h currencies_value.create_at.strftime("%d.%m.%Y") %></td>
+
+
+  </tr>
+<% end %>
+</table>
+
+<%= link_to '<< Туда', { :page => @currencies_value_pages.current.previous } if @currencies_value_pages.current.previous %>
+<%= link_to 'Сюда >>', { :page => @currencies_value_pages.current.next } if @currencies_value_pages.current.next %> 
+
+<br />
+
+

@@ -1,0 +1,171 @@
+/* @override http://erikagreco.com/clients/simplyInvoices/site/styles/invoice02.css */
+
+/*--------------------------------------*/
+/* CSS CREATED BY ERIKA GRECO - 2007 ---*/
+/* WWW.ERIKAGRECO.COM ------------------*/
+/* Invoice Template Style 02 -----------*/
+/*--------------------------------------*/
+
+/*-------------------------------------------------*/
+/* GENERAL ----------------------------------------*/
+/*-------------------------------------------------*/
+#invoiceTemplate {
+	background: #fff;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+#invoiceTemplate ul {
+	list-style: none;
+}
+/*-------------------------------------------------*/
+/* CLASS ------------------------------------------*/
+/*-------------------------------------------------*/
+#invoiceTemplate .clear1 {
+	clear: none;
+}
+#invoiceTemplate .clear2 {
+	clear: both;
+}
+/*-------------------------------------------------*/
+/* ID ---------------------------------------------*/
+/*-------------------------------------------------*/
+/*---------------------*/
+/* Invoice Top --------*/
+/*---------------------*/
+#invoiceTemplate #invoiceTop {
+	padding-bottom: 20px;
+}                
+#invoiceTemplate #invoiceTop p {
+	background: #d1e5f7;
+	padding: 10px 10px 10px 20px;
+	border-bottom: 1px solid #86aacb;
+	font-size: 18px;
+	color: #004a80;
+	margin-bottom: 20px;
+}
+#invoiceTemplate #invoiceTop #invoiceLogo {
+	width: 250px;
+	padding: 20px;
+	float: left;
+	display: inline;     
+}
+#invoiceTemplate #invoiceTop #invoiceLogo img {
+	margin: auto;
+	display: block;
+}
+#invoiceTemplate #invoiceTop h5 {
+	float: left;
+	display: inline;
+	font-family: Georgia, Times, serif;
+	font-size: 16px;
+	color: #ababab;
+	font-style: italic;
+	font-weight: normal;
+	margin: 4px 10px 0 15px;
+	text-align: right;
+	width: 80px;
+}
+#invoiceTemplate #invoiceTop #sender {
+  clear: both;
+}
+#invoiceTemplate #invoiceTop ul {
+	float: left;
+	display: inline;
+	width: 217px;
+}
+#invoiceTemplate #invoiceTop li {
+	color: #004a80;
+	font-size: 14px;
+}
+#invoiceTemplate #invoiceTop li h4 {
+	font-size: 20px;
+	color: #448cca;
+	font-family: Georgia, Times, serif;
+	font-weight: normal;
+}          
+#invoice #invoiceTemplate #invoiceTop .btns {
+	display: block;
+}
+#invoice .address form textarea {
+    width: 270px;
+}
+/*---------------------*/
+/* Invoice Mid --------*/
+/*---------------------*/
+#invoiceTemplate #invoiceMid {
+	border-top: 3px double #e5e5e5;
+	border-bottom: 3px double #e5e5e5;
+	background: #f6f6f6;
+	padding: 20px;
+	font-size: 15px;
+	color: #444;	
+}                
+#invoiceTemplate #invoiceMid table {
+	width: 710px;
+}
+#invoiceTemplate #invoiceMid table td {
+	border: none;                        
+	margin: 0;
+	padding: 0 0 8px 0;
+	text-align: left;
+}
+#invoiceTemplate #invoiceMid table td.date {
+	width: 120px;
+}
+#invoiceTemplate #invoiceMid table td.hours {
+	width: 70px;
+}
+#invoiceTemplate #invoiceMid table td.links {
+	width: 100px;
+}
+/*---------------------*/
+/* Invoice Totals -----*/
+/*---------------------*/
+#invoiceTemplate #invoiceTotals {
+	padding: 20px;
+  background: #d1e5f7;
+	border-top: none;
+} 
+#invoiceTemplate #invoiceTotals #totals {
+  padding-top: 10px;
+  padding-bottom: 35px;
+}
+#invoiceTemplate #invoiceTotals ul {
+  margin-left: 24px;
+}
+#invoiceTemplate #invoiceTotals li span {
+	float: left;
+	display: block;
+	width: 154px;
+	font-family: Georgia, Times, serif;
+	color: #448cca;
+	font-size: 20px;
+	text-align: right;
+	margin-right: 8px;
+}
+#invoiceTemplate #invoiceTotals li {
+  clear: both;
+	color: #004a80;
+	font-size: 18px;
+	margin-bottom: 5px;
+}
+
+/*---------------------*/
+/* Invoice Btm --------*/
+/*---------------------*/
+#invoiceTemplate #invoiceBtm {
+	background: #fff;
+	border-top: none;
+} 
+#invoiceTemplate #invoiceBtm .footer {
+	margin-top: 25px;
+	font-size: 12px;
+	text-align: center;
+}
+#invoiceTemplate #invoiceBtm .footer img {
+    border: 0px
+}
+#invoiceTemplate #invoiceBtm #note {
+  font-size: 15px;
+  margin: 20px;
+	margin-bottom: 0px;
+}

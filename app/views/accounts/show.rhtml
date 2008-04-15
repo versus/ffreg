@@ -1,0 +1,9 @@
+<p>
+<b>Фирма:</b> <%=h @account.firm.name %><br>
+<b>Счет:</b> <%=h @account.name %><br>
+<b>Сумма:</b> <%=h @account.summ %> <%= @account.currency.small%><br>
+
+</p>
+
+<%= link_to 'Edit', :action => 'edit', :id => @account %> |
+<%= link_to 'Back', :action => 'list' %>

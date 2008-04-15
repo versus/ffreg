@@ -1,0 +1,14 @@
+<%= error_messages_for 'account' %>
+
+<p><label for="account_name">Название счета</label> <%= text_field 'account', 'name'  %></p>
+
+
+<p><label for="firm_id">Организация</label>
+<%= select  "account", "firm_id", Firm.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+</p>
+
+<p><label for="account_summ">Остатки</label> <%= text_field 'account', 'summ'  %></p>
+
+<p><label for="currency_id">Валюта</label> <%= select  "account", "currency_id", Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>
+</p>
+

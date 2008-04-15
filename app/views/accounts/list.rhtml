@@ -1,0 +1,49 @@
+   <div class='form greenSml'>
+        <div class='greenTopSml'>
+        </div>
+        <div class='dashboard'><h3>Список счетов </h3>
+            <div id='invoice'>
+            <div id='invoiceTemplate'>
+              <div id='invoiceMid'>
+                <ul id='invoiceTotals'>
+                  <%if session[:status]==2 || session[:status]==3 || session[:status]==4 || session[:status] ==111
+%>
+      <%@firms.each { |f|%>
+        <li><h3><%= f.name %></h3></li>
+        <ul>
+        <% f.accounts.each { |acc| %>
+        <li>
+        <%= link_to(h(acc.name), :action => "show", :id => acc) %>
+    <b> <%=acc.summ.to_s %></b> 
+    <%= acc.currency.small %>
+    </li>
+        <%}%>
+        </ul></li>
+        <%  }%>
+      <%elsif session[:status]==5 %>
+          <li><h3><%= @firm.name %></h3></li>
+        <ul>
+        <% @firm.accounts.each { |acc| %>
+        <li>
+        <%= link_to(h(acc.name), :action => "show", :id => acc) %>
+    <b> <%=acc.summ.to_s %></b> 
+    <%= acc.currency.small %>
+    </li>
+        <%}%>
+        </ul></li>
+
+      <%end%>
+      </ul>
+
+          </div>
+</div>
+<center><%= link_to 'Добавить счет', :action => 'new' if session[:status]==2 || session[:status]==3 || session[:status]==4
+ %></center>
+  </br>
+                <div class='clear2'>
+                </div>
+
+          </div><br/></div></div>
+
+
+
