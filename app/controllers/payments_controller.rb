@@ -357,43 +357,43 @@ class PaymentsController < ApplicationController
     @year=yy
     @month=mm
     
-    unless params[:order]==nil
-     order = order_close='' << params[:order] << ' DESC'
-   else
-	   order='prio DESC'
-   end
-
-   if session[:razdel]==nil  
-     session[:razdel]=1
-   end
     
-   unless params[:razdel]==nil
-     session[:razdel]=params[:razdel]
-   end
+    unless params[:order]==nil
+      order = order_close='' << params[:order] << ' DESC'
+    else
+	    order='prio DESC'
+    end
+
+    if session[:razdel]==nil  
+      session[:razdel]=1
+    end
+    
+    unless params[:razdel]==nil
+      session[:razdel]=params[:razdel]
+    end
                
-   @categories = Category.find(:all, :conditions => ["parent_id=0"])
-   @firm = Firm.find_by_id(firm_id)
+    @categories = Category.find(:all, :conditions => ["parent_id=0"])
+    @firm = Firm.find_by_id(firm_id)
 
-
-   if @persone.has_role?('view.payments.all')
-     if @persone.has_role?('roles.admin') || @persone.has_role?('roles.finotdel') 
-       if session[:razdel]== 0
-         @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=?",session[:razdel], firm_id] , :order => order, :limit => limits)
-       else
-         @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=? AND create_at > ? ",session[:razdel],firm_id, current_mon] , :order => order, :limit => limits)
-       end
-     elsif session[:razdel]== 10000 or  session[:razdel]== 15000 
-       @payments =Payment.find(:all, :conditions =>["status=? AND user_id=? ",session[:razdel], session[:user]] , :order => order, :limit => limits)
-     elsif session[:razdel]== 0
-       @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=?",session[:razdel], firm_id] , :order => order, :limit => limits)
-     else
-       if session[:razdel]== 2
-         @payments = Payment.find(:all, :conditions =>["status=? AND firm_id=? AND close_at > ? AND close_at < ? ",session[:razdel],firm_id, current_mon, next_mon] , :order => order, :limit => limits)
-       else
-         @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=? AND create_at > ? AND create_at < ? ",session[:razdel],firm_id, current_mon, next_mon] , :order => order, :limit => limits)
+    if @persone.has_role?('view.payments.all')
+      if @persone.has_role?('roles.admin') || @persone.has_role?('roles.finotdel') 
+        if session[:razdel]== 0
+          @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=?",session[:razdel], firm_id] , :order => order, :limit => limits)
+        else
+          @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=? AND create_at > ? ",session[:razdel],firm_id, current_mon] , :order => order, :limit => limits)
+        end
+      elsif session[:razdel]== 10000 or  session[:razdel]== 15000 
+        @payments =Payment.find(:all, :conditions =>["status=? AND user_id=? ",session[:razdel], session[:user]] , :order => order, :limit => limits)
+      elsif session[:razdel]== 0
+        @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=?",session[:razdel], firm_id] , :order => order, :limit => limits)
+      else
+        if session[:razdel]== 2
+          @payments = Payment.find(:all, :conditions =>["status=? AND firm_id=? AND close_at > ? AND close_at < ? ",session[:razdel],firm_id, current_mon, next_mon] , :order => order, :limit => limits)
+        else
+          @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=? AND create_at > ? AND create_at < ? ",session[:razdel],firm_id, current_mon, next_mon] , :order => order, :limit => limits)
         end
       end
-
+    
 #elsif   @persone.has_role?('view.payments.sklad')
     #закупки видны только фрегат и только безнал и только центральные закупки
 #    beznal_id=Currency.find(:first, :conditions =>["abbr=?", 'BNGRN']).id
@@ -404,7 +404,7 @@ class PaymentsController < ApplicationController
 
 
     elsif @persone.has_role?('view.payments.beznal')
-
+      
       beznal_id=Currency.find(:first, :conditions =>["abbr=?", 'BNGRN']).id
       beznalf_id=Currency.find(:first, :conditions =>["abbr=?", 'BNGRN_F']).id
 
@@ -418,9 +418,8 @@ class PaymentsController < ApplicationController
       if session[:razdel] == 12000
         budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=?", session[:month], session[:year], session[:firm]])
         if budget.status == "утверждено"
-  @payments=Payment.find(:all, :conditions=>["planned=1 AND year=? AND month=? AND firm_id=? AND category_id=? AND status=?", session[:year],session[:month], session[:firm], params[:cat_id], "999999"])
+          @payments=Payment.find(:all, :conditions=>["planned=1 AND year=? AND month=? AND firm_id=? AND category_id=? AND status=?", session[:year],session[:month], session[:firm], params[:cat_id], "999999"])
         end
-
       elsif  session[:razdel]== 10000 or  session[:razdel]== 15000 
         if @persone.has_role?('roles.partner')
           @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=? ",session[:razdel], firm_id] , :order => order, :limit => limits)
@@ -443,14 +442,13 @@ class PaymentsController < ApplicationController
       @bngrnf_summ=Payment.sum(:summ, :conditions => ["status=? AND firm_id=? AND currency_id=?  AND user_id=? AND create_at > ? " ,session[:razdel],firm_id, Currency.find_by_abbr('BNGRN_F'), session[:user], current_mon], :limit => limits)
 
       @usd_summ=Payment.sum(:summ, :conditions => ["status=? AND firm_id=? AND currency_id=?  AND user_id=? AND create_at > ? " ,session[:razdel],firm_id, Currency.find_by_abbr('USD'), session[:user], current_mon], :limit => limits)
-
     end
 
     @ngrn_summ=0 if @ngrn_summ== nil
     @bngrn_summ=0 if @bngrn_summ== nil
     @usd_summ=0 if @usd_summ== nil
     @bngrnf_summ=0 if @bngrnf_summ== nil
-end
+  end
 
   def trash
     @payment = Payment.find(:first, :conditions=>["id=?", params[:id]])
