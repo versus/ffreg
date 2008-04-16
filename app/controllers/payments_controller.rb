@@ -2,6 +2,18 @@ class PaymentsController < ApplicationController
   layout :writers_and_readers
   before_filter :check_authentication
   auto_complete_for :payment, :contragent
+  
+  before_filter :set_variables, :on => [  :list_planned, 
+                                          :list_drafts, 
+                                          :list_shared,
+                                          :list_unsigned,
+                                          :list_signed,
+                                          :list_closed,
+                                          :list_rejected,
+                                          :list_planned_rejected,
+                                          :list_deleted ]
+
+
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
@@ -371,7 +383,7 @@ class PaymentsController < ApplicationController
     unless params[:razdel]==nil
       session[:razdel]=params[:razdel]
     end
-               
+    
     @categories = Category.find(:all, :conditions => ["parent_id=0"])
     @firm = Firm.find_by_id(firm_id)
 
@@ -963,43 +975,102 @@ class PaymentsController < ApplicationController
   end
   
   def list_planned
-    set_variables
-    
     if @persone.has_role? 'view.payments.all'
-      #@payments = Payment.find_planned
-      @payments = @firm.payments.find_planned
-    elsif @persone.has_role? 'view.payments.firm'
-      @payments = @persone.firm.payments.find_planned
-    elsif @persone.has_role? 'view.payments.own'
-      @payments = @persone.payments.find_planned
+      @payments = @firm.payments.find_planned(@current_mon, @next_mon)
+    elsif @persone.has_role? 'roles.partner'
+      @payments = @persone.firm.payments.find_planned(@current_mon, @next_mon)
     else
-      logger.warn "Hacking_attempt by user " + @persone
-      @payments = []
+      @payments = @persone.payments.find_planned(@current_mon, @next_mon)
     end
+    render :template => false, :action => 'super_list'
   end
 
   def list_drafts
+    if @persone.has_role? 'roles.admin'
+      @payments = @firm.payments.find_drafts
+    # elsif @persone.has_role? 'roles.partner'
+    #   @payments = @persone.firm.payments.find_drafts
+    else
+      @payments = @persone.payments.find_drafts
+    end
+    render :template => false, :action => 'super_list'
   end
 
   def list_shared
+    if @persone.has_role? 'view.payments.all'
+      @payments = @firm.payments.find_shared
+    elsif @persone.has_role? 'roles.partner'
+      @payments = @persone.firm.payments.find_shared
+    else
+      @payments = @persone.payments.find_shared
+    end
+    render :template => false, :action => 'super_list'
   end
 
   def list_unsigned
+    if @persone.has_role? 'view.payments.all'
+      @payments = @firm.payments.find_unsigned
+    elsif @persone.has_role? 'roles.partner'
+      @payments = @persone.firm.payments.find_unsigned
+    else
+      @payments = @persone.payments.find_unsigned
+    end
+    render :template => false, :action => 'super_list'
   end
 
   def list_signed
+    if @persone.has_role? 'view.payments.all'
+      @payments = @firm.payments.find_signed(@current_mon, @next_mon)
+    elsif @persone.has_role? 'view.payments.firm'
+      @payments = @persone.firm.payments.find_signed(@current_mon, @next_mon)
+    else
+      @payments = @persone.payments.find_signed(@current_mon, @next_mon)
+    end
+    render :template => false, :action => 'super_list'
   end
 
   def list_closed
+    if @persone.has_role? 'view.payments.all'
+      @payments = @firm.payments.find_closed(@current_mon, @next_mon)
+    elsif @persone.has_role? 'view.payments.firm'
+      @payments = @persone.firm.payments.find_closed(@current_mon, @next_mon)
+    else
+      @payments = @persone.payments.find_closed(@current_mon, @next_mon)
+    end
+    render :template => false, :action => 'super_list'
   end
 
   def list_rejected
+    if @persone.has_role? 'view.payments.all'
+      @payments = @firm.payments.find_rejected(@current_mon, @next_mon)
+    elsif @persone.has_role? 'view.payments.firm'
+      @payments = @persone.firm.payments.find_rejected(@current_mon, @next_mon)
+    else
+      @payments = @persone.payments.find_rejected(@current_mon, @next_mon)
+    end
+    render :template => false, :action => 'super_list'
   end
 
   def list_planned_rejected
+    if @persone.has_role? 'view.payments.all'
+      @payments = @firm.payments.find_planned_rejected(@current_mon, @next_mon)
+    elsif @persone.has_role? 'view.payments.firm'
+      @payments = @persone.firm.payments.find_planned_rejected(@current_mon, @next_mon)
+    else
+      @payments = @persone.payments.find_planned_rejected(@current_mon, @next_mon)
+    end
+    render :template => false, :action => 'super_list'
   end
 
   def list_deleted
+    if @persone.has_role? 'view.payments.all'
+      @payments = @firm.payments.find_deleted(@current_mon, @next_mon)
+    elsif @persone.has_role? 'view.payments.firm'
+      @payments = @persone.firm.payments.find_deleted(@current_mon, @next_mon)
+    else
+      @payments = @persone.payments.find_deleted(@current_mon, @next_mon)
+    end
+    render :template => false, :action => 'super_list'
   end
   
   protected
@@ -1009,6 +1080,7 @@ class PaymentsController < ApplicationController
     set_user
     set_firm
     set_categories
+    set_period
   end
   
   def set_months
@@ -1030,6 +1102,60 @@ class PaymentsController < ApplicationController
   end
   
   def set_categories
-    
+    @categories = Category.find(:all, :conditions => ["parent_id=0"])
   end
+  
+  def set_limits
+    unless params[:limits].nil?
+      @limits = params[:limits]
+    else
+      @limits = nil
+    end
+  end
+  
+  #TODO refactor all implementation of periods
+  def set_period
+    if params[:year].nil? 
+      yy = session[:year] || Time.now.strftime("%Y").to_i
+    else 
+      yy = params[:year].to_i
+      mm = 1
+    end
+
+    if params[:month].nil?
+      mm = (session[:mmonth] || Time.now.month).to_i
+    elsif params[:month]=="0"
+      mm=0
+    else 
+      mm=params[:month].to_i
+    end
+
+    session[:year] = yy
+    session[:mmonth] = mm
+    @mow = @mounths[mm]
+
+    begin
+      @current_mon = Time.local(yy,mm,1)
+    rescue
+      @current_mon = Time.now
+    end
+
+    if mm == 12
+      mm_next =1
+      yy_next=yy+1
+    else
+      mm_next=mm+1
+      yy_next=yy
+    end
+    
+    begin
+      @next_mon=Time.local(yy_next,mm_next,1)
+    rescue
+      @next_mon=Time.now
+    end
+    
+    @year=yy
+    @month=mm    
+  end
+  
 end

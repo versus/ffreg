@@ -38,40 +38,47 @@ before_save :strip_HTML
   
   #
   def self.find_planned(start_month, end_month, order_by=nil, limit_by=nil)
-    find :all, 
-        :conditions => [ "status = 12000 AND create_at > ? AND create_at < ?" , start_month, end_month ]
+    find :all, :conditions => [ "status = 12000 AND create_at > ? AND create_at < ?" , start_month, end_month ]
   end
   
   #
   def self.find_drafts
+    find :all, :conditions => [ "status = 10000" ]
   end
   
   #
   def self.find_shared
+    find :all, :conditions => [ "status = 15000" ]
   end
 
   #
   def self.find_unsigned
+    find :all, :conditions => [ "status = 0" ]
   end
 
   #
-  def self.find_signed
+  def self.find_signed(start_month, end_month, order_by=nil, limit_by=nil)
+    find :all, :conditions => [ "status = 1 AND create_at > ? AND create_at < ?" , start_month, end_month ]
   end
 
   #
-  def self.find_closed
+  def self.find_closed(start_month, end_month, order_by=nil, limit_by=nil)
+    find :all, :conditions => [ "status = 2 AND close_at > ? AND close_at < ?" , start_month, end_month ]
   end
   
   #
-  def self.find_rejected
+  def self.find_rejected(start_month, end_month, order_by=nil, limit_by=nil)
+    find :all, :conditions => [ "status = 3 AND create_at > ? AND create_at < ?" , start_month, end_month ]
   end
 
   #
-  def self.find_planned_rejected
+  def self.find_planned_rejected(start_month, end_month, order_by=nil, limit_by=nil)
+    find :all, :conditions => [ "status = 8888 AND create_at > ? AND create_at < ?" , start_month, end_month ]
   end
   
   #
-  def self.find_deleted
+  def self.find_deleted(start_month, end_month, order_by=nil, limit_by=nil)
+    find :all, :conditions => [ "status = 666 AND create_at > ? AND create_at < ?" , start_month, end_month ]
   end
 
 end
