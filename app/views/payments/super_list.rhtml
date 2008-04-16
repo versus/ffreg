@@ -1,0 +1,16 @@
+<table border="0" cellspacing="5" cellpadding="5">
+	<tr>
+		<th>#</th>
+		<th>Title</th>
+		<th>Contragent</th>
+	</tr>
+
+	<% @payments.each do |payment| %>
+	<tr>
+		<td><%= payment.id %></td>
+		<td><%= payment.title %></td>
+		<td><%= payment.contragent %></td>
+	</tr>
+	<% end %>
+</table>
+
