@@ -1,8 +1,8 @@
 <script>
 
   function addsumm(id,name,name2){
-  summa=$('summ_'+id).value;
-  alert(id+"-"+name+""+name2+" сумма:"+summa);
+    summ_id="summ_"+id;
+  summa=$F(summ_id);
   var url = '/grands/add';
 		    var pars = 'id='+id+'&summ='+summa;
 		    var myAjax = new Ajax.Updater(
@@ -64,7 +64,7 @@
                      <% if ff.typo == "1"%>
                        --<%= ff.name%>
                    <% else%>
-                     ++<span style="color:blue;  cursor:pointer; cursor:hand;" onchange="addsumm(<%= ff.id %>,'<%= ff.name%>', '<%= ii.name%>' )"><%= ff.name%>  ----- <span id="spa_<%= ff.id%>"><input type="text" size="5" name="summ_<%= ff.id %>"></span></span>
+                     ++<span style="color:blue;  cursor:pointer; cursor:hand;" onchange="addsumm(<%= ff.id %>,'<%= ff.name%>', '<%= ii.name%>' )"><%= ff.name%>  ----- <span id="spa_<%= ff.id%>"><input type="text" size="5" name="summ_<%= ff.id %>" id="summ_<%= ff.id %>"></span></span>
                    <%end%>
                    </h6>
                 <%child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id])%>
@@ -73,7 +73,7 @@
                      <% if ff2.typo == "1"%>
                        ------<%= ff2.name%>
                      <% else%>
-                       ++<span style="color:blue;  cursor:pointer; cursor:hand;" onchange="addsumm(<%= ff2.id %>,'<%= ff2.name%>', '<%= ff.name%>' )"><%= ff2.name%>  ----- <span id="spa_<%= ff2.id%>"><input type="text" size="5" name="summ_<%= ff2.id %>"></span></span>
+                       ++<span style="color:blue;  cursor:pointer; cursor:hand;" onchange="addsumm(<%= ff2.id %>,'<%= ff2.name%>', '<%= ff.name%>' )"><%= ff2.name%>  ----- <span id="spa_<%= ff2.id%>"><input type="text" size="5"  id="summ_<%= ff.id %>" name="summ_<%= ff2.id %>"></span></span>
                    <%end%>
                  </h6>
                 <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
@@ -82,7 +82,7 @@
                      <% if ff3.typo == "1"%>
                        ---------<%= ff3.name%>
                      <% else%>
-                       ++<span style="color:blue;  cursor:pointer; cursor:hand;" onchange="addsumm(<%= ff3.id %>,'<%= ff3.name%>', '<%= ff2.name%>' )"><%= ff3.name%>  ----- <span id="spa_<%= ff3.id%>"><input type="text" size="5" name="summ_<%= ff3.id %>"></span></span>
+                       ++<span style="color:blue;  cursor:pointer; cursor:hand;" onchange="addsumm(<%= ff3.id %>,'<%= ff3.name%>', '<%= ff2.name%>' )"><%= ff3.name%>  ----- <span id="spa_<%= ff3.id%>"><input type="text" size="5"   id="summ_<%= ff3.id %>" name="summ_<%= ff3.id %>"></span></span>
                    <%end%>
                </h6>
              <%end%>
