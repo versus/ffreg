@@ -192,10 +192,18 @@ end
 
   end
 
+  def add_budget  
+    @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+    @year=session[:year] 
+    @categories = Category.find(:all, :conditions => ["parent_id=0"])
+    @firmw = Firm.find(:first, :conditions => ["id=?", session[:firm]])
+
+  end
+
   def showbudget
     @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
     @persone=User.find(session[:user])
- #---------------- перенос в начало функции ------    
+   
     if params[:year].nil? == true
     if session[:year].nil? ==true
       @year = Time.now.strftime("%Y")
@@ -234,10 +242,7 @@ end
     else
       @firmw = Firm.find(:first, :conditions => ["id=?", session[:firm]])
     end
-
-
-
-#-------------- конец блока для переноса 
+ 
     budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=?", session[:month], session[:year], session[:firm]])
     @can_add_payment = 0
     if budget.nil? == true

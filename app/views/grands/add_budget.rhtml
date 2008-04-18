@@ -1,0 +1,103 @@
+<script>
+
+  function addsumm(id,name,name2){
+  summa=$('summ_'+id).value;
+  alert(id+"-"+name+""+name2+" сумма:"+summa);
+  var url = '/grands/add';
+		    var pars = 'id='+id+'&summ='+summa;
+		    var myAjax = new Ajax.Updater(
+			      'greenid', 
+		                      	url, 
+		                      	{
+				                      method: 'post', 
+				                      parameters: pars
+                            });
+
+                            $('spa_'+id).innerHTML="<b>"+summa+"</b>";
+                          
+                        }
+</script>
+
+<div class='form greenSml'>
+        <div class='greenTopSml'>
+        </div>
+        <div class='dashboard'><h3>Бюджет фирмы <%= @firmw.name %> </h3>
+            <div id='invoice'>
+            <div id='invoiceTemplate'>
+              <div id='invoiceTop'><p>Создаем бюджет на  <%= session[:month]%> <%= @year%> </h1> </p>
+              </div>
+              <div id='invoiceMid'>
+
+                <center>
+                  <%for i in @year.to_i-3..@year.to_i+3%>
+                    <% if @year.to_i == i%>
+                      <span style="color:red"><b><%= i%></b></span> |
+                    <%else%>  
+                      <%= link_to i.to_s, :action => 'showbudget', :year => i%> |
+                    <%end%>  
+<%end%>
+<br><br>
+
+<%for i in 1..12%>
+                      <% if @mounths.index(session[:month]).to_i == i%>
+                      <span style="color:red"><b><%= session[:month]%></b></span> |
+                    <%else%>  
+                      <%= link_to @mounths[i], :action => 'showbudget', :month => i%> |
+                    <%end%>
+<%if i == 6 %><br><%end%>
+<%end%>
+</center>
+
+<br>
+<hr>
+
+    <div style="background-color: #fff;margin:10px; padding:20px; width:600px; border: 2px solid #000;">
+
+    </div>
+    <div id="category_changer" style="background-color: #fff; z-index:10; width:600px;; padding:30px;  z-index:2; top:50px; left:100px; border: 2px solid #000;">            
+      <div id="category_ch_content">
+              <%for ii in @categories%>
+                <h5><%= ii.name%></h5>
+                 <%child1 = Category.find(:all, :conditions => ["parent_id=?", ii.id])%>
+                 <% for ff in child1%>
+                   <h6>
+                     <% if ff.typo == "1"%>
+                       --<%= ff.name%>
+                   <% else%>
+                     ++<span style="color:blue;  cursor:pointer; cursor:hand;" onchange="addsumm(<%= ff.id %>,'<%= ff.name%>', '<%= ii.name%>' )"><%= ff.name%>  ----- <span id="spa_<%= ff.id%>"><input type="text" size="5" name="summ_<%= ff.id %>"></span></span>
+                   <%end%>
+                   </h6>
+                <%child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id])%>
+                 <% for ff2 in child2%>
+                   <h6>
+                     <% if ff2.typo == "1"%>
+                       ------<%= ff2.name%>
+                     <% else%>
+                       ++<span style="color:blue;  cursor:pointer; cursor:hand;" onchange="addsumm(<%= ff2.id %>,'<%= ff2.name%>', '<%= ff.name%>' )"><%= ff2.name%>  ----- <span id="spa_<%= ff2.id%>"><input type="text" size="5" name="summ_<%= ff2.id %>"></span></span>
+                   <%end%>
+                 </h6>
+                <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
+                 <% for ff3 in child3%>
+                   <h6>
+                     <% if ff3.typo == "1"%>
+                       ---------<%= ff3.name%>
+                     <% else%>
+                       ++<span style="color:blue;  cursor:pointer; cursor:hand;" onchange="addsumm(<%= ff3.id %>,'<%= ff3.name%>', '<%= ff2.name%>' )"><%= ff3.name%>  ----- <span id="spa_<%= ff3.id%>"><input type="text" size="5" name="summ_<%= ff3.id %>"></span></span>
+                   <%end%>
+               </h6>
+             <%end%>
+     <%end%>
+     <%end%>
+     <%end%>
+
+
+
+                
+            </div>
+          </div>
+ <center>
+
+          </div></div><br/></div>
+
+
+
