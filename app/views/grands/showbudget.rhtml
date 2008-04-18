@@ -157,7 +157,12 @@ function change_summ(idss){
 
     <div style="padding:10px; margin:10px; cursor: hands; cursor: pointer" onclick="Effect.Appear('ne_wb');"><b>Добавить заявку</b></div>
   <% end %>
-                      <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer"><a href="/grands/fullyear"><b>Годовой бюджет</b></a></div>
+  <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer"><a href="/grands/fullyear"><b>Годовой бюджет</b></a></div>
+
+  <% if @persone.has_role?('roles.finotdel')  %>
+    <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer"><a href="/grands/add_budget"><b>Внести месячный бюджет</b></a></div>
+  <% end %>
+
                       <%  if @persone.has_role?('roles.chiff') %>
   <%  if @can_add_payment==1 %>
     <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer"><a href="/grands/stoped"><b>На утверждение</b></a></div>
