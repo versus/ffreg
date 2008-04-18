@@ -143,8 +143,7 @@ end
     else
       flash[:error] = 'Ошибка создания.'
     end
-
-    redirect_to :action => 'showbudget', :id => @firmw 
+    #redirect_to :action => 'showbudget', :id => @firmw 
   end
 
   def stoped
