@@ -1,0 +1,14 @@
+blueprintcss-rails
+==================
+
+OVERVIEW
+--------
+
+* stylesheet_link_tag :blueprint
+
+AUTHORS
+-------
+
+* Josh Knowles    <joshknowles@gmail.com>
+
+Copyright (c) 2007 Josh Knowles, released under the MIT license

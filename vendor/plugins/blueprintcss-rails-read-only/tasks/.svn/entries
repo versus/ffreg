@@ -1,0 +1,40 @@
+8
+
+dir
+6
+http://blueprintcss-rails.googlecode.com/svn/trunk/tasks
+http://blueprintcss-rails.googlecode.com/svn
+
+
+
+2007-12-08T00:41:51.149436Z
+2
+joshknowles
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+6378306d-bb40-0410-ba15-db5c57956416
+
+blueprint.rake
+file
+
+
+
+
+2008-04-20T21:00:02.000000Z
+dcf1416e70937ca44f54187e3f801658
+2007-12-08T00:41:51.149436Z
+2
+joshknowles
+
