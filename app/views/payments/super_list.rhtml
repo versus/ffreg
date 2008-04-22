@@ -14,3 +14,848 @@
 	<% end %>
 </table>
 
+
+
+
+<style>
+    #button {color:#fff; font-weight:bold;}
+</style>
+
+<table border="0" style=" padding:10px">
+	<tr>
+		<td valign="top" style=" padding-left:10px;background:#ced9e7; border:1px solid blue; width:190px; margin:10px;">
+			<div style="background:#043a7c; margin-left:-10px;"><h4 style="color:#fff">.:Меню</h4></div>  
+          	<p>
+				<% if 'list_planned' == params[:action] %>
+    				<span style="color:red">Плановые</span>
+				<% else %>
+     				<%=link_to "Плановые", :action => 'list_planned' %> 
+				<% end %>
+    		</p>
+
+          	<p>
+				<% if 'list_drafts' == params[:action] %>
+    				<span style="color:red">Черновики</span>
+				<% else %>
+     				<%=link_to "Черновики", :action => 'list_drafts' %> 
+				<% end %>
+    		</p>
+
+          	<p>
+				<% if 'list_drafts' == params[:action] %>
+    				<span style="color:red">Черновики</span>
+				<% else %>
+     				<%=link_to "Черновики", :action => 'list_drafts' %> 
+				<% end %>
+    		</p>
+
+			<% if @persone.has_role?("roles.partner") %>
+          	<p>
+				<% if 'list_shared' == params[:action] %>
+    				<span style="color:red">Общие документы</span>
+				<% else %>
+     				<%=link_to "Общие документы", :action => 'list_shared' %> 
+				<% end %>
+    		</p>
+			<% end %>
+
+          	<p>
+				<% if 'list_unsigned' == params[:action] %>
+    				<span style="color:red">Не подписанные</span>
+				<% else %>
+     				<%=link_to "Не подписанные", :action => 'list_unsigned' %> 
+				<% end %>
+    		</p>
+
+          	<p>
+				<% if 'list_signed' == params[:action] %>
+    				<span style="color:red">Подписанные</span>
+				<% else %>
+     				<%=link_to "Подписанные", :action => 'list_signed' %> 
+				<% end %>
+    		</p>
+
+          	<p>
+				<% if 'list_closed' == params[:action] %>
+    				<span style="color:red">Закрытые</span>
+				<% else %>
+     				<%=link_to "Закрытые", :action => 'list_closed' %> 
+				<% end %>
+    		</p>
+
+          	<p>
+				<% if 'list_rejected' == params[:action] %>
+    				<span style="color:red">Отклоненные</span>
+				<% else %>
+     				<%=link_to "Отклоненные", :action => 'list_rejected' %> 
+				<% end %>
+    		</p>
+
+          	<p>
+				<% if 'list_planned_rejected' == params[:action] %>
+    				<span style="color:red">Отклоненные плановые</span>
+				<% else %>
+     				<%=link_to "Отклоненные плановые", :action => 'list_planned_rejected' %> 
+				<% end %>
+    		</p>
+
+          	<p>
+				<% if 'list_deleted' == params[:action] %>
+    				<span style="color:red">Удаленные</span>
+				<% else %>
+     				<%=link_to "Удаленные", :action => 'list_deleted' %> 
+				<% end %>
+    		</p>
+
+			<center>
+				<div style=" padding: 2px; color:red;background:#8bb4e6; margin:10px;border: 1px solid #043a7c; width:150px;">
+					<a href="/payments/newpay" id="button">новая заявка</a>
+				</div>
+			</center>
+
+<script>
+	function accept(idss) {
+		name_id="comments-"+idss;
+		comments_value=$F(name_id);
+		//alert(comments_value);
+		var url = '/accepts/add?payment_id='+idss+'&comment='+comments_value;
+		window.location.href=url; 
+	}
+        
+	function hold(idss) {
+		name_id="comments-"+idss;
+		comments_value=$F(name_id);
+		//alert(comments_value);
+		var url = '/payments/hold?payment_id='+idss+'&comment='+comments_value;
+		window.location.href=url; 
+	}
+	
+	function accept_back(idss) {
+		name_id="comments-"+idss;
+		comments_value=$F(name_id);
+		if(comments_value.length==0){
+		  alert("Введите причину отмены подписи в комментарии\n");}
+        else {
+          var url = '/payments/accept_back?id='+idss+'&comment='+comments_value;
+          window.location.href=url;
+        }
+	}
+        </script>
+
+      <script>
+        
+         function change_summ(payment_id){
+          str =new String($F('ch_summ_'+payment_id));
+          summ=str.replace(/\,/g,'.');
+          summ=parseFloat(summ);
+          if(summ > 0) {}
+          else { summ=0;}
+          currency_id = $F('current_payment_'+payment_id);
+          var url = '/payments/change_summ';
+		      var pars = 'payment_id='+payment_id+'&summ='+summ+'&currency_id='+currency_id;
+		      var myAjax = new Ajax.Updater(
+			                    'greenid', 
+		                      	url, 
+		                      	{
+				                      method: 'post', 
+				                      parameters: pars
+                            });
+                            <% small =Currency.find(:all)%>
+                            switch (currency_id){
+                            <%for s in small%>
+                              case "<%=s.id%>":
+                              abbr = "<%=s.small%>";
+                              dengi =  "<%=s.abbr%>";
+                              break
+
+                            <%end%>
+                          }
+                          $('psumm_'+payment_id).innerHTML="("+dengi+") <b>"+summ+" "+abbr+"</b>";
+                          $('abbrr2_'+payment_id).innerHTML=""+summ+" "+abbr+"";
+
+                         // $('abbrr_'+payment_id).innerHTML="("+dengi+")";
+                         Effect.Fade('inp_'+payment_id);
+Effect.Fade('s3_summa');
+Effect.Fade('s2_summa');
+Effect.Fade('s1_summa');
+
+
+                         Effect.Appear('supersumma')
+
+
+                        }
+                        global_payment_id=0;
+                        function cat_ch_tru(ff_id, ff_name, ff_parent){
+                          Effect.Fade('category_changer');
+                          payment_id=global_payment_id;
+                          cat_id= ff_id;
+                         var url = '/payments/cat_change';
+		                     var pars = 'payment_id='+payment_id+'&cat_id='+cat_id;
+		                     var myAjax = new Ajax.Updater(
+			                    'greenid', 
+		                      	url, 
+		                      	{
+				                      method: 'post', 
+				                      parameters: pars
+                            });
+
+                          $('pcat_'+payment_id).innerHTML=" "+ff_parent+" - "+ff_name
+                          
+                        }
+
+                        function change_cat(payment_id){
+                        global_payment_id=payment_id;
+                        Effect.Appear('category_changer');
+                        
+                        }
+
+      </script>
+
+			<div id="category_changer" style="display:none;background-color: #fff; z-index:10;position:absolute; width:500px;; padding:10px;  z-index:2; top:50px; left:100px; border: 2px solid #000;">
+				<b><span onclick="Effect.Fade('category_changer')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br />
+            	<div id="category_ch_content">
+					<% for ii in @categories %>
+						<h5><%= ii.name %></h5>
+                 		<% child1 = Category.find(:all, :conditions => ["parent_id=?", ii.id]) %>
+                 		<% for ff in child1 %>
+							<h6>
+							<% if ff.typo == "1" %>
+                       			--		<%= ff.name%>
+							<% else %>
+                     			++ <span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff.id %>,'<%= ff.name%>', '<%= ii.name%>' )"><%= ff.name%></span>
+                   			<% end %>
+							</h6>
+							
+							<% child2 = Category.find(:all, :conditions => ["parent_id=?", ff.id]) %>
+
+							<% for ff2 in child2 %>
+								<h6>
+                     				<% if ff2.typo == "1" %>
+                       				------<%= ff2.name %>
+									<% else %>
+									++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff2.id%>,'<%= ff2.name%>', '<%= ff.name%>')"><%= ff2.name%></span>
+									<% end %>
+								</h6>
+								<% child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id]) %>
+								<% for ff3 in child3 %>
+									<h6>
+									<% if ff3.typo == "1" %>
+										---------<%= ff3.name %>
+									<% else %>
+										++++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru(<%= ff3.id %>,'<%= ff3.name%>', '<%= ff2.name%>' )"><%= ff3.name%></span>
+                   					<% end %>
+									</h6>
+								<% end %>
+							<% end %>
+						<% end %>                
+					<% end %>
+            </div>
+		</div>
+	</td>
+	<td>
+		<h4>Заявки за <%= @mow %> <%=@year%> для фирмы <%= @firm.name%> </h4>
+
+		<% if @persone.has_role?('view.firms') %>
+			-----------------------------------<br/>
+			<% @firms=Firm.find(:all, :conditions =>["hidden=false"]) %>
+			<% for firm in @firms %>
+  				<% if firm.id == @firm.id %>
+    				<span style="color:red"><%= firm.name %></span> |
+				<% else %>  
+					<a href="/payments/list?firm=<%=firm.id%>&month=<%=@month%>"><%=firm.name%></a>|
+				<% end %>
+			<% end %> 
+			<br/> -----------------------------------
+		<% end %>
+
+<style>
+  #payments_table th{ padding: 5px; color:red; border: 1px solid black }
+  #payments_table td{ padding: 5px;color: #000; border: 1px solid black }
+</style>
+
+		<table id="payments_table" border=0 style="padding:5px; border: 1px solid black">
+  			<tr>
+				<td colspan="7" align="right">
+					<a href="/payments/printer?razdel=<%=session[:razdel]%>&firm=<%=session[:firm]%>&year=<%=@year%>&month=<%=@month%>&printer=1" target="_blank">Версия для печати</a>
+				</td>
+			</tr>
+  			<tr>
+				<td colspan="7" align="center">
+   					<center>
+						<% for i in 2007..2010 %>
+							<%= link_to i.to_s, :action => 'list', :year => i%> |
+						<% end %>
+						<br/>
+
+						<% for i in 0..12 %>
+  							<% if i==@month %>
+    							<span style="color:red"><%= @mounths[i] %></span>
+  							<% else %>
+    							<%= link_to @mounths[i], :action => 'list', :month => i%>
+  							<% end %>|
+							
+							<% if i == 6 %><br><% end %>
+						<% end %>
+					</center>
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="7">
+					<form action="/payments/poisk" method="get">
+        Поиск по номеру заявки: 
+						<input type="text" name="id" size="12" id="poisk">         
+						<input type="image" src="/images/but_search2.jpg" title="Искать!" alt="Искать!" style="border: none; height: 25px;">
+      				</form>						
+		    	</td>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="7">
+				Показать последние:  
+				<% for i in ["5", "10", "20", "30"] %>
+					<%= link_to i+" заявок", :action => 'list', :limits => i %> |
+				<% end %>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="7">
+				<h6>Итого:</h6>
+				<span id="s1_summa" style="margin-left:10px;padding:5px;">
+					<b>NGRN: <span style="color:#043a7c"><%= sprintf( "%.2f",@ngrn_summ).to_f %></span></b>
+				</span>
+				<span id="s2_summa" style="margin-left:10px;padding:5px;">
+					<b>BNGRN: <span style="color:#043a7c"><%=sprintf( "%.2f", @bngrn_summ).to_f%></span></b>
+				</span>
+				<span id="s3_summa" style="margin-left:10px;padding:5px;">
+					<b>USD: 
+						<span style="color:#043a7c">
+							<%=sprintf( "%.2f", @usd_summ).to_f%>
+						</span>
+					</b>
+				</span>
+
+  				<span id="s4_summa" style="margin-left:10px;padding:5px;">
+					<b>BNGRN_F: 
+						<span style="color:#043a7c">
+							<%= sprintf( "%.2f", @bngrnf_summ).to_f%>
+						</span>
+					</b>
+				</span>
+
+				<span style="margin-left:100px; display:none;" id="supersumma">
+					<b><a href="/payments/list" style="color:red">Суммы необходимо обновить!</a></b>
+				</span>
+			</td>
+		</tr>
+
+		<tr>
+			<th>№</th>
+			<th>Прио</th>
+			<th>Назначение платежа</th>
+			<th>
+				<% if 'contragent_asc' == params[:order_by] %>
+					<%= link_to 'Контрагент', {:order_by => 'contragent_desc', :month => @month } %>
+				<% else %>
+					<%= link_to 'Контрагент', {:order_by => 'contragent_asc', :month => @month } %>
+				<% end %>
+			</th>
+			<th>
+				<% if 'create_at_asc' == params[:order_by] %>
+					<%= link_to 'Дата otkritiya', {:order_by => 'create_at_desc', :month => @month } %>
+				<% else %>
+					<%= link_to 'Дата otkritiya', {:order_by => 'create_at_asc', :month => @month } %>
+				<% end %>
+			</th>
+			<th>
+				Дата zakritiya
+			</th>
+			<th>
+				<% if 'summ_asc' == params[:order_by] %>
+					<%= link_to 'Сумма', {:order_by => 'summ_desc', :month => @month } %>
+				<% else %>
+					<%= link_to 'Сумма', {:order_by => 'summ_asc', :month => @month } %>
+				<% end %>
+			</th>
+			<th>
+				<% if 'currency_asc' == params[:order_by] %>
+					<%= link_to 'Валюта', {:order_by => 'currency_desc', :month => @month } %>
+				<% else %>
+					<%= link_to 'Валюта', {:order_by => 'currency_asc', :month => @month } %>
+				<% end %>
+			</th>
+		</tr>
+
+		<% unless @payments.empty? 
+    		for payment in @payments %>
+  			<tr>
+				<td><%= payment.id%></td>
+				<td><% rating = "color"+payment.prio.to_s+".png" %><%= image_tag rating, :alt => "приоритет"%> </td>
+				<td width="400">
+					<span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>')"><%= payment.title%> </span>
+    			</td>
+    			<td><%=payment.contragent%></td>
+				<td><%= payment.create_at.day %>.<%=payment.create_at.mon %>.<%= payment.create_at.year %></td>
+    			<td>
+					<% if payment.closed? %>
+        				<%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%>
+      				<%end%>
+    			</td>
+    
+    			<td><span id="abbrr2_<%=payment.id%>"><%=payment.summ%> <%=payment.currency.small%></span>
+				</td>
+				
+				<td><%=payment.currency.abbr%>
+        			<% unless payment.currency_out == 0 %>
+          			=> <%=Currency.find(payment.currency_out).abbr%>
+      				<% end %>  
+  				</td>
+			</tr>
+
+			<tr>
+				<td colspan="7" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+        		<p id="error_close_<%=payment.id%>" style="color:red"></p>
+				<div><h4>Информация о заявке</h4>
+				<style>p {font-size:14px;}</style>
+				<b><span onclick="Effect.Fade('<%=payment.id%>')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+				<p>Фирма: <%=payment.firm.name%></p>
+
+				<% if payment.currency_out == 0 %>
+					<p>Бюджет: 
+						<b>
+        					<span id="pcat_<%=payment.id%>"
+           						<% if @persone.has_role?('roles.chiff') || @persone.has_role?('roles.finotdel') %>
+             					onclick="change_cat(<%=payment.id%>)"  style="cursor:pointer; cursor:hand;font-size:14px;color:blue"
+           						<% end %>>
+           				
+								<% unless payment.category.nil? %>
+									<%= payment.category.parent.name %>
+									-<%= payment.category.name %>  
+							</span>
+						</b>
+					</p>
+					
+					<p>Суммы бюджетов: <%gg = Grand.find(:first, :conditions =>["category_id=? AND firm_id=?", payment.category.id, payment.firm_id], :order => "id DESC")%> 
+
+                		<% unless gg.nil? %>
+
+                			<%= gg.plan %>| <%= gg.fact %>
+
+							<% else %>
+							<span style="color:red">Внимание завка не предусмотренна текущим бюджетом!</span>
+              				<% end %> | 
+						<% end %>
+					</p>
+      
+					<p>Контрагент: <%= payment.contragent %></p>
+				<% else %>
+              		<br>
+					<p>Валюта источник: <b><%= payment.currency.abbr %></b></p>
+					<p>Валюта назначения: <b><%= Currency.find(payment.currency_out).abbr %></b></p>
+              		<br/>
+				<% end %>
+
+				<p>Автор: <%= payment.user.fio%></p>
+        		<p>Дата создания: <%= payment.create_at.strftime("%d.%m.%Y")%></p>
+        		<p><b><%=payment.comment unless payment.comment.nil?%></b></p>
+      			<p>Cумма платежа: <span id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
+      				<span id="inp_<%=payment.id%>" style="display:none" >
+        				<input type="text" name="ch_summ_<%=payment.id%>" id="ch_summ_<%=payment.id%>">&nbsp;
+        				<%= select  "current_payment", payment.id , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>&nbsp;
+
+						<span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span>
+					</span>
+
+      				<div id="accept_box_<%=payment.id%>">
+        				<% if session[:razdel].to_i < 666 %>    
+                			------ Комментарий ------<br/>
+        					<p><input type="text" name="comments" size="40" id="comments-<%=payment.id%>"><br></p>
+						<% end %>
+    
+   
+    <p><b>
+  <%if session[:razdel].to_i==10000%>
+    <a href="/payments/editpay/<%=payment.id%>" >Редактировать</a>
+    <% if @persone.has_role?('role.partner.user') || @persone.has_role?('roles.partner') %>
+      --- <a href="/payments/chernovik/<%=payment.id%>" style="font-size:14px;color:green" >В общие документы</a>
+      --- <a href="/payments/foraccept/<%=payment.id%>" style="font-size:14px;color:green" >На подпись</a>
+
+  <%else%>
+      --- <a href="/payments/foraccept/<%=payment.id%>" style="font-size:14px;color:green" >На подпись</a>
+  <%end%>
+ ---<%= link_to 'Удалить', { :action => 'trash', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+
+      <%elsif session[:razdel].to_i==15000%>   
+ <% if @persone.has_role?('role.partner.user') %>
+    --- <a href="/payments/chernovik/<%=payment.id%>" style="font-size:14px;color:green" >В черновики</a>
+  <%else%> <a href="/payments/editpay/<%=payment.id%>" >Редактировать</a>
+
+      --- <a href="/payments/foraccept/<%=payment.id%>" style="font-size:14px;color:green" >На подпись</a>
+      ---<%= link_to 'Удалить', { :action => 'trash', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+  <%end%>
+    <%elsif session[:razdel].to_i==0%>  
+      <% if @persone.has_role?('roles.chiff') %>
+      <a href="javascript:accept(<%=payment.id%>)">Подписать</a> --------- 
+      <a href="javascript:hold(<%=payment.id%>)">Отклонить</a>
+    <%else%>
+          <% if @persone.has_role?('roles.partner') %>
+           <p><a href="/payments/chernovik/<%=payment.id%>" style="font-size:14px;color:green" >В общие документы</a></p>
+          <% else %>
+            <p><a href="/payments/chernovik/<%=payment.id%>" style="font-size:14px;color:green" >В черновики</a></p>
+          <%end%>
+      <%end%>
+    <%elsif session[:razdel].to_i==1%>  
+          <% if @persone.has_role?('roles.chiff') %>
+            <p><a href="javascript:accept_back(<%=payment.id%>)">Отменить подпись</a></p>
+          <%elsif @persone.has_role?('roles.finotdel') or @persone.has_role?('roles.buh') %>
+            <p><a href="/payments/payclose/<%=payment.id%>">Оплачено</a> ------- <a href="javascript:accept_back(<%=payment.id%>)">Отменить подпись</a></p>
+          <%else%>
+
+  <p><a href="javascript:accept_back(<%=payment.id%>)">Отменить подпись</a></p>
+
+
+          <%end %>
+        <%elsif session[:razdel].to_i==2%>  
+          <%if  @persone.has_role?('roles.finotdel') or @persone.has_role?('roles.buh') or @persone.has_role?('roles.admin')   %>
+            <p><a href="/payments/pay_recovery/<%=payment.id%>">Ошибочно проведенная</a></p>
+          <%end%>
+  <%elsif session[:razdel].to_i==3%>    
+    <p><a href="/payments/pay_new_as_old/<%=payment.id%>">Создать на основе</a></p>
+   ---<%= link_to 'Удалить', { :action => 'trash', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+ <%elsif session[:razdel].to_i==12000%>  
+    <p><a href="/payments/pay_new_as_old/<%=payment.id%>">Создать на основе</a></p>
+
+ <%elsif session[:razdel].to_i==666%>  
+    <p><a href="/payments/pay_new_as_old/<%=payment.id%>">Создать на основе</a></p>
+
+      <%else%>
+         состояние не определено
+
+    <%end%>
+  </b> </p>
+ </b>  </b> 
+ ------ <b>Примечание</b> ------<br/><br/>
+    
+    <% if session[:razdel].to_i > 0
+      for comment in Accept.find(:all,:conditions =>["payment_id=?", payment.id], :order => 'create_at DESC') %>
+          <p><%=comment.create_at.strftime("%d.%m.%Y")%> <%=comment.user.fio%>
+                  <%if comment.comment.to_s.length > 0 %><br><br><%=comment.comment%><br>
+          <hr/>
+        <%end%>
+        <br></p>
+
+      <%end
+    end
+    %>
+
+      </div>
+
+
+                  </div>
+    </td>
+  </tr> 
+<%end
+end
+%>
+
+<!-- --Начало дополнения-- -->
+
+<%
+  if @payadd.nil? == false
+  for payment in @payadd %>
+  
+  <tr>
+    <td><%= payment.id%></td>
+    <td><% rating = "color"+payment.prio.to_s+".png" %><%= image_tag rating, :alt => "приоритет"%> 
+</td>
+    <td width="400">
+      <span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>')"><%= payment.title%> </span>
+    </td>
+    <td><%=payment.contragent%></td>
+    <td>
+      <%unless session[:razdel].to_i > 1 and session[:razdel].to_i < 10000 %>
+        <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%>
+
+      <%else
+      if payment.close_at.nil?%>
+      <b>не определена</b>
+      <%else%>
+        <%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%>
+      <%end
+      end%>
+    </td>
+    
+    <td><span id="abbrr2_<%=payment.id%>"><%=payment.summ%> <%=payment.currency.small%></span></td><td><%=payment.currency.abbr%>
+        <%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+
+  </td></tr>
+  <tr><td colspan="7" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+        <p id="error_close_<%=payment.id%>" style="color:red"></p>
+        <div>              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+              <b><span onclick="Effect.Fade('<%=payment.id%>')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+              <p>Фирма: <%=payment.firm.name%></p>
+
+    <%if payment.currency_out == 0%>
+
+      <p>Бюджет: <b>
+        <span id="pcat_<%=payment.id%>"
+           <%if @persone.has_role?('roles.chiff')%>
+             onclick="change_cat(<%=payment.id%>)"  style="cursor:pointer; cursor:hand;font-size:14px;color:blue"
+           <% end%>
+         ><%=payment.category.parent.name%>-<%=payment.category.name%></span></b></p>
+                  <p>Суммы бюджетов: <%gg = Grand.find(:first, :conditions =>["category_id=? AND firm_id=?", payment.category.id, payment.firm_id], :order => "id DESC")%> 
+                <%unless gg.nil?%>
+                <%= gg.plan %>| <%=gg.fact%>
+
+              <%else%>
+                <span style="color:red">Внимание завка не предусмотренна текущим бюджетом!</span>
+              <%end%>|
+              </p>
+      
+              <p>Контрагент: <%=payment.contragent%></p>
+            <%else%>
+              <br>
+              <p>Валюта источник: <b><%=payment.currency.abbr%></b></p>
+              <p>Валюта назначения: <b><%=Currency.find(payment.currency_out).abbr%></b></p>
+
+              <br>
+      <%end%>
+
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.strftime("%d.%m.%Y")%></p>
+        <p><b><%=payment.comment unless payment.comment.nil?%></b></p>
+      <p>Cумма платежа: <span id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
+      <span id="inp_<%=payment.id%>" style="display:none" >
+        <input type="text" name="ch_summ_<%=payment.id%>" id="ch_summ_<%=payment.id%>">&nbsp;
+        <%= select  "current_payment", payment.id , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>&nbsp;
+
+<span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span></span>
+      <div id="accept_box_<%=payment.id%>">
+      
+        <%if session[:razdel].to_i==0 and @persone.has_role?('roles.chiff')%>    
+                ------ Комментарий ------<br/>
+
+        <p><input type="text" name="comments" size="40" id="comments-<%=payment.id%>"><br></p>
+    <%end%>
+    <br><br>
+ <p>
+  <%if session[:razdel].to_i==10000%>
+    <a href="/payments/editpay/<%=payment.id%>" >Редактировать</a>
+    <% if @persone.has_role?('roles.partner.user') || @persone.has_role?('roles.partner')  %>
+      --- <a href="/payments/chernovik/<%=payment.id%>" style="font-size:14px;color:green" >В общие черновики</a>
+
+  <%else%>
+      --- <a href="/payments/foraccept/<%=payment.id%>" style="font-size:14px;color:green" >На подпись</a>
+  <%end%>
+ ---<%= link_to 'Удалить', { :action => 'trash', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+
+      <%elsif session[:razdel].to_i==15000%>   
+ <% if @persone.has_role?('roles.partner.user') %>
+    --- <a href="/payments/chernovik/<%=payment.id%>" style="font-size:14px;color:green" >В черновики</a>
+  <%else%>
+        <a href="/payments/editpay/<%=payment.id%>" style="cursor:pointer; cursor:hand;font-size:14px;color:green" >Редактировать</a>
+      --- <a href="/payments/foraccept/<%=payment.id%>" style="font-size:14px;color:green" >На подпись</a>
+      ---<%= link_to 'Удалить', { :action => 'trash', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+  <%end%>
+    <%elsif session[:razdel].to_i==0%>  
+      <% if @persone.has_role?('roles.chiff') %>
+      <a href="javascript:accept(<%=payment.id%>)">Подписать</a> --------- 
+      <a href="javascript:hold(<%=payment.id%>)">Отклонить</a>
+      <%else%>
+         <p><a href="/payments/chernovik/<%=payment.id%>" style="font-size:14px;color:green" >В черновики</a></p>
+      <%end%>
+    <%elsif session[:razdel].to_i==1%>  
+          <% if @persone.has_role?('roles.chiff') %>
+            <p><a href="javascript:accept_back(<%=payment.id%>)">Отменить подпись</a></p>
+          <%elsif @persone.has_role?('roles.finotdel') or @persone.has_role?('roles.buh') %>
+            <p><a href="/payments/payclose/<%=payment.id%>">Оплачено</a> ------- <a href="javascript:accept_back(<%=payment.id%>)">Отменить подпись</a></p>
+          <%else%>
+
+  <p><a href="javascript:accept_back(<%=payment.id%>)">Отменить подпись</a></p>
+
+
+                      <%end %>
+        <%elsif session[:razdel].to_i==2%>  
+          <%if  @persone.has_role?('roles.finotdel') or @persone.has_role?('roles.buh')   %>
+            <p><a href="/payments/pay_recovery/<%=payment.id%>">Ошибочно проведенная</a></p>
+          <%end%>
+  <%elsif session[:razdel].to_i==3%>    
+    <p><a href="/payments/pay_new_as_old/<%=payment.id%>">Создать новую на основании</a></p>
+   ---<%= link_to 'Удалить', { :action => 'trash', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+
+ <%elsif session[:razdel].to_i==666%>  
+    <p><a href="/payments/pay_new_as_old/<%=payment.id%>">Создать новую на основании</a></p>
+
+      <%else%>
+         состояние не определено
+
+    <%end%>
+    </p>
+
+
+      </div>
+
+
+                  </div>
+    </td>
+  </tr> 
+<%end
+end
+%>
+
+<!-- --Конец дополнения-- -->
+
+<!-- --Начало личных заявок -- -->
+
+<%
+  if @payuser.nil? == false
+  for payment in @payuser %>
+  
+  <tr>
+    <td><%= payment.id%></td>
+    <td><% rating = "color"+payment.prio.to_s+".png" %><%= image_tag rating, :alt => "приоритет"%> 
+</td>
+    <td width="400">
+      <span style="cursor:pointer; cursor:hand; color:blue"  onclick="new Effect.Appear('<%=payment.id%>')"><%= payment.title%> </span>
+    </td>
+    <td><%=payment.contragent%></td>
+    <td>
+      <%unless session[:razdel].to_i > 1 and session[:razdel].to_i < 10000 %>
+        <%=payment.create_at.day%>.<%=payment.create_at.mon%>.<%=payment.create_at.year%>
+
+      <%else
+      if payment.close_at.nil?%>
+      <b>не определена</b>
+      <%else%>
+        <%=payment.close_at.day%>.<%=payment.close_at.mon%>.<%=payment.close_at.year%>
+      <%end
+      end%>
+    </td>
+    
+    <td><span id="abbrr2_<%=payment.id%>"><%=payment.summ%> <%=payment.currency.small%></span></td><td><%=payment.currency.abbr%>
+        <%unless payment.currency_out == 0%>
+          => <%=Currency.find(payment.currency_out).abbr%>
+      <%end%>  
+
+  </td></tr>
+  <tr><td colspan="7" id="<%=payment.id%>" style="display:none;padding:10px;background-color: white;" >
+        <p id="error_close_<%=payment.id%>" style="color:red"></p>
+        <div>              <h4>Информация о заявке</h4>
+              <style>p {font-size:14px;}</style>
+              <b><span onclick="Effect.Fade('<%=payment.id%>')" style="float:right; cursor:pointer; cursor:hand;font-size:12px;">закрыть</span></b><br>
+              <p>Фирма: <%=payment.firm.name%></p>
+
+    <%if payment.currency_out == 0%>
+
+      <p>Бюджет: <b>
+        <span id="pcat_<%=payment.id%>"
+           <%if @persone.has_role?('roles.chiff')%>
+             onclick="change_cat(<%=payment.id%>)"  style="cursor:pointer; cursor:hand;font-size:14px;color:blue"
+           <% end%>
+         ><%=payment.category.parent.name%>-<%=payment.category.name%></span></b></p>
+                  <p>Суммы бюджетов: <%gg = Grand.find(:first, :conditions =>["category_id=? AND firm_id=?", payment.category.id, payment.firm_id], :order => "id DESC")%> 
+                <%unless gg.nil?%>
+                <%= gg.plan %>| <%=gg.fact%>
+
+              <%else%>
+                <span style="color:red">Внимание завка не предусмотренна текущим бюджетом!</span>
+              <%end%>|
+              </p>
+      
+              <p>Контрагент: <%=payment.contragent%></p>
+            <%else%>
+              <br>
+              <p>Валюта источник: <b><%=payment.currency.abbr%></b></p>
+              <p>Валюта назначения: <b><%=Currency.find(payment.currency_out).abbr%></b></p>
+
+              <br>
+      <%end%>
+
+        <p>Автор: <%=payment.user.fio%></p>
+        <p>Дата создания: <%=payment.create_at.strftime("%d.%m.%Y")%></p>
+        <p><b><%=payment.comment unless payment.comment.nil?%></b></p>
+      <p>Cумма платежа: <span id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
+      <span id="inp_<%=payment.id%>" style="display:none" >
+        <input type="text" name="ch_summ_<%=payment.id%>" id="ch_summ_<%=payment.id%>">&nbsp;
+        <%= select  "current_payment", payment.id , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>&nbsp;
+
+<span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span></span>
+      <div id="accept_box_<%=payment.id%>">
+      
+        <%if session[:razdel].to_i==0 and @persone.has_role?('roles.chiff')%>    
+                ------ Комментарий ------<br/>
+
+        <p><input type="text" name="comments" size="40" id="comments-<%=payment.id%>"><br></p>
+    <%end%>
+    <br><br>
+ <p>
+  <%if session[:razdel].to_i==10000%>
+        <a href="/payments/editpay/<%=payment.id%>" >Редактировать</a>
+    <% if @persone.has_role?('role.partner.user') %>
+    --- <a href="/payments/chernovik/<%=payment.id%>" style="font-size:14px;color:green" >В общие черновики</a>
+  <%else%>
+      --- <a href="/payments/foraccept/<%=payment.id%>" style="font-size:14px;color:green" >На подпись</a>
+  <%end%>
+ ---<%= link_to 'Удалить', { :action => 'trash', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+
+      <%elsif session[:razdel].to_i==15000%>   
+ <% if @persone.has_role?('role.partner.user') %>
+    --- <a href="/payments/chernovik/<%=payment.id%>" style="font-size:14px;color:green" >В черновики</a>
+  <%else%>
+        <a href="/payments/editpay/<%=payment.id%>" >Редактировать</a>
+      --- <a href="/payments/foraccept/<%=payment.id%>" style="font-size:14px;color:green" >На подпись</a>
+      ---<%= link_to 'Удалить', { :action => 'trash', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+  <%end%>
+    <%elsif session[:razdel].to_i==1%>  
+    <% if @persone.has_role?('roles.chiff') %>
+            <p><a href="javascript:accept_back(<%=payment.id%>)">Отменить подпись</a></p>
+          <%elsif @persone.has_role?('roles.finotdel') or @persone.has_role?('roles.buh') %>
+            <p><a href="/payments/payclose/<%=payment.id%>">Оплачено</a> ------- <a href="javascript:accept_back(<%=payment.id%>)">Отменить подпись</a></p>
+          <%else%>
+
+  <p><a href="javascript:accept_back(<%=payment.id%>)">Отменить подпись</a></p>
+
+
+                      <%end %>
+
+
+
+  <%elsif session[:razdel].to_i==3%>    
+    <p><a href="/payments/pay_new_as_old/<%=payment.id%>">Создать новую на основе</a></p>
+   ---<%= link_to 'Удалить', { :action => 'trash', :id => payment.id }, :confirm => 'Вы уверены?', :method => :post %>
+
+ <%elsif session[:razdel].to_i==666%>  
+    <p><a href="/payments/pay_new_as_old/<%=payment.id%>">Создать новую на основе</a></p>
+
+      <%else%>
+         состояние не определено
+
+    <%end%>
+    </p>
+
+
+      </div>
+
+
+                  </div>
+    </td>
+  </tr> 
+<%end
+end
+%>
+
+<!-- --Конец личных данных-- -->
+
+
+</table><br>
+<br/><br/><br/>
+</td></tr>
+</table>
+<div style="clear"></div>
+
+

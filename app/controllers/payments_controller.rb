@@ -39,53 +39,6 @@ class PaymentsController < ApplicationController
   end
 
 
-
-  def open_plan
-    @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
-    
-    if session[:year].nil? ==true
-      year = Time.now.strftime("%Y")
-      session[:year] = year
-    else  
-      year=session[:year]
-    end
-  
-    firm_id=session[:firm]
-
-    if session[:month].nil? ==true
-       session[:month]=@mounths[Time.now.strftime("%m").to_i]
-    end
-
-    budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=?", session[:month], session[:year], session[:firm]])
-    @can_add_payment = 0
-    if budget.status == "подготовка"
-      @can_add_payment = 1
-    elsif budget.status == "защита"
-      @can_add_payment = 2
-    elsif budget.status == "утверждено"
-      @can_add_payment = 3
-    end
-    
-    @categories = Category.find(:all, :conditions => ["parent_id=0"])
-
-    @persone=User.find(session[:user])
-    @payments=Payment.find(:all, :conditions=>["planned=1 AND year=? AND month=? AND firm_id=? AND category_id=? AND status=?", session[:year],session[:month], session[:firm], params[:cat_id], "999999"])
-
-    unless @payments.empty? == false
-      render :text => "Плановых заявок за "+session[:month].to_s+" "+session[:year].to_s+" в данной категории нет!"
-    end
-
-    @ngrn_summ=Payment.sum(:summ, :conditions => ["planned=1 AND status=? AND firm_id=? AND currency_id=? AND category_id=?  AND month = ? AND year=? " ,"999999",firm_id, Currency.find_by_abbr('NGRN'), params[:cat_id], session[:month], session[:year]])
-
-    @bngrn_summ=Payment.sum(:summ, :conditions => ["planned=1 AND status=? AND firm_id=? AND currency_id=? AND category_id=?  AND month = ? AND year=? " ,"999999",firm_id, Currency.find_by_abbr('BNGRN'), params[:cat_id], session[:month], session[:year]])
-
-    @usd_summ=Payment.sum(:summ, :conditions => ["planned=1 AND status=? AND firm_id=? AND currency_id=? AND category_id=?  AND month = ? AND year=?  " ,"999999",firm_id, Currency.find_by_abbr('USD'), params[:cat_id], session[:month], session[:year]])
-
-    @ngrn_summ=0 if @ngrn_summ.nil?
-    @bngrn_summ=0 if @bngrn_summ.nil?
-    @usd_summ=0 if @usd_summ.nil?
-  end
-
   def pay_new_as_old
   #создание новой заявки на основе старой
     @persone=User.find(session[:user])
@@ -109,6 +62,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => "list"
   end
 
+
   def transfer
     @payment = Payment.new(params[:payment])
 
@@ -129,6 +83,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => "list"
   end
 
+  # find by number
   def poisk    
     unless params[:id]==nil
       begin
@@ -154,6 +109,9 @@ class PaymentsController < ApplicationController
    end
  end
 
+
+ #same as list
+ #TODO delete
  def printer
    @persone=User.find(session[:user])
 
@@ -212,6 +170,8 @@ class PaymentsController < ApplicationController
     end
   end
 
+
+  #editing draft
   def editpay
     @persone=User.find(session[:user])
     unless params[:id]==nil
@@ -228,6 +188,7 @@ class PaymentsController < ApplicationController
     end
   end
 
+  
   def accept_back
   #Возврат ошибочно подписанной заявки 
     if params[:id]==nil or params[:comment]==nil
@@ -265,6 +226,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => "list"
   end
 
+  #
   def pay_recovery
   #Возврат ошибочно проведенной заявки
     @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
@@ -405,15 +367,6 @@ class PaymentsController < ApplicationController
           @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=? AND create_at > ? AND create_at < ? ",session[:razdel],firm_id, current_mon, next_mon] , :order => order, :limit => limits)
         end
       end
-    
-#elsif   @persone.has_role?('view.payments.sklad')
-    #закупки видны только фрегат и только безнал и только центральные закупки
-#    beznal_id=Currency.find(:first, :conditions =>["abbr=?", 'BNGRN']).id
-#    category_zakupka=Category.find_by_name("Централизованная закупка")
-#    firm_fregat_id = Firm.find_by_name("Фрегат")
-#    @payments =Payment.find(:all, :conditions =>["status=? AND firm_id=? AND currency_id=? AND category_id=? AND create_at > ? AND create_at < ? ",session[:razdel],firm_fregat_id, beznal_id, category_zakupka, current_mon, next_mon ] , :order => order)
-#    @payadd =Payment.find(:all, :conditions =>["status=? AND firm_id=?  AND user_id=? AND create_at > ? AND create_at < ? ",session[:razdel],firm_id, session[:user], current_mon, next_mon] , :order => order)
-
 
     elsif @persone.has_role?('view.payments.beznal')
       
@@ -462,6 +415,7 @@ class PaymentsController < ApplicationController
     @bngrnf_summ=0 if @bngrnf_summ== nil
   end
 
+  #marking payment as deleted
   def trash
     @payment = Payment.find(:first, :conditions=>["id=?", params[:id]])
     
@@ -479,6 +433,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => 'index'
   end
 
+  #rejecting planned
   def trash_plan
     budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=?", session[:month], session[:year], session[:firm]])
     persone=User.find(session[:user])
@@ -504,6 +459,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => 'showbudget', :controller => 'grands'
   end
 
+  #status as draft
   def chernovik
     @payment = Payment.find(:first, :conditions=>["id=?", params[:id]])
     @persone=User.find(session[:user])
@@ -532,6 +488,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => 'list'
   end
 
+  #status 0 - unsigned
   def foraccept
   #первод заявки на подпись руководителю
     @payment = Payment.find(:first, :conditions=>["id=?", params[:id]])
@@ -555,7 +512,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => 'list'
   end
 
-
+  #status to closed
   def payclose
     #закрытие заявки в бухгалтерии или финотделе
     flag=0
@@ -656,6 +613,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => :list
   end
 
+  #
   def paycloseback
     unless session[:status] == 3 || session[:status] == 2 || session[:status] ==111|| session[:status] == 4
       list
@@ -683,6 +641,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => redir
   end
 
+  #
   def cat_change
   #В заявке изменилась категория расхода 
     unless session[:status] == 3 || session[:status] == 2
@@ -691,22 +650,23 @@ class PaymentsController < ApplicationController
     end
     
     @payment = Payment.find(:first, :conditions=>["id=?", params[:payment_id]])
-    @payment.category_id=params[:cat_id]
+    @payment.category_id = params[:cat_id]
     
     if @payment.save
       render :inline => 'Категория заявки обновлена!'
-      event=Event.new
-      event.create_at=Time.now
-      event.status=0    
-      event.payment_id=@payment.id
-      event.subject="В заявке <a href='/payments/poisk/"+@payment.id.to_s+"'>#"+@payment.id.to_s+"</a> изменена категория"
-      event.user_from=session[:user]
-      event.user_to=@payment.user.id
+      event = Event.new
+      event.create_at = Time.now
+      event.status = 0    
+      event.payment_id = @payment.id
+      event.subject = "В заявке <a href='/payments/poisk/"+ @payment.id.to_s + "'>#"+ @payment.id.to_s + "</a> изменена категория"
+      event.user_from = session[:user]
+      event.user_to = @payment.user.id
       event.save
     else
       render :inline => 'Заявка не может быть изменена!'
     end
   end
+  
   
   def change_summ
     #В заявке изменилась сумма расхода 
@@ -737,6 +697,7 @@ class PaymentsController < ApplicationController
     end
   end
 
+  #cancel signature
   def payment_cancel
     payment = Payment.find(:first, :conditions=>["id=?", params[:payment_id]])
     payment.status=0
@@ -763,6 +724,7 @@ class PaymentsController < ApplicationController
     redirect_to(:action => 'chiff')
   end
 
+  # reject
   def hold
       #Заявка была отклонена 
     @payment = Payment.find(:first, :conditions=>["id=?", params[:payment_id]])
@@ -799,7 +761,7 @@ class PaymentsController < ApplicationController
     
   end
 
-
+  #magic
   def newpay
     @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
     @year = Time.now.strftime("%Y")
@@ -809,11 +771,12 @@ class PaymentsController < ApplicationController
     @mow = @mounths[Time.now.strftime("%m").to_i]
   end
 
-
+  #
   def new
     @payment = Payment.new
   end
 
+  #
   def new_grand   
     #создание плановой заявки 
      @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
@@ -900,7 +863,7 @@ class PaymentsController < ApplicationController
     redirect_to :action => 'showbudget', :controller => :grands
   end
   
-
+  # new usual zayavko
   def create
      @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
     summ=params[:payment][:summ].to_s
@@ -953,7 +916,7 @@ class PaymentsController < ApplicationController
 
 
 	  
-
+  #
   def update
     @persone=User.find(session[:user]) 
     @payment = Payment.find(params[:id])
@@ -974,6 +937,8 @@ class PaymentsController < ApplicationController
 
   end
   
+  
+  #
   def list_planned
     if @persone.has_role? 'view.payments.all'
       @payments = @firm.payments.find_planned(@current_mon, @next_mon)
