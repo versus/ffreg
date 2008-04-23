@@ -952,11 +952,11 @@ class PaymentsController < ApplicationController
 
   def list_drafts
     if @persone.has_role? 'roles.admin'
-      @payments = @firm.payments.find_drafts
+      @payments = @firm.payments.find_drafts @order_by
     # elsif @persone.has_role? 'roles.partner'
     #   @payments = @persone.firm.payments.find_drafts
     else
-      @payments = @persone.payments.find_drafts
+      @payments = @persone.payments.find_drafts @order_by
     end
     render :template => false, :action => 'super_list'
   end
