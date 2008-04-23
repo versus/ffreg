@@ -300,15 +300,15 @@ Effect.Fade('s1_summa');
 			<td colspan="7">
 				<h6>Итого:</h6>
 				<span id="s1_summa" style="margin-left:10px;padding:5px;">
-					<b>NGRN: <span style="color:#043a7c"><%= sprintf( "%.2f",@ngrn_summ).to_f %></span></b>
+					<b>NGRN: <span style="color:#043a7c"><%= @ngrn_summ %></span></b>
 				</span>
 				<span id="s2_summa" style="margin-left:10px;padding:5px;">
-					<b>BNGRN: <span style="color:#043a7c"><%=sprintf( "%.2f", @bngrn_summ).to_f%></span></b>
+					<b>BNGRN: <span style="color:#043a7c"><%= @bngrn_summ%></span></b>
 				</span>
 				<span id="s3_summa" style="margin-left:10px;padding:5px;">
 					<b>USD: 
 						<span style="color:#043a7c">
-							<%=sprintf( "%.2f", @usd_summ).to_f%>
+							<%= @usd_summ%>
 						</span>
 					</b>
 				</span>
@@ -316,7 +316,7 @@ Effect.Fade('s1_summa');
   				<span id="s4_summa" style="margin-left:10px;padding:5px;">
 					<b>BNGRN_F: 
 						<span style="color:#043a7c">
-							<%= sprintf( "%.2f", @bngrnf_summ).to_f%>
+							<%= @bngrnf_summ%>
 						</span>
 					</b>
 				</span>
