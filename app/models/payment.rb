@@ -60,18 +60,24 @@ class Payment < ActiveRecord::Base
   end
   
   #
-  def self.find_drafts
-    find  :all, :conditions => [ "status = 10000" ]
+  def self.find_drafts(order_by=SORT_OPTIONS.first[:order])
+    find  :all, 
+          :conditions => [ "status = 10000" ],
+          :order => order_from_param(order_by)
   end
   
   #
-  def self.find_shared
-    find :all, :conditions => [ "status = 15000" ]
+  def self.find_shared(order_by=SORT_OPTIONS.first[:order])
+    find  :all, 
+          :conditions => [ "status = 15000" ],
+          :order => order_from_param(order_by)
   end
 
   #
-  def self.find_unsigned
-    find :all, :conditions => [ "status = 0" ]
+  def self.find_unsigned(order_by=SORT_OPTIONS.first[:order])
+    find  :all, 
+          :conditions => [ "status = 0" ],
+          :order => order_from_param(order_by)
   end
 
   #

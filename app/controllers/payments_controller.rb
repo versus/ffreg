@@ -941,11 +941,11 @@ class PaymentsController < ApplicationController
   #
   def list_planned
     if @persone.has_role? 'view.payments.all'
-      @payments = @firm.payments.find_planned(@current_mon, @next_mon)
+      @payments = @firm.payments.find_planned(@current_mon, @next_mon, @order_by)
     elsif @persone.has_role? 'roles.partner'
-      @payments = @persone.firm.payments.find_planned(@current_mon, @next_mon)
+      @payments = @persone.firm.payments.find_planned(@current_mon, @next_mon, @order_by)
     else
-      @payments = @persone.payments.find_planned(@current_mon, @next_mon)
+      @payments = @persone.payments.find_planned(@current_mon, @next_mon, @order_by)
     end
     render :template => false, :action => 'super_list'
   end
@@ -963,77 +963,77 @@ class PaymentsController < ApplicationController
 
   def list_shared
     if @persone.has_role? 'view.payments.all'
-      @payments = @firm.payments.find_shared
+      @payments = @firm.payments.find_shared @order_by
     elsif @persone.has_role? 'roles.partner'
-      @payments = @persone.firm.payments.find_shared
+      @payments = @persone.firm.payments.find_shared @order_by
     else
-      @payments = @persone.payments.find_shared
+      @payments = @persone.payments.find_shared @order_by
     end
     render :template => false, :action => 'super_list'
   end
 
   def list_unsigned
     if @persone.has_role? 'view.payments.all'
-      @payments = @firm.payments.find_unsigned
+      @payments = @firm.payments.find_unsigned @order_by
     elsif @persone.has_role? 'roles.partner'
-      @payments = @persone.firm.payments.find_unsigned
+      @payments = @persone.firm.payments.find_unsigned @order_by
     else
-      @payments = @persone.payments.find_unsigned
+      @payments = @persone.payments.find_unsigned @order_by
     end
     render :template => false, :action => 'super_list'
   end
 
   def list_signed
     if @persone.has_role? 'view.payments.all'
-      @payments = @firm.payments.find_signed(@current_mon, @next_mon)
+      @payments = @firm.payments.find_signed(@current_mon, @next_mon, @order_by)
     elsif @persone.has_role? 'view.payments.firm'
-      @payments = @persone.firm.payments.find_signed(@current_mon, @next_mon)
+      @payments = @persone.firm.payments.find_signed(@current_mon, @next_mon, @order_by)
     else
-      @payments = @persone.payments.find_signed(@current_mon, @next_mon)
+      @payments = @persone.payments.find_signed(@current_mon, @next_mon, @order_by)
     end
     render :template => false, :action => 'super_list'
   end
 
   def list_closed
     if @persone.has_role? 'view.payments.all'
-      @payments = @firm.payments.find_closed(@current_mon, @next_mon)
+      @payments = @firm.payments.find_closed(@current_mon, @next_mon, @order_by)
     elsif @persone.has_role? 'view.payments.firm'
-      @payments = @persone.firm.payments.find_closed(@current_mon, @next_mon)
+      @payments = @persone.firm.payments.find_closed(@current_mon, @next_mon, @order_by)
     else
-      @payments = @persone.payments.find_closed(@current_mon, @next_mon)
+      @payments = @persone.payments.find_closed(@current_mon, @next_mon, @order_by)
     end
     render :template => false, :action => 'super_list'
   end
 
   def list_rejected
     if @persone.has_role? 'view.payments.all'
-      @payments = @firm.payments.find_rejected(@current_mon, @next_mon)
+      @payments = @firm.payments.find_rejected(@current_mon, @next_mon, @order_by)
     elsif @persone.has_role? 'view.payments.firm'
-      @payments = @persone.firm.payments.find_rejected(@current_mon, @next_mon)
+      @payments = @persone.firm.payments.find_rejected(@current_mon, @next_mon, @order_by)
     else
-      @payments = @persone.payments.find_rejected(@current_mon, @next_mon)
+      @payments = @persone.payments.find_rejected(@current_mon, @next_mon, @order_by)
     end
     render :template => false, :action => 'super_list'
   end
 
   def list_planned_rejected
     if @persone.has_role? 'view.payments.all'
-      @payments = @firm.payments.find_planned_rejected(@current_mon, @next_mon)
+      @payments = @firm.payments.find_planned_rejected(@current_mon, @next_mon, @order_by)
     elsif @persone.has_role? 'view.payments.firm'
-      @payments = @persone.firm.payments.find_planned_rejected(@current_mon, @next_mon)
+      @payments = @persone.firm.payments.find_planned_rejected(@current_mon, @next_mon, @order_by)
     else
-      @payments = @persone.payments.find_planned_rejected(@current_mon, @next_mon)
+      @payments = @persone.payments.find_planned_rejected(@current_mon, @next_mon, @order_by)
     end
     render :template => false, :action => 'super_list'
   end
 
   def list_deleted
     if @persone.has_role? 'view.payments.all'
-      @payments = @firm.payments.find_deleted(@current_mon, @next_mon)
+      @payments = @firm.payments.find_deleted(@current_mon, @next_mon, @order_by)
     elsif @persone.has_role? 'view.payments.firm'
-      @payments = @persone.firm.payments.find_deleted(@current_mon, @next_mon)
+      @payments = @persone.firm.payments.find_deleted(@current_mon, @next_mon, @order_by)
     else
-      @payments = @persone.payments.find_deleted(@current_mon, @next_mon)
+      @payments = @persone.payments.find_deleted(@current_mon, @next_mon, @order_by)
     end
     render :template => false, :action => 'super_list'
   end
