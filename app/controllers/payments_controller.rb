@@ -13,15 +13,6 @@ class PaymentsController < ApplicationController
                                           :list_planned_rejected,
                                           :list_deleted ]
 
-  after_filter :count_agregates, :on => [ :list_planned, 
-                                          :list_shared,
-                                          :list_unsigned,
-                                          :list_signed,
-                                          :list_closed,
-                                          :list_rejected,
-                                          :list_planned_rejected,
-                                          :list_deleted ]
-
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
@@ -955,6 +946,7 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_planned(@current_mon, @next_mon, @order_by)
     end
+    count_aggregates
     render :template => false, :action => 'super_list'
   end
 
@@ -966,9 +958,7 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_drafts @order_by
     end
-    
-    count_agregates
-    
+    count_aggregates
     render :template => false, :action => 'super_list'
   end
 
@@ -980,6 +970,7 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_shared @order_by
     end
+    count_aggregates
     render :template => false, :action => 'super_list'
   end
 
@@ -991,6 +982,7 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_unsigned @order_by
     end
+    count_aggregates
     render :template => false, :action => 'super_list'
   end
 
@@ -1002,6 +994,7 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_signed(@current_mon, @next_mon, @order_by)
     end
+    count_aggregates
     render :template => false, :action => 'super_list'
   end
 
@@ -1013,6 +1006,7 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_closed(@current_mon, @next_mon, @order_by)
     end
+    count_aggregates
     render :template => false, :action => 'super_list'
   end
 
@@ -1024,6 +1018,7 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_rejected(@current_mon, @next_mon, @order_by)
     end
+    count_aggregates
     render :template => false, :action => 'super_list'
   end
 
@@ -1035,6 +1030,7 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_planned_rejected(@current_mon, @next_mon, @order_by)
     end
+    count_aggregates
     render :template => false, :action => 'super_list'
   end
 
@@ -1046,6 +1042,7 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_deleted(@current_mon, @next_mon, @order_by)
     end
+    count_aggregates
     render :template => false, :action => 'super_list'
   end
   
@@ -1142,7 +1139,7 @@ class PaymentsController < ApplicationController
     @month=mm    
   end
   
-  def count_agregates
+  def count_aggregates
     curr          = Currency.find_by_abbr('NGRN')
     @ngrn_summ    = @payments.select {|p| p.currency == curr }.inject(0.0) {|sum, p| sum + p.summ } || 0.0
     curr          = Currency.find_by_abbr('BNGRN')
