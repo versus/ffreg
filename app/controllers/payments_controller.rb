@@ -12,7 +12,15 @@ class PaymentsController < ApplicationController
                                           :list_rejected,
                                           :list_planned_rejected,
                                           :list_deleted ]
-
+  after_filter :count_agregates, :on => [  :list_planned, 
+                                          :list_drafts, 
+                                          :list_shared,
+                                          :list_unsigned,
+                                          :list_signed,
+                                          :list_closed,
+                                          :list_rejected,
+                                          :list_planned_rejected,
+                                          :list_deleted ]
 
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
@@ -1050,7 +1058,6 @@ class PaymentsController < ApplicationController
     
     set_limits
     set_period
-    set_agregates
   end
   
   def set_months
@@ -1132,7 +1139,7 @@ class PaymentsController < ApplicationController
     @month=mm    
   end
   
-  def set_agregates
+  def count_agregates
     curr = Currency.find_by_abbr('NGRN')
     @ngrn_summ    = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ } || 0.0
     curr = Currency.find_by_abbr('BNGRN')
