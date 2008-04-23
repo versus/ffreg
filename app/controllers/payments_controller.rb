@@ -14,7 +14,6 @@ class PaymentsController < ApplicationController
                                           :list_deleted ]
 
   after_filter :count_agregates, :on => [ :list_planned, 
-                                          :list_drafts, 
                                           :list_shared,
                                           :list_unsigned,
                                           :list_signed,
@@ -967,6 +966,9 @@ class PaymentsController < ApplicationController
     else
       @payments = @persone.payments.find_drafts @order_by
     end
+    
+    count_agregates
+    
     render :template => false, :action => 'super_list'
   end
 
