@@ -12,7 +12,8 @@ class PaymentsController < ApplicationController
                                           :list_rejected,
                                           :list_planned_rejected,
                                           :list_deleted ]
-  after_filter :count_agregates, :on => [  :list_planned, 
+
+  after_filter :count_agregates, :on => [ :list_planned, 
                                           :list_drafts, 
                                           :list_shared,
                                           :list_unsigned,
@@ -1140,6 +1141,7 @@ class PaymentsController < ApplicationController
   end
   
   def count_agregates
+<<<<<<< HEAD:app/controllers/payments_controller.rb
     curr = Currency.find_by_abbr('NGRN')
     @ngrn_summ    = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ } || 0
     curr = Currency.find_by_abbr('BNGRN')
@@ -1148,6 +1150,16 @@ class PaymentsController < ApplicationController
     @bngrnf_summ  = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ } || 0
     curr = Currency.find_by_abbr('USD')
     @usd_summ     = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ } || 0
+=======
+    curr          = Currency.find_by_abbr('NGRN')
+    @ngrn_summ    = @payments.select {|p| p.currency == curr }.inject {|sum, p| sum += p.summ } || 0.0
+    curr          = Currency.find_by_abbr('BNGRN')
+    @bngrn_summ   = @payments.select {|p| p.currency == curr }.inject {|sum, p| sum += p.summ } || 0.0
+    curr          = Currency.find_by_abbr('BNGRN_F')
+    @bngrnf_summ  = @payments.select {|p| p.currency == curr }.inject {|sum, p| sum += p.summ } || 0.0
+    curr          = Currency.find_by_abbr('USD')
+    @usd_summ     = @payments.select {|p| p.currency == curr }.inject {|sum, p| sum += p.summ } || 0.0
+>>>>>>> 4ff19da10a60d90b5258867e48fdd9a628d176d0:app/controllers/payments_controller.rb
   end
   
 end
