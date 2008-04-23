@@ -118,7 +118,8 @@
         </script>
 
       <script>
-        
+         <%if @persone.has_role?('roles.chiff')%>
+ 
          function change_summ(payment_id){
           str =new String($F('ch_summ_'+payment_id));
           summ=str.replace(/\,/g,'.');
@@ -158,7 +159,9 @@ Effect.Fade('s1_summa');
                          Effect.Appear('supersumma')
 
 
-                        }
+                       }
+
+                     <%end%>
                         global_payment_id=0;
                         function cat_ch_tru(ff_id, ff_name, ff_parent){
                           Effect.Fade('category_changer');
@@ -345,7 +348,7 @@ Effect.Fade('s1_summa');
 
       <p>Бюджет: <b>
         <span id="pcat_<%=payment.id%>"
-           <%if @persone.has_role?('roles.chiff') || @persone.has_role?('roles.finotdel') %>
+           <%if @persone.has_role?('roles.chiff') %>
              onclick="change_cat(<%=payment.id%>)"  style="cursor:pointer; cursor:hand;font-size:14px;color:blue"
            <% end%>
            >
@@ -374,12 +377,17 @@ Effect.Fade('s1_summa');
         <p>Автор: <%=payment.user.fio%></p>
         <p>Дата создания: <%=payment.create_at.strftime("%d.%m.%Y")%></p>
         <p><b><%=payment.comment unless payment.comment.nil?%></b></p>
-      <p>Cумма платежа: <span id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
+        <p>Cумма платежа:
+                   <%if @persone.has_role?('roles.chiff')  %>
+        <span id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
       <span id="inp_<%=payment.id%>" style="display:none" >
         <input type="text" name="ch_summ_<%=payment.id%>" id="ch_summ_<%=payment.id%>">&nbsp;
         <%= select  "current_payment", payment.id , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>&nbsp;
 
-<span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span></span>
+        <span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span></span>
+    <%else%>
+        <b><%=payment.summ%> <%=payment.currency.small%></b>
+    <%end%>
       <div id="accept_box_<%=payment.id%>">
       
         <%if session[:razdel].to_i < 666   %>    
@@ -543,12 +551,19 @@ end
         <p>Автор: <%=payment.user.fio%></p>
         <p>Дата создания: <%=payment.create_at.strftime("%d.%m.%Y")%></p>
         <p><b><%=payment.comment unless payment.comment.nil?%></b></p>
-      <p>Cумма платежа: <span id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
+        <p>Cумма платежа:
+                           <%if @persone.has_role?('roles.chiff')  %>
+        <span id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
       <span id="inp_<%=payment.id%>" style="display:none" >
         <input type="text" name="ch_summ_<%=payment.id%>" id="ch_summ_<%=payment.id%>">&nbsp;
         <%= select  "current_payment", payment.id , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>&nbsp;
 
-<span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span></span>
+        <span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span></span>
+    <%else%>
+        <b><%=payment.summ%> <%=payment.currency.small%></b>
+    <%end%>
+
+        
       <div id="accept_box_<%=payment.id%>">
       
         <%if session[:razdel].to_i==0 and @persone.has_role?('roles.chiff')%>    
@@ -693,12 +708,18 @@ end
         <p>Автор: <%=payment.user.fio%></p>
         <p>Дата создания: <%=payment.create_at.strftime("%d.%m.%Y")%></p>
         <p><b><%=payment.comment unless payment.comment.nil?%></b></p>
-      <p>Cумма платежа: <span id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
+        <p>Cумма платежа:
+                   <%if @persone.has_role?('roles.chiff') || @persone.has_role?('roles.finotdel') %>
+        <span id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style="cursor:pointer; cursor:hand;font-size:14px;color:blue">(<%=payment.currency.abbr%>) <b><%=payment.summ%> <%=payment.currency.small%></b></span></p>
       <span id="inp_<%=payment.id%>" style="display:none" >
         <input type="text" name="ch_summ_<%=payment.id%>" id="ch_summ_<%=payment.id%>">&nbsp;
         <%= select  "current_payment", payment.id , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %>&nbsp;
 
-<span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span></span>
+        <span style="cursor:pointer; cursor:hand;font-size:14px;color:red" onclick="change_summ('<%=payment.id%>')">обновить</span></span>
+    <%else%>
+        <b><%=payment.summ%> <%=payment.currency.small%></b>
+    <%end%>
+
       <div id="accept_box_<%=payment.id%>">
       
         <%if session[:razdel].to_i==0 and @persone.has_role?('roles.chiff')%>    
