@@ -1134,13 +1134,13 @@ class PaymentsController < ApplicationController
   
   def set_agregates
     curr = Currency.find_by_abbr('NGRN')
-    @ngrn_summ    = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ }
+    @ngrn_summ    = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ } || 0.0
     curr = Currency.find_by_abbr('BNGRN')
-    @bngrn_summ   = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ }
+    @bngrn_summ   = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ } || 0.0
     curr = Currency.find_by_abbr('BNGRN_F')
-    @bngrnf_summ  = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ }
+    @bngrnf_summ  = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ } || 0.0
     curr = Currency.find_by_abbr('USD')
-    @usd_summ     = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ }
+    @usd_summ     = @payments.select {|p| p.currency = curr }.inject {|sum, p| sum += p.summ } || 0.0
   end
   
 end
