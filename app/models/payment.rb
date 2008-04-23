@@ -109,6 +109,23 @@ class Payment < ActiveRecord::Base
           :order => order_from_param(order_by)
   end
   
+  #
+  def self.sum_ngrn
+  end
+
+  #
+  def self.sum_bngrn
+  end
+
+  #
+  def self.sum_bngrnf
+  end
+
+  #
+  def self.sum_usd
+  end
+
+  #
   def self.order_from_param( param )
     order = SORT_OPTIONS.detect do |option|
       option[:param] == param

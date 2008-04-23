@@ -1,22 +1,3 @@
-<table border="0" cellspacing="5" cellpadding="5">
-	<tr>
-		<th>#</th>
-		<th>Title</th>
-		<th>Contragent</th>
-	</tr>
-
-	<% @payments.each do |payment| %>
-	<tr>
-		<td><%= payment.id %></td>
-		<td><%= payment.title %></td>
-		<td><%= payment.contragent %></td>
-	</tr>
-	<% end %>
-</table>
-
-
-
-
 <style>
     #button {color:#fff; font-weight:bold;}
 </style>
@@ -30,14 +11,6 @@
     				<span style="color:red">Плановые</span>
 				<% else %>
      				<%=link_to "Плановые", :action => 'list_planned' %> 
-				<% end %>
-    		</p>
-
-          	<p>
-				<% if 'list_drafts' == params[:action] %>
-    				<span style="color:red">Черновики</span>
-				<% else %>
-     				<%=link_to "Черновики", :action => 'list_drafts' %> 
 				<% end %>
     		</p>
 
@@ -283,7 +256,8 @@ Effect.Fade('s1_summa');
 				<td colspan="7" align="center">
    					<center>
 						<% for i in 2007..2010 %>
-							<%= link_to i.to_s, :action => 'list', :year => i%> |
+							<%#= link_to i.to_s, :action => 'list', :year => i%> |
+							<%= link_to i.to_s, :action => params[:action], :year => i, :month => params[:month] %> |
 						<% end %>
 						<br/>
 
@@ -291,7 +265,8 @@ Effect.Fade('s1_summa');
   							<% if i==@month %>
     							<span style="color:red"><%= @mounths[i] %></span>
   							<% else %>
-    							<%= link_to @mounths[i], :action => 'list', :month => i%>
+    							<%#= link_to @mounths[i], :action => 'list', :month => i%>
+								<%= link_to @mounths[i], :action => params[:action], :year => params[:year], :month => i %>
   							<% end %>|
 							
 							<% if i == 6 %><br><% end %>
@@ -315,7 +290,8 @@ Effect.Fade('s1_summa');
 			<td colspan="7">
 				Показать последние:  
 				<% for i in ["5", "10", "20", "30"] %>
-					<%= link_to i+" заявок", :action => 'list', :limits => i %> |
+					<%#= link_to i+" заявок", :action => 'list', :limits => i %> |
+					<%= link_to i+" заявок", :action => params[:action], :limits => i, :year => @year, :month => @month %> |
 				<% end %>
 			</td>
 		</tr>
@@ -357,16 +333,16 @@ Effect.Fade('s1_summa');
 			<th>Назначение платежа</th>
 			<th>
 				<% if 'contragent_asc' == params[:order_by] %>
-					<%= link_to 'Контрагент', {:order_by => 'contragent_desc', :month => @month } %>
+					<%= link_to 'Контрагент', {:order_by => 'contragent_desc', :month => @month, :year => @year, :limits => @limits } %>
 				<% else %>
-					<%= link_to 'Контрагент', {:order_by => 'contragent_asc', :month => @month } %>
+					<%= link_to 'Контрагент', {:order_by => 'contragent_asc', :month => @month, :year => @year, :limits => @limits } %>
 				<% end %>
 			</th>
 			<th>
 				<% if 'create_at_asc' == params[:order_by] %>
-					<%= link_to 'Дата otkritiya', {:order_by => 'create_at_desc', :month => @month } %>
+					<%= link_to 'Дата otkritiya', {:order_by => 'create_at_desc', :month => @month, :year => @year, :limits => @limits } %>
 				<% else %>
-					<%= link_to 'Дата otkritiya', {:order_by => 'create_at_asc', :month => @month } %>
+					<%= link_to 'Дата otkritiya', {:order_by => 'create_at_asc', :month => @month, :year => @year, :limits => @limits } %>
 				<% end %>
 			</th>
 			<th>
@@ -374,16 +350,16 @@ Effect.Fade('s1_summa');
 			</th>
 			<th>
 				<% if 'summ_asc' == params[:order_by] %>
-					<%= link_to 'Сумма', {:order_by => 'summ_desc', :month => @month } %>
+					<%= link_to 'Сумма', {:order_by => 'summ_desc', :month => @month, :year => @year, :limits => @limits } %>
 				<% else %>
-					<%= link_to 'Сумма', {:order_by => 'summ_asc', :month => @month } %>
+					<%= link_to 'Сумма', {:order_by => 'summ_asc', :month => @month, :year => @year, :limits => @limits } %>
 				<% end %>
 			</th>
 			<th>
 				<% if 'currency_asc' == params[:order_by] %>
-					<%= link_to 'Валюта', {:order_by => 'currency_desc', :month => @month } %>
+					<%= link_to 'Валюта', {:order_by => 'currency_desc', :month => @month, :year => @year, :limits => @limits } %>
 				<% else %>
-					<%= link_to 'Валюта', {:order_by => 'currency_asc', :month => @month } %>
+					<%= link_to 'Валюта', {:order_by => 'currency_asc', :month => @month, :year => @year, :limits => @limits } %>
 				<% end %>
 			</th>
 		</tr>

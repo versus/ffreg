@@ -1,3 +1,4 @@
+#TODO replace with restful_authentication
 class User < ActiveRecord::Base
   belongs_to :firm
   has_many :payments
@@ -37,7 +38,11 @@ class User < ActiveRecord::Base
   end
   
   def password
-    BCrypt::Password.new(self.password_hash) unless self.password_hash.blank?
+    if self.password_hash.blank?
+      @password
+    else
+      BCrypt::Password.new(self.password_hash) #unless self.password_hash.blank?
+    end
   end
 
 

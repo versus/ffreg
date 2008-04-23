@@ -409,10 +409,10 @@ class PaymentsController < ApplicationController
       @usd_summ=Payment.sum(:summ, :conditions => ["status=? AND firm_id=? AND currency_id=?  AND user_id=? AND create_at > ? " ,session[:razdel],firm_id, Currency.find_by_abbr('USD'), session[:user], current_mon], :limit => limits)
     end
 
-    @ngrn_summ=0 if @ngrn_summ== nil
-    @bngrn_summ=0 if @bngrn_summ== nil
-    @usd_summ=0 if @usd_summ== nil
-    @bngrnf_summ=0 if @bngrnf_summ== nil
+    @ngrn_summ    ||= 0    #if @ngrn_summ== nil
+    @bngrn_summ   ||= 0   #if @bngrn_summ== nil
+    @usd_summ     ||= 0     #if @usd_summ== nil
+    @bngrnf_summ  ||= 0  #if @bngrnf_summ== nil
   end
 
   #marking payment as deleted
@@ -1045,7 +1045,12 @@ class PaymentsController < ApplicationController
     set_user
     set_firm
     set_categories
+    
+    set_order_by
+    
+    set_limits
     set_period
+    set_agregates
   end
   
   def set_months
@@ -1068,6 +1073,10 @@ class PaymentsController < ApplicationController
   
   def set_categories
     @categories = Category.find(:all, :conditions => ["parent_id=0"])
+  end
+  
+  def set_order_by
+    @order_by ||= params[:order_by]
   end
   
   def set_limits
@@ -1121,6 +1130,13 @@ class PaymentsController < ApplicationController
     
     @year=yy
     @month=mm    
+  end
+  
+  def set_agregates
+    @ngrn_summ    = 0.0
+    @bngrn_summ   = 0.0
+    @bngrnf_summ  = 0.0
+    @usd_summ     = 0.0
   end
   
 end
