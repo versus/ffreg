@@ -130,7 +130,7 @@ end
           grand.accept=0
         else
           summm_old=grand.plan
-          delparentsumm(grand.id, summm_old, @firmw.id)
+          #delparentsumm(grand.id, summm_old, @firmw.id)
           grand.plan=params[:summ]
           grand.create_at= Time.now
         end
@@ -139,11 +139,11 @@ end
       flash[:notice] = 'Статья бюджета создана.'
       grand.reload
       ident=grand.id
-      addparentsumm(ident, grand.plan, @firmw.id)
+      #addparentsumm(ident, grand.plan, @firmw.id)
     else
       flash[:error] = 'Ошибка создания.'
     end
-    #redirect_to :action => 'showbudget', :id => @firmw 
+    redirect_to :action => 'showbudget', :id => @firmw 
   end
 
   def stoped
