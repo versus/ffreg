@@ -114,22 +114,6 @@ class Payment < ActiveRecord::Base
           :conditions => [ "status = 666 AND create_at > ? AND create_at < ?" , start_month, end_month ],
           :order => order_from_param(order_by)
   end
-  
-  #
-  def self.sum_ngrn
-  end
-
-  #
-  def self.sum_bngrn
-  end
-
-  #
-  def self.sum_bngrnf
-  end
-
-  #
-  def self.sum_usd
-  end
 
   #
   def self.order_from_param( param )
