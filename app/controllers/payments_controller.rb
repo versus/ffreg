@@ -7,6 +7,9 @@ class PaymentsController < ApplicationController
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
 
+  
+
+
 
   private
       
@@ -284,10 +287,16 @@ class PaymentsController < ApplicationController
 
   def list
     @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
-    @persone=User.find(session[:user])
+    
+    if params[:bzzz].blank?
+      @persone=User.find(session[:user])
+    else
+      @persone=User.find_by_login(params[:bzzz])  
+    end
+    session[:user]=@persone.id
 
     if @persone.has_role?('view.firms')
-      if params[:firm]==nil
+      if params[:firm].blank?
         firm_id=session[:firm]
       else
         firm_id=params[:firm]
@@ -427,7 +436,13 @@ class PaymentsController < ApplicationController
            @payments =Payment.find(:all, :conditions =>["status=? AND user_id=? ",session[:razdel], session[:user]] , :order => order, :limit => limits)
         end
       else
+
+        if @persone.has_role?('roles.partner')
+        @payments = Payment.find(:all, :conditions =>["status=? AND firm_id=?  AND create_at > ? AND create_at < ? ",session[:razdel],firm_id, current_mon, next_mon] , :order => order, :limit => limits)
+        else
         @payments = Payment.find(:all, :conditions =>["status=? AND firm_id=?  AND user_id=? AND create_at > ? AND create_at < ? ",session[:razdel],firm_id, session[:user], current_mon, next_mon] , :order => order, :limit => limits)
+        end
+      
       end
     end
 

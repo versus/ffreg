@@ -197,6 +197,8 @@ id="psumm_<%=payment.id%>" onclick=" Effect.Appear('inp_<%=payment.id%>')" style
                 ------ Комментарий ------<br/>
 
                 <p><%= payment.comment%><br></p>
+
+                <input type="text" name="comm" id="com_<%= payment.id%>">
               </div>
               <br>
               <% if @can_add_payment == 1 || @can_add_payment ==2 %>

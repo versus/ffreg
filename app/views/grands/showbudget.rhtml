@@ -209,9 +209,9 @@ function change_summ(idss){
       <table id="budget_table" border="1" style="background-color: #fff;margin:10px; padding:20px; width:600px; border: 2px solid #000;">
         <tr>
           <td><h4 style="color:red">Категория</h4></td>
+          <td><h4 style="color:red">Бюджет</h4></td>
           <td><h4 style="color:red">План</h4></td>
           <td><h4 style="color:red">Факт</h4></td>
-          <td><h4 style="color:red">Заявки</h4></td>
         </tr>
               <%for ii in @categories%>
                 <tr><td colspan="3"><h4><%= ii.name%></h4></td></tr>
@@ -221,9 +221,8 @@ function change_summ(idss){
                      <% if ff.typo == "1"%>
                        <td><p style="padding-left:10px"><b><%= ff.name%></b></p></td>
                        <td id="plan_<%=ff.id%>"><%= print_plan(ff.id, @firmw.id, @mow, @year)%></td> 
-                        <td id="fact_<%=ff.id%>"><%= print_fact(ff.id, @firmw.id, @mow, @year)%></td>
-
                        <td id="planned_<%=ff.id%>"><%= print_plan_payments(ff.id, @firmw.id, @mow, @year)%></td>
+                        <td id="fact_<%=ff.id%>"><%= print_fact(ff.id, @firmw.id, @mow, @year)%></td>
 
                      <% else%>
                        <% if @persone.has_role?('roles.finotdel')%>
@@ -240,9 +239,8 @@ function change_summ(idss){
 
 
                    <td id="plan_<%=ff.id%>"><%= print_plan(ff.id, @firmw.id, @mow, @year)%></td> 
-                    <td id="fact_<%=ff.id%>"><%= print_fact(ff.id, @firmw.id, @mow, @year)%></td>
-
                      <td id="planned_<%=ff.id%>"><%= print_plan_payments(ff.id, @firmw.id, @mow, @year)%></td>
+                    <td id="fact_<%=ff.id%>"><%= print_fact(ff.id, @firmw.id, @mow, @year)%></td>
                      
                    <%end%>
                 </tr>
@@ -252,9 +250,8 @@ function change_summ(idss){
                      <% if ff2.typo == "1"%>
                        <td><p style="padding-left:20px;"><b><%= ff2.name%></b></p></td>
                        <td id="plan_<%=ff2.id%>"><%= print_plan(ff2.id, @firmw.id, @mow, @year)%></td> 
-                        <td id="fact_<%=ff2.id%>"><%= print_fact(ff2.id, @firmw.id, @mow, @year)%></td>
-
                          <td id="planned_<%=ff2.id%>"><%= print_plan_payments(ff2.id, @firmw.id, @mow, @year)%></td>
+                        <td id="fact_<%=ff2.id%>"><%= print_fact(ff2.id, @firmw.id, @mow, @year)%></td>
 
                    <% else%>
                        <% if @persone.has_role?('roles.finotdel')%>
@@ -283,9 +280,9 @@ function change_summ(idss){
                      <% if ff3.typo == "1"%>
                        <td><p style="padding-left:30px;"><b><%= ff3.name%></b></p></td>
                        <td id="plan_<%=ff3.id%>"><%= print_plan(ff3.id, @firmw.id, @mow, @year)%></td>
+                         <td id="planned_<%=ff3.id%>"><%= print_plan_payments(ff3.id, @firmw.id, @mow, @year)%></td>
                         <td id="fact_<%=ff3.id%>"><%= print_fact(ff3.id, @firmw.id, @mow, @year)%></td>
 
-                         <td id="planned_<%=ff3.id%>"><%= print_plan_payments(ff3.id, @firmw.id, @mow, @year)%></td>
 
 
                     <% else%>
@@ -302,8 +299,8 @@ function change_summ(idss){
 </td>
                      <%end%>
                      <td id="plan_<%=ff3.id%>"><%= print_plan(ff3.id, @firmw.id, @mow, @year)%></td>
-                     <td id="fact_<%=ff3.id%>"><%= print_fact(ff3.id, @firmw.id, @mow, @year)%></td>
                      <td id="planned_<%=ff3.id%>"><%= print_plan_payments(ff3.id, @firmw.id, @mow, @year)%></td>
+                     <td id="fact_<%=ff3.id%>"><%= print_fact(ff3.id, @firmw.id, @mow, @year)%></td>
                    <%end%>
                </tr>
              <%end%>

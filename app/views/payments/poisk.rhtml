@@ -4,6 +4,13 @@
 </style>
 
 <table id="payments_table" border=0 style="padding:5px; border: 1px solid black">
+  <tr><td colspan="7">
+      <form action="/payments/poisk" method="get">
+        Поиск по номеру заявки: <input type="text" name="id" size="12" id="poisk">         <input type="image" src="/images/but_search2.jpg" title="Искать!" alt="Искать!" style="border: none; height: 25px;">
+		    </td>
+      </form>
+ </td></tr>
+ 
   <tr><th>№</th>
     <th>Прио</th>
     <th>Назначение платежа</th>
@@ -46,7 +53,10 @@
         <p id="error_close_<%=payment.id%>" style="color:red"></p>
         <div>              <h4>Информация о заявке</h4>
               <style>p {font-size:14px;}</style>
-                           <p>Фирма: <%=payment.firm.name%></p>
+
+              
+              <p>Статус: <%=payment.status %></p>
+              <p>Фирма: <%=payment.firm.name%></p>
 
     <%if payment.currency_out == 0%>
 
