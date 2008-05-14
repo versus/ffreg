@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 32) do
+ActiveRecord::Schema.define(:version => 36) do
 
   create_table "accepts", :force => true do |t|
     t.column "payment_id", :integer
@@ -19,9 +19,9 @@ ActiveRecord::Schema.define(:version => 32) do
   end
 
   create_table "budgets", :force => true do |t|
-    t.column "month",   :string
+    t.column "month",   :string,  :limit => 80,                  :null => false
     t.column "year",    :integer
-    t.column "status",  :string,  :default => "0"
+    t.column "status",  :string,                :default => "0"
     t.column "firm_id", :integer
   end
 
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 32) do
     t.column "name",      :string
     t.column "sort",      :integer
     t.column "typo",      :string
+    t.column "fintype",   :integer
   end
 
   create_table "currencies", :force => true do |t|
@@ -97,6 +98,13 @@ ActiveRecord::Schema.define(:version => 32) do
     t.column "user_id",   :integer
   end
 
+  create_table "paychecks", :force => true do |t|
+    t.column "month",     :string
+    t.column "year",      :integer
+    t.column "summ",      :float
+    t.column "sentry_id", :integer
+  end
+
   create_table "payments", :force => true do |t|
     t.column "title",          :string
     t.column "create_at",      :datetime
@@ -110,16 +118,20 @@ ActiveRecord::Schema.define(:version => 32) do
     t.column "status",         :string
     t.column "prio",           :integer
     t.column "contragent",     :string
-    t.column "currency_out",   :integer,  :default => 0
+    t.column "currency_out",   :integer,  :limit => 10, :default => 0, :null => false
     t.column "planned",        :boolean
     t.column "create_planned", :datetime
     t.column "month",          :string
     t.column "year",           :integer
-    t.column "parent_id",      :integer,                 :null => false
+  end
+
+  create_table "plugin_schema_info", :id => false, :force => true do |t|
+    t.column "plugin_name", :string
+    t.column "version",     :integer
   end
 
   create_table "roles", :force => true do |t|
-    t.column "ident", :string, :limit => 100, :default => "", :null => false
+    t.column "ident", :string, :limit => 100, :null => false
   end
 
   add_index "roles", ["ident"], :name => "index_roles_on_ident"
@@ -131,8 +143,16 @@ ActiveRecord::Schema.define(:version => 32) do
 
   add_index "roles_users", ["role_id", "user_id"], :name => "index_roles_users_on_role_id_and_user_id", :unique => true
 
+  create_table "sentries", :force => true do |t|
+    t.column "name",      :string
+    t.column "create_at", :datetime
+    t.column "close_at",  :datetime
+    t.column "descript",  :text
+    t.column "active",    :boolean,  :default => true
+  end
+
   create_table "static_permissions", :force => true do |t|
-    t.column "ident", :string, :limit => 100, :default => "", :null => false
+    t.column "ident", :string, :limit => 100, :null => false
   end
 
   add_index "static_permissions", ["ident"], :name => "index_static_permissions_on_ident"
@@ -154,6 +174,13 @@ ActiveRecord::Schema.define(:version => 32) do
     t.column "phone",         :string
     t.column "email",         :string
     t.column "status",        :integer
+  end
+
+  create_table "workdays", :force => true do |t|
+    t.column "create_at", :datetime
+    t.column "sentry_id", :integer
+    t.column "close_at",  :datetime
+    t.column "descript",  :text
   end
 
 end
