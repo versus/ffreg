@@ -976,7 +976,7 @@ class PaymentsController < ApplicationController
   def list_unsigned
     if @persone.has_role? 'view.payments.all'
       @payments = @firm.payments.find_unsigned @order_by
-    elsif @persone.has_role? 'view.payments.firm'
+    elsif @persone.has_role? 'roles.partner'
       @payments = @persone.firm.payments.find_unsigned @order_by
     else
       @payments = @persone.payments.find_unsigned @order_by
@@ -988,7 +988,7 @@ class PaymentsController < ApplicationController
   def list_signed
     if @persone.has_role? 'view.payments.all'
       @payments = @firm.payments.find_signed(@current_mon, @next_mon, @order_by)
-    elsif @persone.has_role? 'view.payments.firm'
+    elsif @persone.has_role? 'roles.partner'
       @payments = @persone.firm.payments.find_signed(@current_mon, @next_mon, @order_by)
     else
       @payments = @persone.payments.find_signed(@current_mon, @next_mon, @order_by)
@@ -1000,7 +1000,7 @@ class PaymentsController < ApplicationController
   def list_closed
     if @persone.has_role? 'view.payments.all'
       @payments = @firm.payments.find_closed(@current_mon, @next_mon, @order_by)
-    elsif @persone.has_role? 'view.payments.firm'
+    elsif @persone.has_role? 'roles.partner'
       @payments = @persone.firm.payments.find_closed(@current_mon, @next_mon, @order_by)
     else
       @payments = @persone.payments.find_closed(@current_mon, @next_mon, @order_by)
@@ -1012,7 +1012,7 @@ class PaymentsController < ApplicationController
   def list_rejected
     if @persone.has_role? 'view.payments.all'
       @payments = @firm.payments.find_rejected(@current_mon, @next_mon, @order_by)
-    elsif @persone.has_role? 'view.payments.firm'
+    elsif @persone.has_role? 'roles.partner'
       @payments = @persone.firm.payments.find_rejected(@current_mon, @next_mon, @order_by)
     else
       @payments = @persone.payments.find_rejected(@current_mon, @next_mon, @order_by)
@@ -1036,7 +1036,7 @@ class PaymentsController < ApplicationController
   def list_deleted
     if @persone.has_role? 'view.payments.all'
       @payments = @firm.payments.find_deleted(@current_mon, @next_mon, @order_by)
-    elsif @persone.has_role? 'view.payments.firm'
+    elsif @persone.has_role? 'roles.partner'
       @payments = @persone.firm.payments.find_deleted(@current_mon, @next_mon, @order_by)
     else
       @payments = @persone.payments.find_deleted(@current_mon, @next_mon, @order_by)
@@ -1085,13 +1085,13 @@ class PaymentsController < ApplicationController
     @order_by ||= params[:order_by]
   end
   
-  def set_limits
-    unless params[:limits].nil?
-      @limits = params[:limits]
-    else
-      @limits = nil
-    end
-  end
+  # def set_limits
+  #   unless params[:limits].nil?
+  #     @limits = params[:limits]
+  #   else
+  #     @limits = nil
+  #   end
+  # end
   
   #TODO refactor all implementation of periods
   def set_period
