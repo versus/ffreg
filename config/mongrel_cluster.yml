@@ -1,5 +1,5 @@
 --- 
-cwd: /home/versus/money
+cwd: /home/versus/HTML/money
 log_file: log/mongrel.log
 port: "3000"
 #environment: production

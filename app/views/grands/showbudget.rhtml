@@ -1,7 +1,7 @@
    <div class='form greenSml'>
         <div class='greenTopSml'>
         </div>
-        <div class='dashboard'><h3>Бюджет фирмы <%= @firmw.name %> </h3>
+        <div class='dashboard'><h3>Бюджет фирмы <%= Firm.find(:first, :conditions => ["id=?", session[:firm]]).name %> </h3>
             <div id='invoice'>
             <div id='invoiceTemplate'>
               <div id='invoiceTop'><p>Рассматриваемый период  <%= session[:month]%> <%= @year%> год</h1> </p>
@@ -31,6 +31,21 @@
 <br>
 <hr>
 <script>
+
+                      <% if @persone.has_role?('roles.admin')%>
+                        //потому что не отрабатывается тег a
+                        function budgetchange(cid){
+                            var url= "/grands/budget_ch_status?cat_id="+cid;
+                            window.location.href=url; 
+                        }
+                          function budgetdown(cid){
+                            var url= "/grands/budget_down?cat_id="+cid;
+                            window.location.href=url; 
+   
+                          }
+                        <%end%>
+
+
   function open_plan(id)
   {
     //new Effect.Appear('form-'+id);
@@ -40,7 +55,7 @@
 
   }
 </script>
-<%if @can_add_payment == 1 %>
+
 <script>                        
   function cat_ch_tru2(ff_id, ff_name, ff_parent){
     Effect.Fade('category_changer');
@@ -62,7 +77,7 @@
                           
                         }
 </script>
-<% end %>
+
   <%if @error == true%>
     <br><br>
     <h2 align="center" style="color: red;">Данных про бюджет нет!</h2>
@@ -93,7 +108,20 @@
                    <% else%>
                      ++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru2(<%= ff2.id%>,'<%= ff2.name%>', '<%= ff.name%>')"><%= ff2.name%></span>
                    <%end%>
-                 </h6>
+                   <% budget= Budget.find(:first, :conditions=>["month=? and year=? and firm_id=? and category_id=?",session[:month],session[:year], session[:firm], ff2.id])
+                   if budget.nil?
+      budget=Budget.new()
+      budget.month=session[:month]
+      budget.year=session[:year]
+      budget.firm_id=session[:firm]
+      budget.category_id=ff2.id
+      budget.status="подготовка"
+      budget.save
+end
+                 %>
+               </h6>
+
+               <%if budget.status=="подготовка"%>
                 <%child3 = Category.find(:all, :conditions => ["parent_id=?", ff2.id])%>
                  <% for ff3 in child3%>
                    <h6>
@@ -103,7 +131,9 @@
                      ++++++<span style="color:blue;  cursor:pointer; cursor:hand;" onclick="cat_ch_tru2(<%= ff3.id %>,'<%= ff3.name%>', '<%= ff2.name%>' )"><%= ff3.name%></span>
                    <%end%>
                </h6>
-             <%end%>
+             <%end
+           end
+           %>
 
 
 
@@ -115,7 +145,6 @@
               <%end%>
             </div>
           </div>
-          <%if @can_add_payment==1%>
                       <script>
                         function check() {
                           flag=0;str="";
@@ -156,33 +185,23 @@ function change_summ(idss){
                       </script>
 
     <div style="padding:10px; margin:10px; cursor: hands; cursor: pointer" onclick="Effect.Appear('ne_wb');"><b>Добавить заявку</b></div>
-  <% end %>
   <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer"><a href="/grands/fullyear"><b>Годовой бюджет</b></a></div>
 
   <% if @persone.has_role?('roles.finotdel') ||  @persone.has_role?('roles.admin')  %>
     <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer"><a href="/grands/add_budget"><b>Внести месячный бюджет</b></a></div>
   <% end %>
 
-                      <%  if @persone.has_role?('roles.chiff') %>
-  <%  if @can_add_payment==1 %>
-    <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer"><a href="/grands/stoped"><b>На утверждение</b></a></div>
-  <% elsif @can_add_payment==2 %>
-    <div style="padding:10px; margin:10px; cursor: hands;color:red; cursor: pointer">
-      <a href="/grands/game_again">На доработку</a> ---------------------
-      <a href="/grands/game_over"><b>Утверждено</b></a></div>
-  <% end end %>
 
-  <%  if @can_add_payment==1 %>
 
                       <table  style="display:none;background-color: #fff; z-index:10;position:absolute; width:500px;; padding:10px;  z-index:1; top:50px; left:10px; border: 2px solid #000;" id="ne_wb"><tr><td style="background-color: #ccc;margin:10px; padding:20px; width:600px; border: 2px solid #000;">
 
-                      <form id="formid" action="/payments/new_grand" method="post" onsubmit="return(check())" >
+                      <form id="formid" action="/grands/new_grand" method="post" onsubmit="return(check())" >
           <input type="hidden" name="payment[category_id]" value="none" id="cat_ad">
           <table border="0" align="left" style="padding:0px;padding-left:20px; background-color:#fff;">
             <tr><td colspan="1"><div align="right" style="padding:10px; margin:10px; cursor: hands; cursor: pointer" onclick="Effect.Fade('ne_wb');"><b>Закрыть окно</b></div></td></tr>
             <tr><td><span style="color:red">*</span> - поля обязательные к заполнению</td></tr>
             <tr ><td><b>Назначение платежа:</b><br/> <%= text_field 'payment', 'title' , :id => "title" %><span style="color:red">*</span></td></tr>
-            <tr><td><b>Валюта:</b><br/> <%= select  "payment", "currency_id" , Currency.find(:all).collect {|p| [p.name, p.id]}, {:include_blank => false} %></td></tr>
+            <tr><td><b>Валюта:</b><br/> <span style="color:red"><b>USD</b></span></td></tr>
             <tr><td><b>Контрагент:</b><br/> <%= text_field_with_auto_complete :payment, :contragent %></td></tr>
       <tr><td><b>Категория:</b> <b>
         <span id="pcat"
@@ -205,7 +224,7 @@ function change_summ(idss){
 </table></form>
 </td></tr>
 </table>
-  <% end %>
+  
       <table id="budget_table" border="1" style="background-color: #fff;margin:10px; padding:20px; width:600px; border: 2px solid #000;">
         <tr>
           <td><h4 style="color:red">Категория</h4></td>
@@ -248,7 +267,19 @@ function change_summ(idss){
                  <% for ff2 in child2%>
                    <tr>
                      <% if ff2.typo == "1"%>
-                       <td><p style="padding-left:20px;"><b><%= ff2.name%></b></p></td>
+                       <td><p style="padding-left:20px;"><b><%= ff2.name%></b> 
+                         <% if @persone.has_role?('roles.admin')
+                        budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=? and category_id=?",session[:month],session[:year], session[:firm], ff2.id])
+
+                       %>
+                       <span onclick="budgetchange(<%=ff2.id%>)" style="color:red; padding-left:20px; cursor:pointer; cursor:hand;"><%= budget.status %>  </span>  
+
+                       <% if budget.status=="на утверждении"
+                               %> -
+                       <span onclick="budgetdown(<%=ff2.id%>)" style="color:green; padding-left:20px; cursor:pointer; cursor:hand;">доработка</span> <%
+                          end
+                       end %>
+                         </p></td>
                        <td id="plan_<%=ff2.id%>"><%= print_plan(ff2.id, @firmw.id, @mow, @year)%></td> 
                          <td id="planned_<%=ff2.id%>"><%= print_plan_payments(ff2.id, @firmw.id, @mow, @year)%></td>
                         <td id="fact_<%=ff2.id%>"><%= print_fact(ff2.id, @firmw.id, @mow, @year)%></td>

@@ -4,6 +4,6 @@ class AddCategoryIdIntoBudget < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :budgets, :category_id
+#    remove_column :budgets, :category_id
   end
 end

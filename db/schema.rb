@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 36) do
+ActiveRecord::Schema.define(:version => 33) do
 
   create_table "accepts", :force => true do |t|
     t.column "payment_id", :integer
@@ -19,10 +19,11 @@ ActiveRecord::Schema.define(:version => 36) do
   end
 
   create_table "budgets", :force => true do |t|
-    t.column "month",   :string,  :limit => 80,                  :null => false
-    t.column "year",    :integer
-    t.column "status",  :string,                :default => "0"
-    t.column "firm_id", :integer
+    t.column "month",       :string,  :limit => 80,                  :null => false
+    t.column "year",        :integer
+    t.column "status",      :string,                :default => "0"
+    t.column "firm_id",     :integer
+    t.column "category_id", :integer
   end
 
   create_table "bugzillas", :force => true do |t|
@@ -70,6 +71,7 @@ ActiveRecord::Schema.define(:version => 36) do
     t.column "parent_id", :integer, :default => 0,     :null => false
     t.column "nodelete",  :boolean, :default => false
     t.column "hidden",    :boolean, :default => false
+    t.column "bzzz",      :string
   end
 
   create_table "grands", :force => true do |t|
@@ -143,14 +145,6 @@ ActiveRecord::Schema.define(:version => 36) do
 
   add_index "roles_users", ["role_id", "user_id"], :name => "index_roles_users_on_role_id_and_user_id", :unique => true
 
-  create_table "sentries", :force => true do |t|
-    t.column "name",      :string
-    t.column "create_at", :datetime
-    t.column "close_at",  :datetime
-    t.column "descript",  :text
-    t.column "active",    :boolean,  :default => true
-  end
-
   create_table "static_permissions", :force => true do |t|
     t.column "ident", :string, :limit => 100, :null => false
   end
@@ -174,13 +168,6 @@ ActiveRecord::Schema.define(:version => 36) do
     t.column "phone",         :string
     t.column "email",         :string
     t.column "status",        :integer
-  end
-
-  create_table "workdays", :force => true do |t|
-    t.column "create_at", :datetime
-    t.column "sentry_id", :integer
-    t.column "close_at",  :datetime
-    t.column "descript",  :text
   end
 
 end

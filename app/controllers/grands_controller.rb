@@ -146,22 +146,133 @@ end
     redirect_to :action => 'showbudget', :id => @firmw 
   end
 
-  def stoped
-  # функция переводит бюджет в утверждаемый
-    persone=User.find(session[:user])
 
-    budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=?",session[:month],session[:year], session[:firm]])
-    if budget.nil? == false and persone.has_role?('roles.chiff')
-      budget.status="защита"
-      budget.save
-      flash[:notice] = "Бюджет переведен в режим утверждения" 
-    else
-      flash[:error] = "Ошибка! Такого бюджета нет!"
+  def new_grand   
+    #создание плановой заявки 
+     @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+     can_add_payment=false
+     month_idx=@mounths.index(session[:month])
+     if params[:payment][:recurring].to_i == 1
+       count=3
+     else
+       count=1
+     end
+    
+     for i in 1..count
+       month_tmp=@mounths[month_idx]
+       year_tmp=session[:year]
+       
+       if count >1
+         if session[:mounth] == "Декабрь"
+           if month_tmp == "Январь"
+             year_tmp=year_tmp+1
+           end
+         end
+       end
+       cat_id=Category.find(params[:payment][:category_id]).parent.id
+       budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=? and category_id=?", month_tmp,year_tmp, session[:firm], cat_id ])
+
+       if budget.nil?
+         newbudget=Budget.new()
+         newbudget.month=month_tmp
+         newbudget.year=year_tmp
+         newbudget.status="подготовка"
+         newbudget.firm_id=session[:firm]
+         newbudget.category_id=params[:payment][:category_id]
+         newbudget.save
+         can_add_payment = true
+       elsif budget.status == "подготовка"
+         can_add_payment = true
+       else
+         flash[:error] = 'Ошибка отработки  бюджета, заявка не сохранена!'
+       end
+
+       if can_add_payment = true
+         summ=params[:payment][:summ].to_s
+         summ=summ.gsub(/,/, ".")
+         summ=summ.gsub(/ю/, ".")
+         summ=summ.gsub(/\s/, "")
+         summ=sprintf( "%.2f", summ).to_f
+
+         @payment = Payment.new(params[:payment])
+         @payment.create_at = nil
+         @payment.currency_id=3
+         @payment.close_at = nil
+         @payment.planned=true
+         @payment.month = month_tmp
+         @payment.year = year_tmp
+         @payment.create_planned=Time.now
+         @payment.summ = summ
+         @payment.status = 999999 # плановая заявка
+         
+         uuu= User.find(:first, :conditions => ["id=?", session[:user]])
+         
+         @payment.firm_id = uuu.firm.id
+         @payment.user_id = uuu.id
+
+         if @payment.save
+           flash[:notice] = 'Плановая заявка создана!'
+         else
+           flash[:error] = 'Ошибка сохранения заявки!'
+         end
+       end
+  
+       month_idx=month_idx+1
     end
-    redirect_to :action => 'showbudget'
+   
+    redirect_to   :action =>'showbudget'
   end
+  def budget_down
+    unless params["cat_id"].nil?
+        persone=User.find(session[:user])
+  if persone.has_role?('roles.chiff')
+    budget= Budget.find(:first, :conditions=>["month=? and year=? and firm_id=? and category_id=?",session[:month],session[:year], session[:firm], params["cat_id"]])
+    unless budget.nil?
+      bzzz=Category.find(params["cat_id"])
+       if budget.status=="на утверждении"
+      flash[:notice] = "Бюджет по категории '#{bzzz.name}' переведен на подготовку!" 
+          budget.status="подготовка"
+       end
+       budget.save
+       redirect_to :action => 'showbudget'
+    else
+      render :text => "Такого бюджета нет!"
+    end
+  else
+    render :text => "Тут рыбы нет!"
+  end
+    end
+end
+
+  def budget_ch_status
+    unless params["cat_id"].nil?
+        persone=User.find(session[:user])
+  if persone.has_role?('roles.chiff')
+    budget= Budget.find(:first, :conditions=>["month=? and year=? and firm_id=? and category_id=?",session[:month],session[:year], session[:firm], params["cat_id"]])
+    unless budget.nil?
+      bzzz=Category.find(params["cat_id"])
+       if budget.status=="подготовка"
+         budget.status="на утверждении"
+      flash[:notice] = "Бюджет по категории '#{bzzz.name}' переведен в режим утверждения" 
+       elsif budget.status=="на утверждении"
+      flash[:notice] = "Бюджет по категории '#{bzzz.name}'  утвержден!" 
+          budget.status="утверждено"
+       end
+       budget.save
+       redirect_to :action => 'showbudget'
+    else
+      render :text => "Такого бюджета нет!"
+    end
+  else
+    render :text => "Тут рыбы нет!"
+  end
+    end
+end
+
   def game_again
   # функция переводит бюджет в подготовку
+  # добавить категорию по которой бюджет
+
     persone=User.find(session[:user])
     budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=?",session[:month],session[:year], session[:firm]])
     if budget.nil? == false && persone.has_role?('roles.chiff')
@@ -175,23 +286,9 @@ end
 
   end
 
-  def game_over
-  # функция переводит бюджет в утвержденный
-    persone=User.find(session[:user])
-
-    budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=?",session[:month],session[:year], session[:firm]])
-    if budget.nil? == false && persone.has_role?('roles.chiff')
-      budget.status="утверждено"
-      budget.save
-      flash[:notice] = "Бюджет утвержден!" 
-    else
-      flash[:error] = "Ошибка! Такого бюджета нет!"
-    end
-    redirect_to :action => 'showbudget'
-
-  end
-
   def add_budget  
+    # добавить категорию по которой бюджет
+
     @mounths = ["Весь год","Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
     @year=session[:year] 
     @categories = Category.find(:all, :conditions => ["parent_id=0"])
@@ -226,22 +323,21 @@ end
   session[:month]=@mow
 
       if @persone.has_role?('view.firms')
-      if params[:firm].nil? == true
-        if session[:firm_tmp].nil? == true
-          session[:firm_tmp]=session[:firm]
-          @firmw = Firm.find(:first, :conditions => ["id=?", session[:firm_tmp]])
-        else
-          @firmw = Firm.find(:first, :conditions => ["id=?", session[:firm_tmp]])
+        unless params[:firm].nil? 
+          session[:firm]=params[:firm]
         end
-      else
-        session[:firm_tmp]=params[:firm]
-        session[:firm]=params[:firm]
-        @firmw = Firm.find(:first, :conditions => ["id=?", params[:firm]])
       end
-    else
+   
+      
       @firmw = Firm.find(:first, :conditions => ["id=?", session[:firm]])
-    end
+
+      
+
  
+    
+      
+    # разработать алгоритм утверждения бюджета по категориям
+    
     budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=?", session[:month], session[:year], session[:firm]])
     @can_add_payment = 0
     if budget.nil? == true
@@ -310,17 +406,20 @@ end
   end
 
   def update
-    @grand = Grand.find(params[:id])
-    if @grand.update_attributes(params[:grand])
-      flash[:notice] = 'Grand was successfully updated.'
-      redirect_to :action => 'show', :id => @grand
-    else
-      render :action => 'edit'
-    end
+        render :text => 'Здесь рыбы нет!'
+
+    #@grand = Grand.find(params[:id])
+    #if @grand.update_attributes(params[:grand])
+    #  flash[:notice] = 'Grand was successfully updated.'
+    #  redirect_to :action => 'show', :id => @grand
+    #else
+    #  render :action => 'edit'
+    #end
   end
 
   def destroy
-    Grand.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    render :text => 'Здесь рыбы нет!'
+    #Grand.find(params[:id]).destroy
+    #redirect_to :action => 'list'
   end
 end
