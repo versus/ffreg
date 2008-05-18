@@ -8,16 +8,6 @@ module GrandsHelper
      ret << "0.0"
     end
  end
- def print_budget(cat_id, firm_id, month, year)
-   statusbudgeta=["подготовка","на утверждение", "утвердить", "утверждено"]
-   budget=Budget.find(:first, :conditions=>["month=? and year=? and firm_id=? and category_id=?",session[:month],session[:year], session[:firm], cat_id])
-
- if budget.nil?
-   ret = "на утверждение"   
- else
-   ret = budget.status
- end
- end
  def print_fact(cat_id, firm_id, month, year)
    ret = ""
     begin
